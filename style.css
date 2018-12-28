@@ -1,0 +1,243 @@
+
+.control-label{
+  font-size:20px;
+}
+
+
+/*
+.leaflet-container {
+  position: relative;
+}
+
+.leaflet-container .map {
+  position: relative;
+  z-index: 1;
+}
+
+.map-container.is-locked:after {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  content: "";
+  display: block;
+}
+*/
+
+p{
+  font-size:18px;
+}
+
+/* About page  */
+  .about p{
+    font-size: 18px; 
+    line-height: 22px
+  }
+
+.about strong{
+  font-size: 18px; 
+  line-height: 22px
+}
+
+.about a{
+  color:rgb(185, 80, 74);
+  font-size: 18px; 
+  line-height: 22px
+}
+
+
+/* Hero Image */
+body, html {
+  height:100%;
+}
+
+/* The hero image */
+.hero-image {
+    /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
+    /*background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("hero-image.png");*/
+    background-image: url("hero-image.png");
+    height: 400px;
+    /* Set a specific height */
+   /* height: 100%;
+    width: 100%;
+    */
+    /* remove margins*/
+    margin-left:-60px;
+    margin-top:-15px;
+    margin-bottom:-15px;
+    margin-right:-60px;
+    
+    /*box-sizing: inherit;*/
+    
+    /* Position and center the image to scale nicely on all screens */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+/*.hero .container {
+display: table-cell;
+text-align: center;
+vertical-align: middle;
+height: 689px
+}*/
+
+.container {
+  background: rgba(41,41,41,0.7);
+  text-align: center;
+  position: absolute;
+  width:600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.container h1 {
+  color: #fff;
+  line-height: 1;
+  margin-top: 0.5rem;
+}
+
+.container h1 span{
+  font-family: "LexiaRegular",Georgia,serif;
+  font-size:50px;
+  display:inline-block;
+}
+
+.container span{
+  font-size: 18px;
+  line-height: 1.4;
+  font-family: "EffraLight",Arial,Helvetica,sans-serif;
+  display:block;
+}
+
+.des{
+  margin:20px;
+  font-size:26px;
+  display:block;
+}
+
+
+
+
+ /* Place text in the middle of the image */
+.hero-text {
+    background: rgba(41,41,41,0.7);
+    /*background-image: url("feature-550x300.png");*/
+    /*color: #fff;
+    line-height: 1;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    max-width: 50%;
+    white-space: pre-line;
+    */
+    overflow: hidden;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    overflow: hidden;
+    text-align:center;
+    text-transform:uppercase;
+   /* max-width: 37%;
+    text-align: left;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    padding: 1rem;
+    padding-left: 2rem;*/
+}
+
+/*@media (max-width: 800px) {
+  .hero-text {
+    display: block;
+  }
+
+}*/
+
+
+
+.hero-text h1{
+  font-family: "LexiaRegular",Georgia,serif;
+  font-size:50px;
+  color: #fff;
+  line-height: 1;
+  margin-top: 0.5rem;
+}
+
+.hero-text p{
+  font-size: 18px;
+  line-height: 1.4;
+  font-family: "EffraLight",Arial,Helvetica,sans-serif;
+}
+
+/* Download Data*/
+
+.download_page {
+  margin-top: 40px;
+  margin-left: 40px;
+  margin-bottom: 40px;
+}
+
+
+/* Publication page */
+  
+.pub {
+    margin-left: 80px;
+    margin-right: 80px;
+}
+
+.pub ul{
+  line-height:170%
+}
+
+.pub h1{
+  font-size:40px;
+}
+
+.pub a {
+  font-size: 18px; 
+  line-height: 22px;
+  color:rgb(185, 80, 74);
+  border-bottom: 1px solid;
+  padding-bottom:1px; 
+}
+
+.pub p {
+  font-size: 18px; 
+  line-height: 22px;
+}
+
+.pub strong {
+  font-size: 18px; 
+  line-height: 22px;
+}
+
+/*  Avatar page*/
+  
+.avatar {
+    /* This image is 687 wide by 1024 tall, similar to your aspect ratio */
+      /*background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');*/
+      
+      /* make a square container */
+      width: 150px;
+      height: 150px;
+    
+    /* fill the container, preserving aspect ratio, and cropping to fit */
+      background-size: cover;
+    
+    /* center the image vertically and horizontally */
+      background-position: top center;
+    
+    /* round the edges to a circle with border radius 1/2 container size */
+      border-radius: 50%;
+}

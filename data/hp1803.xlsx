@@ -1,0 +1,976 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+             HTTP Error 404 - File or Directory Not Found - 
+        Dallasfed.org
+    </title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+
+        <meta name="keywords" content="Dallas, Federal Reserve, monetary policy, Texas economy, energy" />
+        <meta name="DCSext.keywords" content="Dallas, Federal Reserve, monetary policy, Texas economy, energy" />
+        <meta property="og:title" content="HTTP Error 404 - File or Directory Not Found" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.dallasfed.org:443/NotFound" />
+        <meta property="og:image" content="https://www.dallasfed.org:443/-/media/Images/components/social/social-sharing-icon.png" />
+        <meta property="og:description" content="As part of the nation&amp;#39;s central bank, the Dallas Fed plays an important role in monetary policy, bank supervision and regulation, and the operation of a nationwide payments system." />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="&#64;DallasFed" />
+        <meta name="twitter:creator" content="&#64;DallasFed" />
+        <meta name="twitter:url" content="https://www.dallasfed.org:443/NotFound" />
+        <meta name="twitter:title" content="HTTP Error 404 - File or Directory Not Found" />
+        <meta name="twitter:description" content="As part of the nation&amp;#39;s central bank, the Dallas Fed plays an important role in monetary policy, bank supervision and regulation, and the operation of a nationwide payments system." />
+        <meta name="twitter:image" content="https://www.dallasfed.org:443/-/media/Images/components/social/social-sharing-icon.png" />
+        <meta name="publication_date" content="0001-1-1" />
+
+
+
+
+<link href="/~/media/styles/globals/bootstrap-3-3-6-min.css" type="text/css" rel="stylesheet">
+<link href="/~/media/styles/globals/dallasfed-typography.css" type="text/css" rel="stylesheet">
+<link href="/~/media/styles/globals/dallasfed-site.css" type="text/css" rel="stylesheet">
+<link href="/~/media/styles/globals/jquery-ui-1-11-4.css" type="text/css" rel="stylesheet">
+<link href="/~/media/styles/globals/jquery-ui-1-11-4-structure.css" type="text/css" rel="stylesheet">
+<link href="/~/media/styles/globals/jquery-ui-1-11-4-theme.css" type="text/css" rel="stylesheet">
+
+
+
+
+<script language="javascript" type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-39338516-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script language="javascript" type="text/javascript">
+   if (typeof jQuery != 'undefined') {
+        jQuery(document).ready(function ($) {
+            var filetypes = /\.(zip|exe|dmg|pdf|doc.*|xls.*|ppt.*|mp3|txt|rar|wma|mov|avi|wmv|flv|wav|mp4|swf|notebook|xml|sit)$/i;
+            var baseHref = '';
+            if (jQuery('base').attr('href') != undefined) baseHref = jQuery('base').attr('href');
+            jQuery('a').live('click', function (event) {
+                var el = jQuery(this);
+                var track = true;
+                var href = (typeof (el.attr('href')) != 'undefined') ? el.attr('href') : "";
+                var isThisDomain = href.match(document.domain.split('.').reverse()[1] + '.' + document.domain.split('.').reverse()[0]);
+                if (!href.match(/^javascript:/i)) {
+                    var elEv = [];
+                    elEv.value = 0, elEv.non_i = false;
+                    if (href.match(/^mailto\:/i)) {
+                        elEv.category = "email";
+                        elEv.action = "click";
+                        elEv.label = href.replace(/^mailto\:/i, '');
+                        elEv.loc = href;
+                    } else if (href.match(filetypes)) {
+                        var extension = (/[.]/.exec(href)) ? /[^.]+$/.exec(href) : undefined;
+                        elEv.category = "download";
+                        elEv.action = "click-" + extension[0];
+                        elEv.label = href.replace(/ /g, "-");
+                        elEv.loc = baseHref + href;
+                    } else if (href.match(/^https?\:/i) && !isThisDomain) {
+                        elEv.category = "external";
+                        elEv.action = "click";
+                        elEv.label = href.replace(/^https?\:\/\//i, '');
+                        elEv.non_i = true;
+                        elEv.loc = href;
+ 										} else track = false; if (track) {
+                        _gaq.push(['_trackEvent', elEv.category.toLowerCase(), elEv.action.toLowerCase(), elEv.label.toLowerCase(), elEv.value, elEv.non_i]);
+                        if (el.attr('target') == undefined || el.attr('target').toLowerCase() != '_blank') {
+                            setTimeout(function () {
+                                location.href = elEv.loc;
+                            }, 400);
+                            return false;
+                        }
+                    }
+                }
+            });
+        });
+    }
+</script>
+<script type="text/javascript" src="/~/media/scripts/globaljs.js"></script>
+
+
+
+
+</head>
+
+<body>
+    <a name="top"></a>
+    <a href="#content" class="sr-only">Skip to content</a>
+
+    <!-- ----------------------- utility bar::creates the solid blue bar; houses the primary nav, utility nav and search input ----------------------- -->
+    <div class="nav-primary">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header hidden-lg hidden-md hidden-sm">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-pri-collapse" data-close-btn-text="true">
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                </button>
+                <a href="/"><div class="frbdsealrev"></div></a><!-- logo seal svg is pulled in via css -->
+            </div>
+
+            <div class="nav-utility">
+                <div class="input-group">
+                    <form class="formSearch" id="searchBar" action="/Search" method="post" role="search">
+                        <input type="text" name="text" class="form-control" placeholder="Search..."><span class="input-group-btn"><button id="search-btn" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                    </form>
+                </div>
+                <div id="nav-utility-links" class="hidden-md hidden-sm hidden-xs">
+                    <span class="nav-utility-links">
+                        
+
+
+<div class="">
+<ul>
+    <li><a href="/pubs.aspx">Publications</a></li>
+    <li><a href="/news.aspx">News &amp; Events</a></li>
+    <li><a href="/careers.aspx">Careers</a></li>
+</ul></div>
+
+                    </span>
+                </div><!-- utility links pulled in via jquery load; list is also pulled in at the bottom of the hamburger menu on xs screens -->
+            </div>
+
+            <div class="collapse navbar-collapse navbar-pri-collapse">
+                
+
+
+<ul class="nav navbar-nav">
+    <!-- [dropdown false; link label with href] -->
+    <!--<li><a href="#">Example</a></li>-->
+    <!-- [dropdown true; link label with href, data and caret] -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Research <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="mega-content-4">
+
+
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h2><a href="/research.aspx">Research &raquo;</a></h2>
+<h4><a href="/research/texas.aspx">Texas Economy &raquo;</a></h4>
+<p>Your source for information on the Texas economy and the Eleventh Federal Reserve District</p>
+<ul>
+    <li><a href="/research/surveys.aspx">Dallas Fed Surveys </a></li>
+    <li><a href="/research/analysis">Economic Analysis</a></li>
+    <li><a href="/research/econdata">Economic Data</a></li>
+    <li><a href="/research/update/reg">Economic Update</a></li>
+    <li><a href="/research/indicators">Economic Indicators</a></li>
+    <li><a href="/research/swe">Southwest Economy</a></li>
+    <li><a href="/research/economy">Research by Topic</a></li>
+</ul>
+<p><a href="/research/texas" class="readmore pull-right">MORE on the Texas economy</a></p>
+<div class="clearfix"></div>
+<h4><a href="/research/us">U. S. Economy &raquo;</a></h4>
+<p>Analyzing the Business Economic Outlook in the United States</p>
+<ul>
+  
+    <LI><A href="/research/update">U.S. Economic Update</A></LI>
+    <LI><A href="/research/econdata/govdebt">Market Value of Gov't Debt</A></LI>
+    <LI><A href="/research/pce/inflation">PCE Inflation Update</A></LI>
+    <LI><A href="/research/pce">Trimmed Mean PCE</A></LI>
+    <LI><A href="/~/media/Documents/research/econdata/uscharts">U.S. Economy Charts</A></LI>    
+</ul>
+<p><a href="/research/us" class="readmore pull-right" >MORE on the U.S. economy</a></p>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h4><a href="/institute.aspx">International Economy  &raquo;</a></h4>
+<p>Research on Global Economic Growth &amp; Effects on U.S. Monetary Policy</p>
+<ul>
+    <li><a href="/institute/events/perspectives">Global Perspectives</a></li>
+    <li><a href="/institute/houseprice">International House Price Database</a></li>
+    <li><a href="/institute/update">International Economic Update</a></li>
+    <li><a href="/institute/events">Institute Events</a></li>
+    <li><a href="/institute/wpapers">Working Papers</a></li>
+</ul>
+<p><a href="/institute/" class="readmore pull-right">More International Economy</a></p>
+<div class="clearfix"></div>
+<h4><a href="/research/energy.aspx">Energy Research &raquo;</a></h4>
+<p>Examining the Links Between Oil, Energy and the Economy</p>
+<ul>
+    <li><a href="/research/energy/energy">Articles &amp; Research</a></li>
+    <li><a href="/research/surveys/des">Dallas Fed Energy Survey</a></li>
+    <li><a href="/research/energy11">Energy in the Eleventh District</a></li>
+    <li><a href="/research/energy/indicators.aspx">Energy Indicators</a></li>
+    <li><a href="/research/energy/slideshow.aspx">Energy Slideshow</a></li>
+    <li><a href="/research/energy/energyupdate/">Energy Update</a></li>
+</ul>
+<p><a href="/research/energy" class="readmore pull-right">More Energy Research</a></p>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h4>Points of Interest</h4>
+<ul>
+    <li><a href="/research/basics/">DataBasics</a></li>
+    <li><a href="/research/economists.aspx">Economists</a></li>
+    <li><a href="/research/events/">Events</a></li>
+</ul>
+<p><a href="/research/" class="readmore pull-right">MORE Points of Interest</a></p>
+<div class="clearfix"></div>
+<h4>Publications</h4>
+<ul>
+    <li><a href="/research/eclett/">Economic Letter</a></li>
+    <li><a href="/research/update/">Economic Updates</a></li>
+    <li><a href="/research/swe">Southwest Economy</a></li>
+    <li><a href="/research/pubs.aspx#tab4">Special Reports</a></li>
+    <li><a href="/research/papers/">Working Papers</a></li>
+</ul>
+<p><a href="/research/pubs.aspx" class="readmore pull-right">All Research publications</a></p>
+<!-- ::end::text chunk -->
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <img alt="Globalization Institute" src="~/media/images/siteadmin/primary-nav/globaldata1-pn.jpg" />
+<h4><a href="/institute.aspx">Globalization Institute</a></h4>
+<p>The Federal Reserve Bank of Dallas established the Globalization Institute in 2007 for the purpose of better understanding how the process of deepening economic integration between the countries of the world, or globalization, alters the environment in which U.S. monetary policy decisions are made.</p>
+<p><a href="/institute.aspx" class="readmore pull-right">visit Globalization Institute site</a></p>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                </li><!-- ::end::mega menu dropdown container -->
+            </ul>
+
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Banking <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="mega-content-4">
+
+
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h2><a href="/banking.aspx">Banking &raquo;</a></h2>
+<h4>Supervision &amp; Regulation</h4>
+<ul>
+    <li><a href="/banking/supervision.aspx">Supervision Resources</a></li>
+    <li><a href="/banking/regulation.aspx">Regulation Resources</a></li>
+    <li><a href="/banking/applications.aspx">Banking Applications</a></li>
+    <li><a href="/banking/training.aspx">Bank Director Training</a></li>
+</ul>
+<h4>Discount Window</h4>
+<ul>
+    <li><a href="/banking/discount.aspx">Discount Window/Payment System Risk</a></li>
+    <li><a href="/banking/discount.aspx">Seasonal Application</a><a href="#"><br />
+    </a></li>
+    <li><a href="/banking/discount.aspx#tab3">Credit Programs</a></li>
+</ul>
+<h4>Financial Industry Research</h4>
+<ul>
+    <li><a href="/banking/fis.aspx">Financial Industry Studies</a></li>
+</ul>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h4>Financial &amp; Regulatory Reporting</h4>
+<ul>
+    <li><a href="/banking/reporting.aspx">Financial Reporting</a></li>
+    <li><a href="/banking/regulatory.aspx">Regulatory Reporting</a>  </li>
+    <li><a href="/banking/nic.aspx">Structure Reporting</a></li>
+</ul>
+<h4>Reserves Maintenance</h4>
+<ul>
+    <li><a href="https://www.frbservices.org/centralbank/reservescentral/">Reserves Central</a></li>
+    <li><a href="https://www.frbservices.org/serviceofferings/account/daylight_overdraft_reports.html">Daylight Overdraft Reports</a></li>
+    <li><a href="https://www.frbservices.org/centralbank/excess_balance_account.html">Excess Balance Account</a></li>
+    <li><a href="https://www.frbservices.org/centralbank/term_deposit_facility.html">TDF</a></li>
+</ul>
+<h4>Financial Services</h4>
+<ul>
+    <li><a href="https://www.frbservices.org/">Federal Reserve Bank Services</a></li>
+    <li><a href="https://www.frbservices.org/financial-services/check/index.html">Check Services</a></li>
+    <li><a href="https://www.frbservices.org/financial-services/cash/index.html">FedCash Services</a></li>
+    <li><a href="https://www.frbservices.org/resources/fees/index.html">Service Fees</a></li>
+    <li><a href="https://www.frbservices.org/contacts/index.jsp">Contacts</a></li>
+</ul>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h4>Consumer Information</h4>
+<ul>
+    <li><a href="/banking/consumer">General Consumer Information</a></li>
+    <li><a href="http://www.federalreserveconsumerhelp.gov/?district=11">File a Consumer Complaint</a>  </li>
+</ul>
+<h4>Publications</h4>
+<ul>
+    <li><a href="/banking/pubs">Banking Publications</a></li>
+    <li><a href="/banking/fis/fisarticles">FIS Articles</a></li>
+    <li><a href="/banking/fis/fisarticles#tab3">Occasional Papers</a></li>
+</ul>
+<h4>Events</h4>
+<ul>
+    <li><a href="/banking/events">Banking Events</a></li>
+    <li><a href="/banking/reporting/seminars">Financial Reporting Seminars</a></li>
+    <li><a href="/banking/regulatory/seminars">Regulatory Reporting Seminars</a></li>
+</ul>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h4>Contacts</h4>
+<ul>
+  <LI><A href="/banking/contacts.aspx">Supervision &amp; Regulation</A></LI>
+  <LI><A href="/banking/contacts.aspx#tab2">Discount and Credit</A></LI>
+  <LI><A href="/banking/contacts.aspx#tab3">Financial Industry Studies</A></LI>
+  <LI><A href="/banking/contacts.aspx#tab4">Financial &amp; Regulatory Reporting</A></LI>
+  <LI><A href="/banking/contacts.aspx#tab5">Banking Officers</A></LI></ul>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                </li><!-- ::end::mega menu dropdown container -->
+            </ul>
+
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Community Development <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="mega-content-4">
+
+
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h2><a href="/cd.aspx">Community <span class="text-nowrap">Development &raquo;</span></a></h2>
+<p>Dallas Fed Community Development promotes financial stability and growth for low- and moderate-income households. <a href="/community.aspx"><strong>Learn more, read our publications and check out our events. &raquo;</strong></a></p>
+<!--
+<p><strong>Areas of Focus: </strong><br>
+  Economic Development and Human Capital</p>
+<ul>
+  <li>CRA and Compliance</li>
+  <li>Small Business and Entrepreneurship</li>
+  <li>Workforce Development</li>
+</ul>
+<p>Financial Access and Capability</p>
+<ul>
+  <li>Asset Building and Financial Stability</li>
+  <li>Consumer Credit</li>
+  <li>Financial Education</li>
+</ul>
+<p>Housing and Neighborhood Stabilization</p>
+<ul>
+  <li>Affordable Housing</li>
+  <li>Healthy Communities</li>
+  <li>Neighborhood Revitalization</li>
+</ul>
+
+-->
+
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    
+<p><strong>Areas of Focus: </strong><br>
+  Economic Development and Human Capital</p>
+<ul>
+  <li>CRA and Compliance</li>
+  <li>Small Business and Entrepreneurship</li>
+  <li>Workforce Development</li>
+</ul>
+<p>Financial Access and Capability</p>
+<ul>
+  <li>Asset Building and Financial Stability</li>
+  <li>Consumer Credit</li>
+  <li>Financial Education</li>
+</ul>
+<p>Housing and Neighborhood Stabilization</p>
+<ul>
+  <li>Affordable Housing</li>
+  <li>Healthy Communities</li>
+  <li>Neighborhood Revitalization</li>
+</ul>
+
+<!--
+
+<h4>
+  Resources by Topics
+</h4>
+<UL>
+  <LI><A href="/cd/EconDev.aspx" >Economic Development and Human Capital</A>
+    <UL>
+      <LI><A href="/cd/EconDev/cra">CRA and Compliance</A></LI>
+      <LI><A href="/cd/EconDev/business">Small Business and Entrepreneurship</A></LI>
+      <LI><A href="/cd/EconDev/workforce">Workforce Development</A></LI>
+    </UL>
+  </LI>
+  <LI><A href="/cd/FinAccess.aspx" >Financial Access and Capability</A>
+    <UL>
+      <LI><A href="/cd/FinAccess/AssetBuilding">Asset Building and Financial Stability</A></LI>
+      <LI><A href="/cd/FinAccess/ConsumerCredit">Consumer Credit </A></LI>
+      <LI><A href="/cd/FinAccess/FinancialEd">Financial Education</A></LI>
+    </UL>
+  </LI>
+  <LI><A href="/cd/housing.aspx" >Housing and Neighborhood Stabilization</A>
+    <ul>
+      <li><A href="/cd/housing/affordable">Affordable Housing </A></li>
+      <li><A href="/cd/housing/healthy">Healthy Communities </A></li>
+      <li><A href="/cd/housing/neighborhood">Neighborhood Revitalization</A></li>
+    </ul>
+  </LI>
+  
+  
+</UL>
+
+-->
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <!--
+
+<a href="/-/media/microsites/cd/wealth/index.html?la=en"><img class="img-menu pull-right" alt="Building Wealth Cover" src="/-/media/Images/siteadmin/primary-nav/bw-cover-pn.jpg?la=en"></img></a>
+<h4>Building Wealth</h4>
+<p class="tagline">A Beginner&rsquo;s Guide to Securing Your Financial Future</p>
+<ul>
+    <li><a href="/-/media/microsites/cd/wealth/index.html?la=en">Website</a></li>
+    <li><a href="/-/media/microsites/cd/wealth/online/index.html?la=en">Online Guide</a></li>
+    <li><a href="https://fedsurvey2.frbatlanta.org/Survey.aspx?s=5e57058c714944c1aebc187a3032943a">Order Building Wealth</a></li>
+    <li><a href="/-/media/Documents/cd/wealth/wealth.pdf?la=en">Building Wealth</a></li>
+</ul>
+
+-->
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <!--
+<img alt="Colonias" src="/-/media/Images/siteadmin/primary-nav/colonias-pn.jpg?la=en" class="img-menu pull-right"></img>
+<h4>Las Colonias in the 21st Century</h4>
+<p class="tagline">Progress Along the Texas&ndash;Mexico Border</p>
+<ul>
+    <li><a href="/-/media/Documents/cd/pubs/lascolonias.pdf?la=en">Report</a></li>
+    <li><a href="/~/media/microsites/cd/colonias/index.html">Website</a></li>
+    
+</ul>
+
+-->
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                </li><!-- ::end::mega menu dropdown container -->
+            </ul>
+
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Education and Outreach <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="mega-content-4">
+
+
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h2><a href="/educate.aspx">Education &raquo;</a></h2>
+<h3>Classroom Resources</h3>
+<ul>
+    <li><a href="/-/media/microsites/cd/wealth/index.html?la=en">Building Wealth</a></li>
+    <li><a href="/educate/everyday.aspx">Everyday Economics</a></li>
+    <li><a href="/educate/navigate.aspx">Navigate: Exploring College and Careers</a></li>
+    <li><a href="/educate/pfl.aspx">Personal Financial Literacy</a></li>
+    <li><a href="/educate/pfl.aspx">Classroom-Ready Presentations</a></li>
+    <li><a href="/educate/resources.aspx">Fed Resources</a></li>
+</ul>
+<h3>Points of Interest</h3>
+<ul>
+    <li><a href="/visit.aspx">Economy in Action Exhibit</a></li>
+    <li><a href="/educate/events.aspx">Economic Education Events</a></li>
+    <li><a href="/fed/tours.aspx">Tours</a></li>
+    <li><a href="/educate.aspx">Contacts</a></li>
+</ul>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h2><a href="/outreach.aspx">Outreach &raquo;</a></h2>
+<h3>Economic Outreach</h3>
+<ul>
+    <li><a href="/outreach/engagement">Community Engagement</a></li>
+    <li><a href="/educate">Economic Education</a></li>
+    <li><a href="/outreach/financial">Financial Institution Outreach</a></li>
+    <li><a href="/outreach/payments">Payments Outreach</a></li>
+</ul>
+<h3>Points of Interest</h3>
+<ul>
+    <li><a href="http://www.cvent.com/d/yvqwmg/4W">Request a Speaker</a></li>
+    <li><a href="/outreach/events">Outreach events</a></li>
+    <li><a href="/outreach/contacts">Contacts</a></li>
+</ul>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <img alt="" src="-/media/images/siteadmin/primary-nav/navigate2-pn.jpg" class="half" />
+<h4>Navigate</h4>
+<p class="tagline">Exploring College and Careers</p>
+<ul>
+    <li><a href="/educate/navigate.aspx">Navigate Workbook and Handbook</a></li>
+    <li><a href="/educate/navigate.aspx">Procedure Documents</a></li>
+    <li><a href="/-/media/Documents/educate/navigate/navigate.pdf?la=en">Workbook</a></li>
+</ul>
+<!--<img src="~/media/Images/img/primary-nav/fpo-esp-pn.jpg"/>
+
+<h4>10th Annual Undergraduate Research Conference</h4>
+
+<p class="tagline">ESP&mdash;Economics Scholars Program for Undergraduate Research </p>
+<p><strong>April 1, 2016</strong></p>
+<p>Federal Reserve Bank of Dallas</p>
+<p><a href="#" class="readmore pull-right">More</a></p>-->
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                </li><!-- ::end::mega menu dropdown container -->
+            </ul>
+
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                About Us <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="mega-content-4">
+
+
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h2><a href="/fed.aspx">About Us &raquo;</a></h2>
+<h4>The Eleventh District</h4>
+<ul>
+    <li><a href="/fed/dallas.aspx">About the Dallas Fed</a></li>
+    <li><a href="/fed/counties.aspx">Counties in the Eleventh District</a></li>
+    <li><a href="/-/media/Documents/banking/memberbanks.pdf?la=en">State Member Banks</a></li>
+    <li><a href="/fed/omwi.aspx">Office of Minority and Women Inclusion</a></li>
+</ul>
+<h4>Branches</h4>
+<ul>
+    <li><a href="/elpaso.aspx">El Paso</a></li>
+    <li><a href="/houston.aspx">Houston</a></li>
+    <li><a href="/sanantonio.aspx">San Antonio</a></li>
+</ul>
+<div class="hidden-lg hidden-md">
+
+</div>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h4>Leadership & Organization</h4>
+<ul>
+    <li><a href="/fed/officers.aspx">Bank Leadership</a></li>
+    <li><a href="/fed/bod.aspx">Boards of Directors</a></li>
+    <li><a href="/fed/councils.aspx">Advisory Councils</a></li>
+    <li><a href="/fed/governance.aspx">Governance &amp; Transparency</a></li>
+</ul>
+
+<h4>Speeches and Speaker Requests</h4>
+<ul>
+    <li><a href="/news/speeches/kaplan.aspx">Speeches by President Rob Kaplan</a></li>
+    <li><a href="/news/speeches.aspx">Speech Archive</a></li>
+    <li><a href="http://www.cvent.com/d/yvqwmg/4W">Request a Speaker</a></li>
+</ul>
+
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <h4>Dallas Fed</h4>
+<ul>
+    <li><a href="/fed/dallas.aspx">About the Dallas Fed</a></li>
+    <li><a href="/fed/annual.aspx">Annual Report</a></li>
+    <li><a href="/fed/holidays.cfm">Bank Holidays</a></li>
+    <li><a href="/fed/continuity.aspx">Business Continuity</a></li>
+    <li><a href="/fed/procure.aspx">Procurement Sourcing</a></li>
+    <li><a href="/careers.aspx">Careers</a></li>
+   <li><a href="/fed/follow.aspx">Social Media: Follow the Fed</a></li>
+</ul>
+<h4>Visitor Information</h4>
+<ul>
+    <li><a href="/fed/visitors.cfm">Visiting the Dallas Fed</a></li>
+    <li><a href="/visit.aspx">The Economy in Action Exhibit</a></li>
+    <li><a href="/fed/direct.aspx">Directions to the Dallas Fed</a></li>
+    <li><a href="/fed/tours.aspx">Tours</a></li>
+</ul>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                            <!-- mega menu dropdown container -->
+                                <div class="content-card hidden-sm hidden-xs">
+                                    <!-- content card wrapper 1 -->
+                                    <!-- text chunk -->
+                                    <img height="163" alt="Economy in Action" width="290" src="/-/media/Images/siteadmin/primary-nav/eia-photo1-pn.jpg?la=en" />
+<h4>The Economy in Action</h4>
+<p>The <em>Economy in Action</em> is a free exhibit at the Federal Reserve Bank of Dallas. Through interactive exhibits and multimedia displays, learn about the Federal Reserve, money and the economy.</p>
+<p><a href="/fed/tours.aspx" class="readmore pull-right">take a tour</a></p>
+                                    <!-- ::end::text chunk -->
+                                </div><!-- ::end::content card wrapper 1 -->
+                </li><!-- ::end::mega menu dropdown container -->
+            </ul>
+
+        </li>
+    
+</ul>
+                <div class="hidden-lg hidden-md hidden-sm">
+                    <div id="nav-utility-links-xs" class="row">
+                        <span class="nav-utility-links">
+                            
+
+
+<div class="">
+<ul>
+    <li><a href="/pubs.aspx">Publications</a></li>
+    <li><a href="/news.aspx">News &amp; Events</a></li>
+    <li><a href="/careers.aspx">Careers</a></li>
+</ul></div>
+
+                        </span>
+                    </div><!-- utility links on xs screens -->
+                </div>
+
+            </div>
+        </nav>
+    </div>
+
+    <div class="container header">
+        <div class="frbd-container">
+            <a href="/" class="hidden-xs"><div class="frbdlogotype-home"></div></a><!-- logotype svg is pulled in via css -->
+            <div class="branches branches-home">
+                <!-- delimeter is styled via css -->
+                
+
+
+
+<ul>
+    <li><a href="/elpaso.aspx">El Paso</a></li>
+    <li><a href="/houston.aspx">Houston</a></li>
+    <li><a href="/sanantonio.aspx">San Antonio</a></li>
+</ul>
+
+            </div>
+        </div>
+        <div class="socialicon-container">
+            
+
+
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 socialicons">
+<ol class="social">
+    <li class="email"><a href="/pubs/e-sub.aspx" title="Subscribe to Publications"><span class="icon-email"></span></a></li>
+    <li class="youtube"><a href="https://www.youtube.com/user/dallasfed" title="Watch us on YouTube"><span class="icon-youtube"></span></a></li>
+    <li class="twitter">
+    <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="twitter-list" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <a href="#" title="Follow us on Twitter"><span class="icon-twitter"></span></a>
+    </button>
+    <ul class="dropdown-menu pull-right" aria-labelledby="twitter-list">
+        <li><a href="https://twitter.com/RobSKaplan">President Rob Kaplan</a></li>
+        <li><a href="http://twitter.com/DallasFed">Dallas Fed on Twitter</a></li>
+        <li><a href="https://twitter.com/DallasFedComDev">Dallas Fed Community Development</a></li>
+        <li><a href="http://twitter.com/dallasfedeconed">Dallas Fed Econ Ed</a></li>
+        <li><a href="http://twitter.com/DallasFedJobs">Dallas Fed Jobs</a></li>
+        <li><a href="https://twitter.com/budget2save">Building Wealth</a></li>
+    </ul>
+    </div>
+    </li>
+    <li class="facebook">
+    <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="facebook-list" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <a href="#" title="Like us on Facebook"><span class="icon-facebook"></span></a>
+    </button>
+    <ul class="dropdown-menu pull-right" aria-labelledby="facebook-list">
+        <li><a href="https://www.facebook.com/FRBDallas">FRB Dallas on Facebook</a></li>
+        <li><a href="http://www.facebook.com/home.php#%21/pages/Federal-Reserve-Bank-Careers/287546703446?ref=sgm">Fed Careers on Facebook</a></li>
+    </ul>
+    </div>
+    </li>
+    <li class="rss"><a href="/rss.aspx" title="Subscribe to RSS Feeds"><span class="icon-rss"></span></a></li>
+    <li class="linkedin"><a href="http://www.linkedin.com/company/646228?trk=tyah" title="Follow us on LinkedIn"><span class="icon-linkedin"></span></a></li>
+    <li class="share">
+    <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="share-list" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <a href="#" title="Share This Page"><span class="icon-share"></span></a>
+    </button>
+    <ul class="dropdown-menu pull-right" aria-labelledby="share-list">
+        <li><a href="#" title="Share on Facebook" class="socialicons-share-facebook">Share on Facebook</a></li>
+        <li><a href="#" title="Share on Twitter" class="socialicons-share-twitter">Share on Twitter</a></li>
+        <li><a href="#" title="Share on LinkedIn" class="socialicons-share-linkedin">Share on LinkedIn</a></li>
+    </ul>
+    </div>
+    </li>
+</ol>
+</div>
+
+        </div><div class="clearfix"></div>
+        <div class="hidden-lg hidden-xs">
+            <div id="nav-utility-links-md">
+                <span class="nav-utility-links">
+                    
+
+
+<div class="">
+<ul>
+    <li><a href="/pubs.aspx">Publications</a></li>
+    <li><a href="/news.aspx">News &amp; Events</a></li>
+    <li><a href="/careers.aspx">Careers</a></li>
+</ul></div>
+
+                </span>
+            </div><!-- utility links on md/sm screens -->
+        </div>
+    </div>
+
+    <div id="content" class="container-fluid">
+        
+
+<ol class="breadcrumb">
+<li><a href="/"></a></li>    </ol>
+
+<div class="row row-eq-height content-wrapper article-wrapper">
+
+    <!-- ------ left rail: secondary navigation ------- -->
+    <div class="thumbnail nav-aside col-lg-2 col-md-2 nav-aside">
+        <nav class="navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-side-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse navbar-side-collapse">
+                
+ <h5>Dallas Fed</h5>         <ul class="nav navbar-nav mtree">
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Dallas Fed</a><ul>
+<li><a href="https://www.dallasfed.org:443/fed">About the Dallas Fed</a></li>
+<li><a href="https://www.dallasfed.org:443/fed/annual">Annual Report</a></li>
+<li><a href="https://www.dallasfed.org:443/fed/continuity">Business Continuity</a></li>
+<li><a href="https://www.dallasfed.org:443/fed/procure">Procurement Sourcing</a></li>
+<li><a href="">Art Collection</a></li>
+</ul>
+</li>
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Eleventh District</a><ul>
+<li><a href="https://www.dallasfed.org:443/fed">About the Eleventh District</a></li>
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Branches</a><ul>
+<li><a href="https://www.dallasfed.org:443/elpaso">El Paso</a></li>
+<li><a href="https://www.dallasfed.org:443/houston">Houston</a></li>
+<li><a href="https://www.dallasfed.org:443/sanantonio">San Antonio</a></li>
+</ul>
+</li>
+<li><a href="https://www.dallasfed.org:443/fed/counties">Counties in the Eleventh District</a></li>
+<li><a href="https://www.dallasfed.org:443/sitecore/media library/Documents/banking/memberbanks">State Member Banks</a></li>
+</ul>
+</li>
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Leadership and Organization</a><ul>
+<li><a href="https://www.dallasfed.org:443/fed/officers">Bank Leadership</a></li>
+<li><a href="https://www.dallasfed.org:443/fed/bod">Boards of Directors</a></li>
+<li><a href="https://www.dallasfed.org:443/fed/councils">Advisory Councils</a></li>
+<li><a href="https://www.dallasfed.org:443/fed/governance">Governance and Transparency</a></li>
+</ul>
+</li>
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Careers</a><ul>
+<li><a href="https://www.dallasfed.org:443/careers">Dallas Fed Careers</a></li>
+<li><a href="https://www.dallasfed.org:443/careers/careers">Job Openings</a></li>
+</ul>
+</li>
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Speeches</a><ul>
+<li><a href="https://www.dallasfed.org:443/news/speeches/kaplan">Pres. Kaplan Speeches</a></li>
+<li><a href="http://www.cvent.com/d/yvqwmg/4W">Request speaker</a></li>
+<li><a href="https://www.dallasfed.org:443/news/speeches">Speech Archive</a></li>
+</ul>
+</li>
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Visitor Info</a><ul>
+<li><a href="https://www.dallasfed.org:443/fed/visitors">Visiting the Dallas Fed</a></li>
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Directions</a><ul>
+<li><a href="https://www.dallasfed.org:443/fed/direct">Directions</a></li>
+<li><a href="https://www.dallasfed.org:443/elpaso/direct_ep">El Paso Branch</a></li>
+<li><a href="https://www.dallasfed.org:443/sitecore/media library/Documents/houston/directhou">Houston Branch</a></li>
+<li><a href="https://www.dallasfed.org:443/sitecore/media library/Documents/sanantonio/sadirect">San Antonio Branch</a></li>
+</ul>
+</li>
+<li><a href="https://www.dallasfed.org:443/visit">Economy in Action Exhibit</a></li>
+<li><a href="https://www.dallasfed.org:443/fed/tours">Tours</a></li>
+</ul>
+</li>
+<li><a href="https://www.dallasfed.org:443/fed/omwi">Office of Minority and Women Inclusion</a></li>
+</ul>
+
+
+            </div>
+        </nav>
+    </div><!-- ::end::col-lg-2 -->
+    <!-- ------ ::end::left rail: secondary navigation ------- -->
+    <!-- ------ feature content ------- -->
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+        <div class="row row-eq-height article">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+                                    <h1>HTTP Error 404 - File or Directory Not Found</h1><!-- heading -->
+
+
+
+                
+
+
+
+
+
+
+                    <!-- content -->
+<div id="articleWideBlock" style="margin-top: -20px;">
+         <h1>Page Cannot Be Found</h1>
+         
+         <p>The page you are looking for may have moved or is no longer available.</p>
+         <p>Please try the following:</p>
+    
+         <ul>
+              <li>Do a key word search. The page may be available but may have moved.</li>
+              <li>If you reached this page by clicking a link, please notify the site administrator, <a href="mailto:dal.webmaster@dal.frb.org">dal.webmaster@dal.frb.org</a> and provide:
+                <ul>
+                  <li>either the address of the link you clicked or  the title of the item you were looking for, and</li>
+                  <li>the address of the page you were on when you clicked on the link.</li>
+                </ul>
+              </li>
+         </ul>
+         <br>
+         
+         <p><a href="javascript:history.back();">Return to previous page.</a></p>
+    </div>                    <!-- ::end::content -->
+                
+                
+
+                
+
+            </div><!-- ::end::col-lg-9 -->
+            <!-- ------ article aside column ------- -->
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 article-aside">
+                
+                <!-- ------ ::end::article aside column ------- -->
+            </div><!-- ::end::col-lg-3 -->
+        </div><!-- ------ ::end::article ------- -->
+
+        <div class="bottom-rail">
+            
+        </div>
+            <!-- ------ ::end::feature content ------- -->
+        </div><!-- ::end::col-lg-10 -->
+
+</div>
+
+    </div>
+
+    <!-- ----------------------------- footer ----------------------------- -->
+    <div id="footer">
+        
+
+
+
+<div class="row">
+    	<div class="footer-address">
+        	<a href="/">Federal Reserve Bank of Dallas</a> <br class="hidden-lg hidden-md hidden-sm">2200 N. Pearl St., Dallas, Texas 75201 | 214.922.6000 or 800.333.4460 <br class="hidden-lg">
+        </div>
+        <div class="footer-links">
+            <ul>
+                <li><a href="/fed/contact">Contact Us</a></li>
+                <li><a href="/fed/disclaimer">Terms of Use</a></li>
+                <li><a href="/fed/privacy">Privacy Policy</a></li>
+            </ul>
+        </div>
+	</div>
+
+
+
+
+
+
+<!-- START OF SmartSource Data Collector TAG -->
+<!-- Copyright (c) 1996-2016 Webtrends Inc.  All rights reserved. -->
+<script src="/~/media/scripts/webtrends.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+var _tag=new WebTrends();
+_tag.dcsGetId();
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+_tag.dcsCustom=function(){
+// Add custom parameters here.
+//_tag.DCSext.param_name=param_value;
+}
+_tag.dcsCollect();
+//]]>
+</script>
+<noscript>
+<div><img alt="DCSIMG" id="DCSIMG" width="1" height="1" src="http://ews-sdc.federalreserve.org/dcscoubd510000stplengcpot_6e4o/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=9.4.0&amp;dcssip=www.dallasfed.org"/></div>
+</noscript>
+<!-- END OF SmartSource Data Collector TAG -->
+<script type="text/javascript" src="/~/media/scripts/globaljs-footer.js"></script>
+
+
+    </div>
+    <!-- ----------------------------- ::end::footer ----------------------------- -->
+
+
+
+</body>
+
+</html>
