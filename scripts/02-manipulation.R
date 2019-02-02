@@ -39,7 +39,10 @@ regional_date <-
   pull(Date)
 
 cpi <- 
-  readr::read_csv(temp_cpi) %>% 
+  readr::read_csv(temp_cpi, col_types = 
+                    cols_only(LOCATION = col_guess(), 
+                              TIME = col_guess(), 
+                              Value = col_guess())) %>% 
   dplyr::filter(LOCATION == "GBR") %>% 
   dplyr::select(TIME, Value) %>% 
   dplyr::rename(Date = TIME, CPI = Value) %>% 

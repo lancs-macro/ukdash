@@ -1,10 +1,12 @@
 ---
-title: "Latest Release: 2018 Q4"
+# title: Latest Release: 2018 Q4
 geometry: "left=3cm,right=3cm,top=1.5cm,bottom=1cm"
 # runtime: shiny
-output: 
+output:
   pdf_document:
-classoption: twocolumn
+    pandoc_args: [
+        "-V", "classoption=twocolumn"
+    ]
 header-includes:
   - \usepackage{color}
   - \usepackage[dvipsnames]{xcolor}
@@ -18,35 +20,35 @@ header-includes:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r plots, include=FALSE}
-autoplot_price <- readRDS("~/R/housing_observatory/data/RDS/autoplot_price.rds")
-plot_price <- readRDS("~/R/housing_observatory/data/RDS/plot_price.rds")
-```
+<!-- ```{r plots, include=FALSE} -->
+<!-- autoplot_price <- readRDS("data/RDS/autoplot_price.rds") -->
+<!-- plot_price <- readRDS("data/RDS/plot_price.rds") -->
+<!-- ``` -->
 
-###### Real House Price and Trend
+<!-- ###### Real House Price and Trend -->
 
-```{r echo=FALSE}
-library(ggplot2)
-plot_price$UK
-```
+<!-- ```{r echo=FALSE} -->
+<!-- library(ggplot2) -->
+<!-- plot_price$UK -->
+<!-- ``` -->
 
-###### Some Graph
+<!-- ###### Some Graph -->
 
-```{r echo=FALSE}
-plot_price$UK
-```
+<!-- ```{r echo=FALSE} -->
+<!-- plot_price$UK  -->
+<!-- ``` -->
 
-###### Some Graph
+<!-- ###### Some Graph -->
 
-```{r echo=FALSE}
-autoplot_price$UK
-```
+<!-- ```{r echo=FALSE} -->
+<!-- autoplot_price$UK  -->
+<!-- ``` -->
 
-###### Some Graph
+<!-- ###### Some Graph -->
 
-```{r echo = FALSE}
-autoplot_price$UK
-```
+<!-- ```{r echo = FALSE} -->
+<!-- autoplot_price$UK -->
+<!-- ``` -->
 
 \newpage
 
@@ -70,6 +72,8 @@ index proxies for movements in house price uncertainty. We have now incorporated
 this seriesto the set of variables we employ in our forecast modelsbecause it 
 helps improve their out-of-sample forecasting power."
 
+\vspace{5mm}
+
 ### \textcolor{BrickRed}{Exuberance Indicators}
 
 The Price-to-Income Ratio continues to be high for
@@ -78,6 +82,8 @@ in London house prices, the ratio has not declined substantially due to  the
 fall  in  real  income.  This  indicator  will  therefore  continue  to  be  a 
 sourceof  concern  as pressure on indebted households does not show signs of
 easing off.
+
+\vspace{1cm}
 
 ### \textcolor{BrickRed}{Forecasting}
 

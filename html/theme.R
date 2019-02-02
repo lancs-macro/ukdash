@@ -9,10 +9,10 @@ fire_red <- "rgb(173, 17, 26)"
 
 pink <- "rgb(207, 57, 92)"
 
-black <- ""
+# black <- ""
 bgrey <- "rgb(45, 59, 66)"
 grey <- "rgb(118,118,118)"
-
+green_lanc <- "rgb(104, 121, 92)"
 
 default <- red_lanc
 contrast <- bgrey 
@@ -113,9 +113,9 @@ theme_boe_website <- shinyDashboardThemeDIY(
   ,buttonBorderColor = contrast # "rgb(207,57,92)"
   ,buttonBorderRadius = 0
   
-  ,buttonBackColorHover = "rgb(186,51,83)"
+  ,buttonBackColorHover = contrast
   ,buttonTextColorHover = white
-  ,buttonBorderColorHover = "rgb(186,51,83)"
+  ,buttonBorderColorHover = contrast
   
   ,textboxBackColor = white
   ,textboxBorderColor = "rgb(118,118,118)"

@@ -21,7 +21,8 @@ home <-
              # img(src = "side.png", width = 400, height = 400)),
         column(12,
                div(class = "about",
-                   h1("About us" ),
+                   br(),
+                   h1("About us", style = "text-align: center;"),
                    br(),
                    p(
                      span(
@@ -56,7 +57,8 @@ home <-
                      )
                    )
                )
-      )
+      ),
+    br()
     )
   
   
