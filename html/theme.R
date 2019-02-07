@@ -6,10 +6,12 @@ white <- "rgb(255,255,255)"
 red <- "rgb(181, 18, 27)"
 red2 <- "rgb(221, 75, 57)"
 fire_red <- "rgb(173, 17, 26)"
+black <- "rgb(0,0,0)"
+old_appfontcolor <- "rgb(42,102,98)"
 
 pink <- "rgb(207, 57, 92)"
 
-# black <- ""
+
 bgrey <- "rgb(45, 59, 66)"
 grey <- "rgb(118,118,118)"
 green_lanc <- "rgb(104, 121, 92)"
@@ -38,7 +40,7 @@ theme_boe_website <- shinyDashboardThemeDIY(
   
   ### general
   appFontFamily = "Arial"
-  ,appFontColor = "rgb(42,102,98)"
+  ,appFontColor = black
   ,bodyBackColor = "rgb(255,255,254)"
   
   ### header

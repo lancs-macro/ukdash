@@ -10,10 +10,12 @@ make_DT <- function(x, input, filename, caption_string = ""){
                                 searching = FALSE,
                                 autoWidth = TRUE,
                                 paging = FALSE,
-                                pageLength = NROW(x),
-                                
+                                pageLength = 20,#NROW(x),
+                                # scrollY = T,
                                 scrollX = T,
-                                columnDefs = list(list(targets = c(0), width = "80px")),
+                                columnDefs = list(
+                                  list(
+                                    targets = c(0), width = "80px")),
                                 buttons = list(
                                   list(
                                     extend = "collection",

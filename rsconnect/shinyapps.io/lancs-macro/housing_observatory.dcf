@@ -1,13 +1,13 @@
 name: housing_observatory
 title: housing_observatory
 username:
-account: kvasilopoulos
+account: lancs-macro
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 532616
-bundleId: 1859674
-url: https://kvasilopoulos.shinyapps.io/housing_observatory/
-when: 1549465793.39977
+appId: 695138
+bundleId: 1860187
+url: https://lancs-macro.shinyapps.io/housing_observatory/
+when: 1549479909.61148
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: do-not-run

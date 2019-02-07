@@ -28,9 +28,9 @@
 .books-hero-image {
   /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
   /*background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("hero-image.png");*/
-  background-image: url("wheels.jpg");
-  height: 400px;
-  
+  background-image: url("gears.jpeg");
+  height: 300px;
+  opacity:0.8;
   /* Set a specific height */
  /* height: 100%;
   width: 100%;
@@ -52,7 +52,7 @@
 }
 
 .books-hero-image .container {
-  background: rgba(41,41,41,0.7);
+  background: rgba(41,41,41,0.9);
   text-align: center;
   position: absolute;
   width:700px;
@@ -167,7 +167,7 @@
 /**/
 
 #methodology {
-  padding: 4em 0;
+  padding: 4em 2em;
 }
 
 #methodology h1 {
@@ -177,23 +177,23 @@
 
 /*Code section*/
 
-
 #methodology-code {
-  padding-top: 2em;
+  padding: 2em;
   border-top: 1px solid #d5dadf;
-  padding-bottom: 2em;
   color: #333;
 }
 
-#methodology-code h2 {
-  margin:0;
-  padding-bottom:1em;
+.code-title{
+  padding-left: 4.5em; 
+}
+.code-wrapper {
+  padding:1em 4em;
 }
 
-#methodology-code .col-sm-8 {
-  padding-left:2em;
+#methodology-code a {
+  text-decoration: underline;
+  color:rgb(185, 80, 74);
 }
-
 
 /*Literature section*/
 
