@@ -13,11 +13,6 @@ p {
   font-size: 16px;
 }
 
-img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
 
 .card-content {
   padding: 1.5em;

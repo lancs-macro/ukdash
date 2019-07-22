@@ -22,21 +22,21 @@ contrast <- bgrey
 
 # Title and Beta version sign
 
-logo_boe_website <- shinyDashboardLogoDIY(
-  boldText = "UK"
-  ,mainText = "Housing Observatory"
-  ,textSize = 20
-  ,badgeText = "BETA"
-  ,badgeTextColor = "white"
-  ,badgeTextSize = 2
-  ,badgeBackColor = contrast # "rgb(207,57,92)"
-  ,badgeBorderRadius = 3
-  
-)
+# logo_boe_website <- shinyDashboardLogoDIY(
+#   boldText = "UK"
+#   ,mainText = "Housing Observatory"
+#   ,textSize = 20
+#   ,badgeText = "BETA"
+#   ,badgeTextColor = "white"
+#   ,badgeTextSize = 2
+#   ,badgeBackColor = contrast # "rgb(207,57,92)"
+#   ,badgeBorderRadius = 3
+#   
+# )
 
 # Theme options
 
-theme_boe_website <- shinyDashboardThemeDIY(
+theme_boe_website <- dashboardthemes::shinyDashboardThemeDIY(
   
   ### general
   appFontFamily = "Arial"

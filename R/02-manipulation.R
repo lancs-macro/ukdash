@@ -1,25 +1,15 @@
 library(readxl)
 library(magrittr)
 library(tidyverse)
+
 # UK from Dallas Fed ------------------------------------------------------
-
-# uk_rhpi <- readxl::read_excel(temp_fed, sheet = "RHPI") %>% 
-#   mutate(Date = X__1 %>% 
-#            zoo::as.yearqtr(format = "%Y:Q%q") %>%
-#            zoo::as.Date(),
-#          X__1 = NULL,
-#          X__2 = NULL
-#   ) %>% 
-#   select(Date, UK) %>% 
-#   drop_na()
-
 
 regional_names <- 
   reg_comp %>%
   names()
 
-hpi <- 
-  readxl::read_excel(temp_reg, sheet = 1, skip = 2) %>% 
+hpi <-
+  readxl::read_excel(temp_reg, sheet = 1, skip = 2, .name_repair = make.unique) %>% 
   dplyr::rename(Date = `Q1 1993 = 100`) %>% 
   dplyr::mutate(Date = Date %>% zoo::as.yearqtr(format = "Q%q %Y") %>%
            zoo::as.Date()) %>% 
@@ -29,11 +19,6 @@ hpi <-
   dplyr::select(Date, UK, sort(current_vars())) %>%
   purrr::set_names("Date", "UK", regional_names)
   
-# hpi <- 
-#   uk_rhpi %>% 
-#   right_join(regional_price, by = "Date") %>% 
-#   drop_na()
-
 regional_date <-
   hpi %>%
   pull(Date)
@@ -71,10 +56,10 @@ library(stringr)
 
 rpdi <- 
   read_excel("data/rpdi.xlsx") %>% 
-  mutate(Date = X__1 %>% 
+  rename(Date = 1) %>%
+  mutate(Date = Date %>% 
            zoo::as.yearqtr(format = "Q%q %Y") %>%
-           zoo::as.Date(),
-         X__1 = NULL
+           zoo::as.Date()
   ) %>% 
   select(Date, UK, EA, EM, GL, NT, NW, NI, OM, OSE, SC, SW, WW, WM, YH) %>% 
   set_names(c("Date", slider_names))
@@ -82,7 +67,7 @@ rpdi <-
 long <-
   rhpi %>%
   gather(Region, rhpi, -Date) %>%
-  right_join(
+  full_join(
     rpdi %>%
     gather(Region, rpdi, -Date),
     by = c("Date", "Region")

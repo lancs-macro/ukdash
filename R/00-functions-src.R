@@ -16,13 +16,16 @@ make_DT <- function(x, input, filename, caption_string = ""){
                                 columnDefs = list(
                                   list(
                                     targets = c(0), width = "80px")),
-                                buttons = list(
+                                buttons =  list(
                                   list(
                                     extend = "collection",
-                                    buttons = list(list(extend = 'csv',
-                                                        filename = filename),
-                                                   list(extend = 'excel',
-                                                        filename = filename)),
+                                    buttons = list(
+                                      list(extend = 'csv',
+                                           filename = filename),
+                                      list(extend = 'excel',
+                                           filename = filename,
+                                           title = "UK Housing Observatory")
+                                    ),
                                     text = "Download"
                                   )
                                 )

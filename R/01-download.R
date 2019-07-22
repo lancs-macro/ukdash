@@ -6,8 +6,26 @@ temp_reg <- "data/regional.xls"
 temp_cpi <- "data/cpi.csv"  
 temp_fed <- "data/hp1802.xlsx"
 
+library(tidyverse)
+
+
+
+
+
+
 if (download_primary) {
 
+  # scrape for latest data --------------------------------------------------
+  
+  nationwide_url <-
+    xml2::read_html("https://www.nationwide.co.uk/about/house-price-index/download-data#tab:Downloaddata") %>% 
+    rvest::html_nodes("a") %>% 
+    rvest::html_attr("href") %>% 
+    grep("regional", ., value = TRUE)
+  
+  download.file(paste0("https://www.nationwide.co.uk/", nationwide_url), 
+                destfile = temp_reg, mode = 'wb')
+  
 # Regional Data ----------------------------------------------------------
 
 dataURL_reg <- "https://www.nationwide.co.uk/-/media/MainSite/documents/about/house-price-index/downloads/seasonal_regional.xls?date=june"

@@ -19,8 +19,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r plots, include=FALSE}
-autoplot_price <- readRDS("~/R/housing_observatory/data/RDS/autoplot_price.rds")
-plot_price <- readRDS("~/R/housing_observatory/data/RDS/plot_price.rds")
+autoplot_price <- readRDS("~/R/uk-housing-observatory/data/RDS/autoplot_price.rds")
+plot_price <- readRDS("~/R/uk-housing-observatory/data/RDS/plot_price.rds")
 ```
 
 ###### Real House Price and Trend

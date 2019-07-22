@@ -1,69 +1,58 @@
 ## app.R ##
 
 library(shiny)
-library(shinyjs)
 library(shinydashboard)
-library(dashboardthemes)
-library(shinyWidgets)
-
-
-# library(shinydashboardPlus)
-# library(shinyWidgets) # https://dreamrs-vic.shinyapps.io/shinyWidgets/
-# library(mapview)
-# library(leaflet)
-
+library(shinydashboardPlus)
 library(tidyverse)
 library(DT)
 
-library(htmltools)
-library(htmlwidgets)
-
-
 # Set Options -------------------------------------------------------------
 
-src <- TRUE
-download_primary <<- FALSE
-download_secondary <<- FALSE
-
-if (src) {
-  suppressMessages(
-    list.files(c("html", "scripts"), full.names = TRUE, pattern = ".R") %>% 
-      map(source)
-  )
-}
+opt_src <- "main"
+opt_load_rds <- TRUE
 
 # Load everything ---------------------------------------------------------
 
-store <- c("plot_price", "autoplot_price", "plot_income", "autoplot_income",
-           "price_bsadf_table", "income_bsadf_table", "stat_table")
+if (opt_load_rds) {
+  path_store_rds <- list.files("data/RDS", full.names = TRUE)
+  store_rds <-  stringr::str_remove(list.files("data/RDS"), ".rds")
+  for (i in seq_along(path_store_rds)) {
+    assign(store_rds[i], readRDS(file = path_store_rds[i]))
+  }
+}
 
-path_store <- paste0("data/RDS/", store, ".rds")
+# source ------------------------------------------------------------------
 
-for (i in seq_along(path_store)) assign(store[i], readRDS(file = path_store[i]))
+if (opt_src == "main") {
+  # suppressMessages(
+  list.files("R", full.names = TRUE, pattern = "-src.R") %>% 
+    purrr::map(source)
+  # )
+}else {
+  # suppressMessages(
+  list.files(c("R"), full.names = TRUE, pattern = ".R") %>% 
+    purrr::map(source)
+  # )
+}
 
 
 # Header ------------------------------------------------------------------
 
-
-
-mytitle = titlePanel(
-  HTML('<a href="#shiny-tab-home" data-toggle="tab">
-       <p style="font-size:20px;color:white;">
-       <b> UK </b>Housing Observatory <span> &nbsp; </span>
-       <span style="background-color: rgb(45, 59, 66); border-radius: 3px;"> 
-       &nbsp;<font color="white" size="2">BETA  </font> &nbsp; </span> </p>
-       </a>'),
-  tags$head(
-    tags$link(rel = "icon", type = "image/png", href = "logo.png")
-  )
-  )
-
-header <- dashboardHeader(
+header <- dashboardHeaderPlus(
+  titleWidth = 380,
+  title = shiny::tagList(
+    span(class = "logo-lg", 
+         span(shiny::img(src = "logo.png",  height = "32", width = "32"),
+              "International Housing Observatory")), 
+    shiny::img(src = "logo.png",  height = "32", width = "32")
+  ),
   
-  title = mytitle,
-  titleWidth = 335,
-  
-  # Return to original website
+  tags$li(
+    a(href = 'https://github.com/lancs-macro/international-housing-observatory',
+      target = "_`blank",
+      HTML('<i title="Browse our github repositoty" class="fab fa-github"></i>'),
+      style = "font-size:28px; padding-top:10px; padding-bottom:10px;"),
+    class = "dropdown"),
   tags$li(
     a(href = "http://www.lancaster.ac.uk/lums/our-departments/economics/research/uk-housing-observatory/",
       icon("power-off"),
@@ -124,14 +113,18 @@ sidebar <- dashboardSidebar(
 
 body <- dashboardBody(
   
-  # Make theme "html/theme.R"
   theme_boe_website,
   
   ######## Customization #################
   
   tags$head(
+    
+    tags$title("UK Housing Observatory"),
+    tags$link(rel = "shortcut icon", href = "logo.png"),
     tags$link(rel = "stylesheet", type = "text/css", 
               href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+    # includeHTML("content/google-analytics.html")
+    
   ),
   
   # Customize the red to red_lanc
@@ -149,9 +142,9 @@ body <- dashboardBody(
   tabItems(
     
     tabItem(tabName = "home",
-            includeCSS("style.css"),
-            includeCSS("style-tabs.css"),
-            includeHTML("home.html")
+            includeCSS("content/style.css"),
+            includeCSS("content/style-tabs.css"),
+            includeHTML("content/home.html")
     ),
     
     # Oveview -----------------------------------------------------------------
@@ -168,11 +161,7 @@ body <- dashboardBody(
                   fluidRow(
                     column(5, h1("Latest Release: 2018 Q4",
                                  class = "content-title")
-                           # h1(
-                           #   paste0("Latest Release: ",
-                           #          lubridate::year(now()),
-                           #          " Q",
-                           # 
+                        
                              
                     )
                     # ,
@@ -284,7 +273,7 @@ body <- dashboardBody(
                     )
                   )
               ),
-            includeHTML("footer.html")
+            includeHTML("content/footer.html")
             ),
     
     
@@ -357,7 +346,7 @@ body <- dashboardBody(
             ),
                   
                   
-            includeHTML("footer.html")
+            includeHTML("content/footer.html")
             ),
     
     
@@ -423,7 +412,7 @@ body <- dashboardBody(
                               title = "Real House Price to Income")
               )
             ),
-            includeHTML("footer.html")
+            includeHTML("content/footer.html")
     ),
     
     
@@ -444,14 +433,14 @@ body <- dashboardBody(
                 )
               )
             ),
-            includeHTML("footer.html")
+            includeHTML("content/footer.html")
     ),
     
     
     # Data Source & Methodology -----------------------------------------------
     
     tabItem(tabName = "methodology",
-            includeHTML("methodology.html")
+            includeHTML("content/methodology.html")
     )
     
                     )
@@ -499,8 +488,10 @@ server <- function(session, input, output) {
   # Download Data -----------------------------------------------------------
   
   nationwide_caption <- 
+    glue::glue(
     "The House Prices are provided by Nationwide and their use should be cited 
     accordingly https://www.nationwide.co.uk"
+    )
   
   output$price_table <-  
     DT::renderDataTable({
@@ -533,4 +524,5 @@ server <- function(session, input, output) {
     })
 }
 
-shinyApp(ui = dashboardPage(header, sidebar, body), server)
+shinyApp(ui = dashboardPagePlus(title = "UK Housing Observatory",
+                               header, sidebar, body), server)
