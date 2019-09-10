@@ -8,11 +8,6 @@ temp_fed <- "data/hp1802.xlsx"
 
 library(tidyverse)
 
-
-
-
-
-
 if (download_primary) {
 
   # scrape for latest data --------------------------------------------------

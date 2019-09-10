@@ -177,22 +177,24 @@
 
 /*Code section*/
 
-#methodology-code {
-  padding: 2em;
-  border-top: 1px solid #d5dadf;
-  color: #333;
-}
-
 .code-title{
-  padding-left: 4.5em; 
+  padding-left: 5.5em; 
 }
 .code-wrapper {
-  padding:1em 4em;
+  padding:1em 1em;
+}
+
+#methodology-code .row{
+  padding: 1em 0;
 }
 
 #methodology-code a {
   text-decoration: underline;
-  color:rgb(185, 80, 74);
+  color: rgb(23, 87, 151);
+}
+
+#methodology-code a:hover {
+  color:rgb(255, 208, 37);
 }
 
 /*Literature section*/

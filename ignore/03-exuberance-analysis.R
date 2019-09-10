@@ -1,44 +1,113 @@
+library(here)
+
+source(here("R", "00-regional-composition-src.R"))
+source(here("R", "00-functions-src.R"))
+source(here("R", "01-download-src.R"))
+source(here("R", "02-manipulation-src.R"))
+
 library(exuber)
 
-source("scripts/00-regional-composition.R")
-download_primary <- FALSE
-source("scripts/01-download.R")
-source("scripts/02-manipulation.R")
-# source("do-not-run/exuber2.R")
 
-# cv_custom <- readRDS(file = "do-not-run/cv_custom.Rds")
+# Estimation & Critical Values --------------------------------------------
+
+radf_price <- price %>%
+  radf(lag = 1, minw = 37)
+
+radf_income <- 
+  price_income %>%
+  radf(lag = 1, minw = 37)
+
 cv_price <- mc_cv(NROW(rhpi), opt_bsadf = "conservative", minw = 37)
 cv_income <- mc_cv(NROW(rhp_pdi), opt_bsadf = "conservative", minw = 37)
-# Price -------------------------------------------------------------------
 
-radf_price <- rhpi %>%
-  radf(lag = 1, minw = 37)
+# Summary -----------------------------------------------------------------
+
+summary_price <- 
+  radf_price %>% 
+  summary(cv = cv_price)
+
+summary_income <- 
+  radf_income %>% 
+  summary(cv = cv_income)
+
+# diagnostics -------------------------------------------------------------
+
+rejected_price <- 
+  radf_price %>% 
+  diagnostics(cv = cv_price) %>% 
+  .$rejected
+
+rejected_income <- 
+  radf_income %>% 
+  diagnostics(cv = cv_income) %>% 
+  .$rejected
+
+# datestamp ---------------------------------------------------------------
 
 datestamp_price <- 
   radf_price %>%
   datestamp(cv = cv_price)
 
-autoplot_price <- 
-  radf_price %>%
-  autoplot(include = TRUE, cv = cv_price) %>%
-  map( ~.x + theme(title = element_blank()))
-
-
-# Income ------------------------------------------------------------------
-
-radf_income <- 
-  rhp_pdi %>%
-  radf(lag = 1, minw = 37)
-
 datestamp_income <- 
   radf_income %>%
   datestamp(cv = cv_income)
 
+# Income ------------------------------------------------------------------
+
+autoplot_price <- 
+  radf_price %>%
+  autoplot(include = TRUE, cv = cv_price, arrange = FALSE) %>%
+  map( ~.x + scale_custom(object = fortify(radf_price, cv = cv_price)) +
+         theme(title = element_blank()))
+
 autoplot_income <- 
   radf_income %>%
-  autoplot(include = TRUE, cv = cv_income) %>%
-  map( ~.x + theme(title = element_blank()))
+  autoplot(include = TRUE, cv = cv_income, arrange = FALSE) %>%
+  map( ~.x + scale_custom(object = fortify(radf_price, cv = cv_price)) +
+         theme(title = element_blank()))
 
+# autoplot datestamp ------------------------------------------------------
+
+autoplot_datestamp_price <-
+  datestamp_price %>%  
+  autoplot(cv = cv_price) +
+  scale_custom(fortify(radf_price, cv = cv_price)) + 
+  scale_color_viridis_d()
+
+autoplot_datestamp_income <- 
+  datestamp_income %>% 
+  autoplot(cv = cv_income) + 
+  scale_custom(fortify(radf_price, cv = cv_price)) + 
+  scale_color_viridis_d()
+
+# Overwrite datestamp --------------------------------------------------------
+
+index_yq <- extract_yq(fortify(radf_price, cv = cv_price)) # Remake into yq
+
+ds_yq <- function(ds) {
+  start <- ds[, 1]
+  start_ind <- which(index_yq$breaks %in% start)
+  start_label <- index_yq[start_ind ,2]
+  
+  end <- ds[, 2]
+  end_ind <- which(index_yq$breaks %in% end)
+  if (anyNA(end)) end_ind <- c(end_ind, NA)
+  end_label <- index_yq[end_ind ,2]
+  
+  ds[, 1] <- start_label 
+  ds[, 2] <- end_label
+  ds
+}
+
+datestamp_price <-
+  radf_price %>% 
+  datestamp(cv = cv_price) %>% 
+  map(ds_yq)
+
+datestamp_income <- 
+  radf_income %>% 
+  datestamp(cv = cv_income) %>% 
+  map(ds_yq)
 
 # Plotting ----------------------------------------------------------------
 
@@ -51,6 +120,7 @@ for (i in seq_along(slider_names)) {
   plot_price[[i]] <- ggplot(rhpi) +
     geom_line(aes_string(x = "Date", y = as.name(slider_names[i])),
               size = 0.7, colour = "black") +
+    scale_custom(object = fortify(radf_price, cv = cv_price)) +
     # geom_smooth(method = "lm", se = FALSE,
     #             aes_string("Date", as.name(slide_names[i]))) +
     theme_light() +
@@ -71,6 +141,7 @@ for (i in seq_along(slider_names)) {
   plot_income[[i]] <- ggplot(rhp_pdi) +
     geom_line(aes_string(x = "Date", y = as.name(slider_names[i])),
               size = 0.7, colour = "black") +
+    scale_custom(object = fortify(radf_income, cv = cv_income)) +
     # geom_smooth(method = "lm", se = FALSE,
     #             aes_string("Date", as.name(slide_names[i]))) +
     theme_light() +
@@ -122,9 +193,15 @@ stat_table <-
 
 
 # store -------------------------------------------------------------------
+items <- c("price", "income")
+store <- c("price", "price_income",
+           # glue::glue("estimation_{items}"),
+           glue::glue("cv_{items}"),
+           glue::glue("autoplot_datestamp_{items}"),
+           glue::glue("radf_{items}"))
 
-store <- c("plot_price", "autoplot_price", "plot_income", "autoplot_income",
-           "price_bsadf_table", "income_bsadf_table", "stat_table")
+# store <- c("plot_price", "autoplot_price", "plot_income", "autoplot_income",
+#            "price_bsadf_table", "income_bsadf_table", "stat_table")
 
 path_store <- paste0("data/RDS/", store, ".rds")
 

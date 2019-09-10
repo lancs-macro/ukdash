@@ -36,7 +36,7 @@ cpi <-
            zoo::as.Date()
   )
 
-rhpi <-
+price <-
   hpi %>% 
   right_join(cpi, by = "Date") %>% 
   drop_na() %>% 
@@ -46,7 +46,7 @@ rhpi <-
   select(Date, UK, everything())
   
 slider_names <- 
-  rhpi %>% 
+  price %>% 
   select(-Date) %>% 
   names()
 
@@ -65,7 +65,7 @@ rpdi <-
   set_names(c("Date", slider_names))
 
 long <-
-  rhpi %>%
+  price %>%
   gather(Region, rhpi, -Date) %>%
   full_join(
     rpdi %>%
@@ -75,7 +75,7 @@ long <-
   mutate(rhp_pdi = rhpi/rpdi)
 
 
-rhp_pdi <- long %>%
+price_income <- long %>%
   select(Date, Region, rhp_pdi) %>%
   spread(Region, rhp_pdi) %>%
   select(Date, UK, sort(current_vars())) %>%
