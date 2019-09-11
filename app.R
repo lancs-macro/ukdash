@@ -87,10 +87,7 @@ sidebar <- dashboardSidebar(
               # menuItem("New House Price Indices", tabName = "indices", 
               #          icon = icon("file-alt")),
               menuItem("Download Data", icon = icon("download"), 
-                       menuSubItem("Raw Data", tabName = "download_raw",
-                                   icon = icon("angle-right")),
-                       menuSubItem("Exuberance", tabName = "download_exuberance",
-                                   icon = icon("angle-right"))),
+                       tabName = "download"),
               # menuSubItem("Forecasting", tabName = "download_forecasting",
               #             icon = icon("angle-right")),
               # menuSubItem("Uncertainty", tabName = "download_uncertainty",
@@ -482,49 +479,49 @@ body <- dashboardBody(
     
     
     tabItem(
-      tabName = "download_raw",
+      tabName = "download",
       
       fluidPage(
-        # column(
-        #   width = 4,
-          
-          h2("Download Raw Data"),
-          
-          # column(
-          #   width = 4,
-          #        br(),
-          #        dateRangeInput(
-          #          'daterange',
-          #          label = 'Date range input: yyyy-mm-dd',
-          #          start = regional_date[1],
-          #          end = regional_date[length(regional_date)],
-          #          min = regional_date[1],
-          #          max = regional_date[length(regional_date)]
-          #        )
-          # )
-        # ),
+        style = "padding: 0 5em;",
         
+        h2("Download", 
+           style = "padding:1em 0 0 20px;"),
+        h3("1) Raw Data", 
+           style = "padding:0 0 0 20px;"),
+        br(),
         fluidRow(
-          tabBox(width = 12,
-                 side = "left",
-                 tabPanel(dataTableOutput("price_table"), 
-                          title = "Real House Prices"),
-                 tabPanel(dataTableOutput("income_table"), 
-                          title = "Real House Price to Income")
+          tabBox(
+            width = 12,
+            side = "left",
+            tabPanel(dataTableOutput("price_table"), 
+                     title = "Real House Prices"),
+            tabPanel(dataTableOutput("income_table"), 
+                     title = "Real House Price to Income")
+          )
+        ),
+        h3("2) Exuberance Statistics", 
+           style = "padding:0 0 0 20px;"),
+        br(),
+        fluidRow(
+          tabBox(
+            width = 12, 
+            side = "left",
+            tabPanel(dataTableOutput("price_bsadf_table"), 
+                     title = "Real House Price Exuberance Statistics"),
+            tabPanel(dataTableOutput("income_bsadf_table"), 
+                     title = "Real House Price to Income Exuberance Statistics"),
+            tabPanel(dataTableOutput("stat_table"), 
+                     title = "GSADF statistics")
           )
         ),
         
-        h2("Download Exuberance Statistics"),
+        h3("3) Forecasts", 
+           style = "padding:0 0 0 20px;"),
         br(),
         fluidRow(
-          tabBox(width = 12, 
-                 side = "left",
-                 tabPanel(dataTableOutput("price_bsadf_table"), 
-                          title = "Real House Price Exuberance Statistics"),
-                 tabPanel(dataTableOutput("income_bsadf_table"), 
-                          title = "Real House Price to Income Exuberance Statistics"),
-                 tabPanel(dataTableOutput("stat_table"), 
-                          title = "GSADF statistics")
+          tabBox(
+            width = 12, 
+            side = "left"
           )
         )
         
