@@ -57,39 +57,50 @@ to_yq <- function(ds, radf_var, cv_var){
 # datatable-DT ------------------------------------------------------------
 
 
-make_DT <- function(x, input, filename, caption_string = ""){
-  DT::datatable(x %>%
-                  filter(Date >= as.Date(input$daterange[1]) & 
-                           Date <= as.Date(input$daterange[2])),
+specify_buttons <- function(filename) {
+  list(
+    list(
+      extend = "collection",
+      buttons =
+        list(
+          list(extend = 'csv',
+               filename = filename
+               , exportOptions  =
+                 list(
+                   modifier = 
+                     list(
+                       page = "all",
+                       search = 'none')
+                 )
+          ),
+          list(extend = 'excel',
+               filename = filename,
+               title = "International Housing Observatory")
+        ),
+      text = "Download"
+    )
+  )
+}
+
+make_DT <- function(x, filename, caption_string = ""){
+  DT::datatable(x,
                 rownames = FALSE,
                 caption = caption_string,
                 extensions = 'Buttons',
-                options = list( dom = 'Bfrtip',#'Blfrtip',
-                                searching = FALSE,
-                                autoWidth = TRUE,
-                                paging = FALSE,
-                                pageLength = 20,#NROW(x),
-                                # scrollY = T,
-                                scrollX = T,
-                                columnDefs = list(
-                                  list(
-                                    targets = c(0), width = "80px")),
-                                buttons =  list(
-                                  list(
-                                    extend = "collection",
-                                    buttons = list(
-                                      list(extend = 'csv',
-                                           filename = filename),
-                                      list(extend = 'excel',
-                                           filename = filename,
-                                           title = "UK Housing Observatory")
-                                    ),
-                                    text = "Download"
-                                  )
-                                )
+                options = list( 
+                  dom = 'Bfrtip', #'Blfrtip'
+                  searching = FALSE,
+                  autoWidth = TRUE,
+                  paging = TRUE,
+                  # scrollY = T,
+                  scrollX = T,
+                  columnDefs = list(
+                    list(
+                      targets = c(0), width = "80px")),
+                  buttons = specify_buttons(filename)
                 )
   ) %>%
-    formatRound(2:NCOL(x), 3) 
+    DT::formatRound(2:NCOL(x), 3) 
 }
 
 make_DT_general <- function(x, filename) {
@@ -97,23 +108,75 @@ make_DT_general <- function(x, filename) {
                 rownames = FALSE,
                 extensions = 'Buttons',
                 options = list(dom = 'Bfrtip',#'Blfrtip',
-                                searching = FALSE,
-                                autoWidth = TRUE,
-                                paging = FALSE,
-                                pageLength = NROW(x),
-                                scrollX = F,
-                                # columnDefs = list(list(targets = c(0), width = "80px")),
-                                buttons = list(
-                                  list(
-                                    extend = "collection",
-                                    buttons = list(list(extend = 'csv',
-                                                        filename = filename),
-                                                   list(extend = 'excel',
-                                                        filename = filename)),
-                                    text = "Download"
-                                  )
-                                )
+                               searching = FALSE,
+                               autoWidth = TRUE,
+                               paging = TRUE,
+                               scrollX = F,
+                               # columnDefs = list(list(targets = c(0), width = "80px")),
+                               buttons = specify_buttons(filename)
                 )
   ) %>%
-    formatRound(2:NCOL(x), 3) 
+    DT::formatRound(2:NCOL(x), 3) 
 }
+
+
+# make_DT <- function(x, filename, caption_string = ""){
+#   DT::datatable(x,
+#                   # filter(Date >= as.Date(input$daterange[1]) & 
+#                   #          Date <= as.Date(input$daterange[2])),
+#                 rownames = FALSE,
+#                 caption = caption_string,
+#                 extensions = 'Buttons',
+#                 options = list( dom = 'Bfrtip',#'Blfrtip',
+#                                 searching = FALSE,
+#                                 autoWidth = TRUE,
+#                                 paging = FALSE,
+#                                 pageLength = 20,#NROW(x),
+#                                 # scrollY = T,
+#                                 scrollX = T,
+#                                 columnDefs = list(
+#                                   list(
+#                                     targets = c(0), width = "80px")),
+#                                 buttons =  list(
+#                                   list(
+#                                     extend = "collection",
+#                                     buttons = list(
+#                                       list(extend = 'csv',
+#                                            filename = filename),
+#                                       list(extend = 'excel',
+#                                            filename = filename,
+#                                            title = "UK Housing Observatory")
+#                                     ),
+#                                     text = "Download"
+#                                   )
+#                                 )
+#                 )
+#   ) %>%
+#     formatRound(2:NCOL(x), 3) 
+# }
+
+# make_DT_general <- function(x, filename) {
+#   DT::datatable(x,
+#                 rownames = FALSE,
+#                 extensions = 'Buttons',
+#                 options = list(dom = 'Bfrtip',#'Blfrtip',
+#                                 searching = FALSE,
+#                                 autoWidth = TRUE,
+#                                 paging = FALSE,
+#                                 pageLength = NROW(x),
+#                                 scrollX = F,
+#                                 # columnDefs = list(list(targets = c(0), width = "80px")),
+#                                 buttons = list(
+#                                   list(
+#                                     extend = "collection",
+#                                     buttons = list(list(extend = 'csv',
+#                                                         filename = filename),
+#                                                    list(extend = 'excel',
+#                                                         filename = filename)),
+#                                     text = "Download"
+#                                   )
+#                                 )
+#                 )
+#   ) %>%
+#     formatRound(2:NCOL(x), 3) 
+# }

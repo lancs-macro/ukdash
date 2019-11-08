@@ -1,21 +1,21 @@
 library(rgdal)
 
-ggg <- readOGR("do-not-run/data", "NUTS_Level_1_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom")
+ggg <- readOGR("ignore/data", "NUTS_Level_1_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom")
 
 library(geojsonio)
 ggg_json <- geojson_json(ggg)
 
 lm_linear_trend <- function(x) {
   trend <- 1:NROW(x)
-  as.tibble(lm(x ~ trend)$residuals)
+  as_tibble(lm(x ~ trend)$residuals)
 }
 
-color_regional_price <-
-  regional_price %>% 
+color_price <-
+  price %>% 
   select(-Date, -UK) %>% 
   map(lm_linear_trend) %>% 
   reduce(bind_cols) %>% 
-  set_names(names(regional_price[-c(1,2)])) %>% 
+  set_names(names(price[-c(1,2)])) %>% 
   tail(1) %>% 
   names()
 
@@ -46,11 +46,15 @@ highlights <-  highlightOptions(
   bringToFront = TRUE)
 
 overview_map <- leaflet() %>%
-  leaflet(options = leafletOptions(zoomControl = FALSE,
-                                   minZoom = 6,
-                                   maxZoom = 6,
-                                   doubleClickZoom = FALSE,
-                                   dragging = FALSE)) %>%
+  leaflet(
+    options = 
+      leafletOptions(
+        zoomControl = FALSE,
+        minZoom = 6,
+        maxZoom = 6,
+        doubleClickZoom = FALSE,
+        dragging = FALSE)
+      ) %>%
   addPolygons(data = regions,
               fillColor = ~ pal(unclass(nuts118nm)),
               weight = 2,
@@ -58,39 +62,38 @@ overview_map <- leaflet() %>%
               color = "white",
               dashArray = "3",
               fillOpacity = 0.7,
-              highlight = highlights,
+              highlightOptions = highlights,
               label = labels,
               labelOptions = labelOptions(
                 style = list("font-weight" = "normal", 
                              padding = "3px 8px"),
                 textsize = "15px",
-                direction = "auto")) %>%
-  addProviderTiles("MapBox", options = providerTileOptions(
-    id = "mapbox.light",
-    accessToken = Sys.getenv('MAPBOX_ACCESS_TOKEN')))
+                direction = "auto")) 
+# %>%
+#   addProviderTiles("MapBox", options = providerTileOptions( id = "mapbox.light", accessToken = Sys.getenv('MAPBOX_ACCESS_TOKEN')))
 
 saveRDS(overview_map, "data/RDS/overview_map.rds")
 
 
 # mapview -----------------------------------------------------------------
-
-# m <- mapview(Home, 
-#              alpha.regions = 1,
-#              native.crs = TRUE,  
-#              color = "white", 
-#              col.regions = "#B9504A", 
-#              legend = FALSE,
-#              zcol = "nuts118nm",
-#              popup = NULL) %>% 
-#   removeMouseCoordinates() %>% 
-#   onRender("function(el,x){
-#   this.touchZoom.disable();
-#   this.doubleClickZoom.disable();
-#   this.scrollWheelZoom.disable();
-#   this.boxZoom.disable();
-#   this.keyboard.disable();
-# }
-#   ")
+library(mapview)
+m <- mapview(Home,
+             alpha.regions = 1,
+             native.crs = TRUE,
+             color = "white",
+             col.regions = "#B9504A",
+             legend = FALSE,
+             zcol = "nuts118nm",
+             popup = NULL) %>%
+  removeMouseCoordinates() %>%
+  onRender("function(el,x){
+  this.touchZoom.disable();
+  this.doubleClickZoom.disable();
+  this.scrollWheelZoom.disable();
+  this.boxZoom.disable();
+  this.keyboard.disable();
+}
+  ")
 
 # Junk --------------------------------------------------------------------
 
@@ -125,20 +128,18 @@ saveRDS(overview_map, "data/RDS/overview_map.rds")
 # # 
 # # albersusa::usa_composite("laea") 
 # 
-# library(leaflet)
-# library(mapview)
-# 
-# 
-# 
-# # leaflet(options = leafletOptions(zoomControl = FALSE,
-# #                                  minZoom = 3, maxZoom = 3,
-# #                                  dragging = FALSE)) %>% 
-# mapview(ggg, native.crs = TRUE,  color = "white", col.regions = "#B9504A", 
-#         legend = FALSE,
-#         zcol = "nuts118nm") %>% 
-#   removeHomeButton() %>% 
-#   removeMouseCoordinates()
-# 
+library(leaflet)
+library(mapview)
+
+# leaflet(options = leafletOptions(zoomControl = FALSE,
+#                                  minZoom = 3, maxZoom = 3,
+#                                  dragging = FALSE)) %>%
+mapview(ggg, native.crs = TRUE,  color = "white", col.regions = "#B9504A",
+        legend = FALSE,
+        zcol = "nuts118nm") %>%
+  removeHomeButton() %>%
+  removeMouseCoordinates()
+#
 # m$x$options = append(m$x$options, list("zoomControl" = FALSE))
 # mapshot(m)
 # 

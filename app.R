@@ -5,6 +5,8 @@ library(shinydashboard)
 library(shinydashboardPlus)
 library(tidyverse)
 library(DT)
+library(shinythemes)
+library(highcharter)
 
 # Set Options -------------------------------------------------------------
 
@@ -72,15 +74,14 @@ sidebar <- dashboardSidebar(
   
   sidebarMenu(id = "tabs", 
               
-              menuItem("Home", tabName = "home",  
+              menuItem("Home", tabName = "home",  selected = T,
                        icon = icon("home")),
               menuItem("Overview of UK Market", tabName = "overview", #selected = T,
                        icon = icon("globe",  lib = "glyphicon")),
               menuItem("Financial Stability",  tabName = "exuberance", 
                        icon = icon("chart-area")),
-              menuItem(HTML('Forecasting &nbsp; <span class="label label-default">TBA</span>'), 
-                       selected = T,
-                       tabName = "forecasting", icon = icon("line-chart")),
+              # menuItem(HTML('Forecasting &nbsp; <span class="label label-default">TBA</span>'), 
+              #          tabName = "forecasting", icon = icon("line-chart")),
               menuItem(HTML('Uncertainty &nbsp; <span class="label label-default">TBA</span>'), 
                        tabName = "uncertainty", icon = icon("underline")
               ),
@@ -203,7 +204,9 @@ body <- dashboardBody(
           fluidRow(
             
             box(
-              width = 6
+              width = 6,
+              title = "House Price Uncertainty Index",
+              plotOutput("plot_index_hpu")
             ),
             box(
               width = 6, 
@@ -401,79 +404,137 @@ body <- dashboardBody(
     
     # Forecasting -------------------------------------------------------------
     
+    # tabItem(
+    #   tabName = "forecasting",
+    #   
+    #   fluidPage(
+    #     style = "padding:0 5em;",
+    #     
+    #     h2(
+    #       "Forecasting", 
+    #       style = "padding: 1em 0 0 1em;"
+    #     ),
+    #     
+    #     fluidRow(
+    #       style = "text-align:left;padding:2em;",
+    #       
+    #       h3("Methodology"),
+    #       
+    #       column(
+    #         width = 8,
+    #         p(
+    #           "The table reports actual and predicted annual log house price 
+    #           growth rates. Please note that actual growth  rates are revised each  
+    #           quarter  and,  therefore,  may  differ  from  one  release  to  the  
+    #           other. The forecasts  are shown in blue. Predictionsare for 1,2,3 and 4  
+    #           quarters  ahead. The reported predictionsare computed  as  the  average 
+    #           of  forecasts  generated  bya  batteryof  forecastingmodels, 
+    #           including  Dynamic Model  Averaging  (DMA)  and  Dynamic  Model  
+    #           Selection  (DMS),  Time-Varying  Parameters  (TVP) model, Bayesian VAR 
+    #           (BVAR) and the mean combination of individual Autoregressive Distributed L
+    #           ag Model  (ARDL)  forecasts.  For  further  details  about  the  methodology  
+    #           see Yusupova A.,2016. 'An Econometric Analysis of U.K. Regional Real Estate Markets'."
+    #         )
+    #         
+    #       ),
+    #       
+    #       column(
+    #         width = 3,
+    #         offset = 1,
+    #         
+    #         div(
+    #           class = "center",
+    #           selectInput(
+    #             inputId = "country",
+    #             choices = slider_names,
+    #             selected = slider_names[2],
+    #             label = "Select Geographical Area:")
+    #         )
+    #       )
+    #     ),
+    #     
+    #     fluidRow(
+    #       column(
+    #         width = 6, 
+    #         box(width = 12,
+    #             title = "Average",
+    #             DT::dataTableOutput("forecasts")
+    #         )
+    #       ),
+    #       
+    #       column(
+    #         width = 6, 
+    #         tabBox(width = 12,
+    #             title = "Model Forecast Overview",
+    #             tabPanel("BVAR", 
+    #                      DT::dataTableOutput("forecasts_models")),
+    #             tabPanel("DMS(0.95)"),
+    #             tabPanel("DMS(0.99)"),
+    #             tabPanel("DMA(0.95)")
+    #         )
+    #       )
+    #     ),
+    #     
+    #     
+    #     h2(
+    #       "Predictors", 
+    #       style = "padding: 1em 0 1.5em 1em;"
+    #     ),
+    #     
+    #     fluidRow(
+    #       box(
+    #         width  = 12,
+    #         # title = "Predictors",
+    #         plotOutput("plot_predictors", height = 900)
+    #       )
+    #     )
+    #   ),
+    #   includeHTML("content/footer.html")
+    # ),
+    
+    # Uncertainty -------------------------------------------------------------
+    
     tabItem(
-      tabName = "forecasting",
+      tabName = "uncertainty",
       
       fluidPage(
         style = "padding:0 5em;",
         
         h2(
-          "Forecasting", 
-          style = "padding: 1em 0 1.5em 1em;"
+          "Uncertainty", 
+          style = "padding: 1em 0 0 1em;"
         ),
         
         fluidRow(
           style = "text-align:left;padding:2em;",
           
-          column(
-            width = 4
-          ),
+          h3("Uncertainty Title"),
           
           column(
-            width = 3,
+            width = 12,
+            p(
+              "TheHouse  Price  Uncertainty (HPU) Index is constructedusing  the  
+              methodology  suggested  byBaker, Bloom and Davis (2016) to proxy 
+              for economic policy uncertainty. The HPUis an index of search results 
+              from five large newspapers in the UK: The Guardian, The Independent,
+              The Times, Financial Times and Daily  Mail.  In  particular,  we  use
+              LexisNexis  digital  archives  of  these  newspapers  to  obtain  a  
+              quarterly count  of articles  that contain the following three terms:
+              ‘uncertainty’ or ‘uncertain’; ‘housing’ or ‘house prices’ or ‘real estate’; 
+              and one of the following: ‘policy’, ‘regulation’, ‘Bank of England, ‘mortgage’, 
+              ‘interest  rate’,  ‘stamp-duty’,  ‘tax’,  ‘bubble’  or  ‘buy-to-let’ (including 
+              variants  like  ‘uncertainties’, ‘housing market’ or ‘regulatory’). To meet the
+              search criteria an article must contain terms in all three categories.")
+            )
+          ),
+        box(width = 12,
+            title = "Quartely Housing Policy Uncertainty Index",
+            highchartOutput("uncertainty_index", height = 700)
             
-            div(
-              class = "center",
-              selectInput(
-                inputId = "country",
-                choices = slider_names,
-                selected = slider_names[2],
-                label = "Select Geographical Area:")
             )
-          ),
-          column(
-            width = 5
-          )
         ),
-        
-        fluidRow(
-          column(
-            width = 6, 
-            box(width = 12,
-                title = "Average",
-                DT::dataTableOutput("forecasts")
-            )
-          ),
-          
-          column(
-            width = 6, 
-            box(width = 12,
-                title = "Model Forecast",
-                DT::dataTableOutput("forecasts_models")
-            )
-          )
-        ),
-        
-        
-        h2(
-          "Predictors", 
-          style = "padding: 1em 0 1.5em 1em;"
-        ),
-        
-        fluidRow(
-          box(
-            width  = 12,
-            height = 800,
-            title = "Predictors",
-            plotOutput("plot_predictors")
-          )
-        )
-      ),
       includeHTML("content/footer.html")
     ),
-    
-    # Uncertainty -------------------------------------------------------------
-    
     
     # Download Date -------------------------------------------------------
     
@@ -513,17 +574,17 @@ body <- dashboardBody(
             tabPanel(dataTableOutput("stat_table"), 
                      title = "GSADF statistics")
           )
-        ),
-        
-        h3("3) Forecasts", 
-           style = "padding:0 0 0 20px;"),
-        br(),
-        fluidRow(
-          tabBox(
-            width = 12, 
-            side = "left"
-          )
         )
+        
+        # h3("3) Forecasts", 
+        #    style = "padding:0 0 0 20px;"),
+        # br(),
+        # fluidRow(
+        #   tabBox(
+        #     width = 12, 
+        #     side = "left"
+        #   )
+        # )
         
       ),
       includeHTML("content/footer.html")
@@ -557,6 +618,15 @@ server <- function(session, input, output) {
   output$plot_UK <- 
     renderPlot({
       plot_price[["UK"]]})
+  output$plot_index_hpu <- 
+    renderPlot({
+      ggplot(hpu_index, aes(Date, HPU)) +
+        geom_line() + 
+        theme_bw() + 
+        theme(
+          axis.title = element_blank()
+        )
+    })
   output$autoplot_UK <- 
     renderPlot({
       autoplot_price[["UK"]]})
@@ -600,7 +670,7 @@ server <- function(session, input, output) {
   output$table3 <- 
     DT::renderDataTable({
       exuber::datestamp(radf_price, cv_price) %>%
-        pluck(input$country) %>%
+        .[[input$country]] %>% 
         to_yq(radf_price, cv_var = cv_price)
     }, options = list(searching = FALSE,
                       ordering = FALSE,
@@ -609,7 +679,7 @@ server <- function(session, input, output) {
   output$table4 <- 
     DT::renderDataTable({
       exuber::datestamp(radf_income, cv_income) %>%
-        pluck(input$country) %>%
+        .[[input$country]] %>% 
         to_yq(radf_income, cv_var = cv_income)
     }, options = list(searching = FALSE,
                       ordering = FALSE,
@@ -617,10 +687,10 @@ server <- function(session, input, output) {
 
   # Forecasting -------------------------------------------------------------
 
-  output$plot_predictors <-
-    renderPlot({
-      plot_predictors
-    }, height = 700)
+  # output$plot_predictors <-
+  #   renderPlot({
+  #     plot_predictors
+  #   }, height = 700)
 
   
   # options = list(rowCallback = JS(
@@ -628,38 +698,61 @@ server <- function(session, input, output) {
   #   'if(rowId >= 1 && rowId < 4) {',
   #   'row.style.backgroundColor = "pink";','}','}'))
   
-  df <- econdata::bq1989[1:8,]
-  midday <- df$date[4]
+  # df <- econdata::bq1989[1:8,]
+  # midday <- df$date[4]
+  # output$forecasts <- 
+  #   renderDataTable({
+  #     datatable(
+  #       df,
+  #       rownames = FALSE,
+  #       options = list( 
+  #         dom = 't')) %>%
+  #       formatStyle(
+  #         columns = colnames(df),
+  #         valueColumns = c("date"),
+  #         backgroundColor = styleInterval(
+  #           as.Date(midday, format = "%Y-%m-%d"), 
+  #           c("#FFFFFF", "#EBEBEB"))
+  #       )
+  #   })
+  # output$forecasts_models <- 
+  #   DT::renderDataTable({
+  #     datatable(
+  #       df,
+  #       rownames = FALSE,
+  #       options = list( 
+  #         dom = 't')) %>%
+  #       formatStyle(
+  #         columns = c("date"),
+  #         backgroundColor = styleInterval(
+  #           as.Date(midday, format = "%Y-%m-%d"), 
+  #           c("#FB717E", "#89EC6A"))
+  #     )
+  #   })
   
-  output$forecasts <- 
-    renderDataTable({
-      datatable(
-        df,
-        rownames = FALSE,
-        options = list( 
-          dom = 't')) %>%
-        formatStyle(
-          columns = colnames(df),
-          valueColumns = c("date"),
-          backgroundColor = styleInterval(
-            as.Date(midday, format = "%Y-%m-%d"), 
-            c("#FFFFFF", "#EBEBEB"))
-        )
-    })
+
+# Uncertainty -------------------------------------------------------------
+
   
-  output$forecasts_models <- 
-    DT::renderDataTable({
-      datatable(
-        df,
-        rownames = FALSE,
-        options = list( 
-          dom = 't')) %>%
-        formatStyle(
-          columns = c("date"),
-          backgroundColor = styleInterval(
-            as.Date(midday, format = "%Y-%m-%d"), 
-            c("#FB717E", "#89EC6A"))
-      )
+  output$uncertainty_index <- 
+    renderHighchart({
+      highchart(type = "stock") %>% 
+        hc_add_series(hpu_index, hcaes(x = Date, y = HPU), zoomType = "x",
+                      type = "line", color = "#B9274A", name = "HPU", 
+                      alpha = 0.2) %>%  
+        # hc_add_series(epu_index, hcaes(x = Date, y = EPU),
+        #               type = "line", name = "EPU") %>% 
+        hc_xAxis(type = 'date',
+                 minRange = 10,
+                 # min = hpu_index$Date[1],
+                 # max = hpu_index$Date[nrow(hpu_index)],
+                 # events = list(setExtremes = list(hpu_index$Date[1], hpu_index$Date[nrow(hpu_index)])),  
+                 breaks = list(breakSize = 10),
+                 labels = list(format = '{value:%Y}')) %>%
+        hc_tooltip(valueDecimals = 0) %>%
+        # hc_rangeSelector(enabled = FALSE)
+      hc_rangeSelector(selected = 5, inputEnabled = FALSE)
+      
     })
   
   # Download Data -----------------------------------------------------------
@@ -673,25 +766,25 @@ server <- function(session, input, output) {
   output$price_table <-  
     DT::renderDataTable({
       make_DT(
-        rhpi, input ,"rhpi", 
-        caption_string = nationwide_caption)})
+        price, "rhpi", nationwide_caption)
+      })
   
   output$income_table <-  
     DT::renderDataTable({
       make_DT(
-        rhp_pdi, input, "rhp_pdi",
-        caption_string = nationwide_caption)})
+        price_income, "rhp_pdi", nationwide_caption)
+      })
   
   output$price_bsadf_table <-  
     DT::renderDataTable({
       make_DT(
-        price_bsadf_table, input ,"bsadf_rhpi")
+        price_bsadf_table,"bsadf_rhpi")
     })
   
   output$income_bsadf_table <- 
     DT::renderDataTable({
       make_DT(
-        income_bsadf_table, input, "bsadf_rhp_pdi")
+        income_bsadf_table, "bsadf_rhp_pdi")
     })
   
   output$stat_table <- 

@@ -1,5 +1,8 @@
 # Regional Composition
 
+# Standard Statisticla regions
+# See: UK Regional Nowcasting using a Mixed Frequency VAR
+
 reg_comp <- list()
 
 reg_comp$`East Anglia` <- "Babergh, Breckland, Broadland, Cambridge, East Cambridgeshire, Fenland, Forest Heath, 
@@ -24,7 +27,7 @@ reg_comp$`North` <- "Allerdale, Barrow-in-Furness, Carlisle, Copeland, County Du
 Darlington, Eden, Gateshead, Hartlepool, Middlesbrough, Newcastle upon Tyne, North Tyneside, 
 Northumberland, Redcar and Cleveland, South Lakeland, South Tyneside, Stockton-on-Tees, Sunderland"
 
-reg_comp$`NorthWest` <- "Blackburn  with  Darwen,  Blackpool,  Bolton,  Burnley,  Bury,  
+reg_comp$`North West` <- "Blackburn  with  Darwen,  Blackpool,  Bolton,  Burnley,  Bury,  
 Cheshire  East,  Cheshire  West  and Chester,  Chorley,  Fylde,  Halton,  Hyndburn,  Knowsley,  
 Lancaster,  Liverpool,  Manchester, Oldham, Pendle, Preston, Ribble Valley, Rochdale, Rossendale, 
 Salford, Sefton, South Ribble, St. Helens, Stockport, Tameside, Trafford, Warrington, West Lancashire, 
