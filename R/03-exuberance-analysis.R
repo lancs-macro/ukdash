@@ -7,7 +7,6 @@ source(here("R", "02-manipulation-src.R"))
 
 library(exuber)
 
-
 # Estimation & Critical Values --------------------------------------------
 
 radf_price <- price %>%
@@ -18,6 +17,7 @@ radf_income <-
   radf(lag = 1, minw = 37)
 
 cv_price <- mc_cv(NROW(rhpi), opt_bsadf = "conservative", minw = 37)
+
 cv_income <- mc_cv(NROW(rhp_pdi), opt_bsadf = "conservative", minw = 37)
 
 # Summary -----------------------------------------------------------------

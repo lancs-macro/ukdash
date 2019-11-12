@@ -47,9 +47,6 @@ slider_names <-
 # GVA nowcasting ----------------------------------------------------------
 
 
-
-
-
 original_data_1970 <- tibble::tribble(
   ~"region", ~"Income from employment", ~"Income from self-employment", ~"Gross trading profits and surpluses", ~"Less Stock appreciation", ~"Rent", ~"Gross domestic product",
             "United Kingdom", "30,425", "3,774",  "7,267",  "1,162",  "3,276",     "43,580",
@@ -113,7 +110,3 @@ price_income <- long %>%
   spread(Region, rhp_pdi) %>%
   select(Date, UK, sort(current_vars())) %>%
   drop_na()
-
-# 
-# Monthly_Prices <- readr::read_delim("data/Monthly_Prices.csv", 
-#                              "\t", escape_double = FALSE, trim_ws = TRUE)
