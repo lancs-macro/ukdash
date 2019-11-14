@@ -3,7 +3,7 @@
 library(shiny)
 library(shinydashboard)
 library(shinydashboardPlus)
-library(shinythemes)
+# library(shinythemes)
 library(tidyverse)
 library(DT)
 library(highcharter)
@@ -72,54 +72,46 @@ header <- dashboardHeaderPlus(
 sidebar <- dashboardSidebar(
   collapsed = TRUE,
   
-  sidebarMenu(id = "tabs", 
-              # menuItem("Home", tabName = "home",  selected = T,
-              #          icon = icon("home")),
-              # menuItem("Overview of UK Market", tabName = "overview", #selected = T,
-              #          icon = icon("globe",  lib = "glyphicon")),
-              # menuItem("House Prices",  tabName = "hprices", 
-              #          icon = icon("chart-area")),
-              menuItem("Financial Stability",
-                       # selectInput(
-                       #   inputId = "country",
-                       #   choices = slider_names,
-                       #   selected = slider_names[2],
-                       #   label = "Select Geographical Area:"),
-                       tabName = "exuberance", 
-                       icon = icon("chart-area")),
-              # menuItem(HTML('Forecasting &nbsp; <span class="label label-default">TBA</span>'), 
-              #          tabName = "forecasting", icon = icon("line-chart")),
-              menuItem(HTML('Uncertainty'),
-                       tabName = "uncertainty", icon = icon("underline")
-              ),
-              menuItem("New House Price Indices", tabName = "indices",
-                       icon = icon("file-alt")),
-              menuItem("Download Data", icon = icon("download"),
-                       tabName = "download"),
-              # menuSubItem("Forecasting", tabName = "download_forecasting",
-              #             icon = icon("angle-right")),
-              # menuSubItem("Uncertainty", tabName = "download_uncertainty",
-              #             icon = icon("angle-right"))),
-              # menuItem("Data Sources & Methodology", tabName = "methodology",
-              #          icon = icon("chalkboard-teacher")),
-              # menuItem("Publications", tabName = "pub",
-              #          icon = icon("education",  lib = "glyphicon")),
-              # menuItem("Media Coverage", tabName = "media",
-              #          icon = icon("newspaper")),
-              # menuItem("Members", tabName = "meet", 
-              #          icon = icon("users")),
-              # menuItem("Disclaimer", tabName = "disclaimer", 
-              #          icon = icon("exclamation"))
-              HTML('<li>
-                   <div class="line"></div>
-                   </li>  
-                   '),
-              
-              HTML('<li style = "position:absolute; padding-right:1rem; bottom:0; color:grey; font-size:12px;">
-                   <p> @ UKHO </p>
-                   </li>  
-                   ')
-              
+  sidebarMenu(
+    id = "tabs", 
+    # menuItem("Home", tabName = "home",  selected = T,
+    #          icon = icon("home")),
+    # menuItem("Overview of UK Market", tabName = "overview", #selected = T,
+    #          icon = icon("globe",  lib = "glyphicon")),
+    # menuItem("House Prices",  tabName = "hprices", 
+    #          icon = icon("chart-area")),
+    menuItem("Financial Stability",
+             # selectInput(
+             #   inputId = "country",
+             #   choices = slider_names,
+             #   selected = slider_names[2],
+             #   label = "Select Geographical Area:"),
+             tabName = "exuberance", 
+             icon = icon("chart-area")),
+    # menuItem(HTML('Forecasting &nbsp; <span class="label label-default">TBA</span>'), 
+    #          tabName = "forecasting", icon = icon("line-chart")),
+    menuItem(HTML('Uncertainty'), tabName = "uncertainty", icon = icon("underline")),
+    menuItem("New House Price Indices", tabName = "indices", icon = icon("tv"), selected = TRUE), #house-damage
+    menuItem("Download Data", icon = icon("download"), tabName = "download"),
+    # menuSubItem("Forecasting", tabName = "download_forecasting",
+    #             icon = icon("angle-right")),
+    # menuSubItem("Uncertainty", tabName = "download_uncertainty",
+    #             icon = icon("angle-right"))),
+    # menuItem("Data Sources & Methodology", tabName = "methodology",
+    #          icon = icon("chalkboard-teacher")),
+    # menuItem("Publications", tabName = "pub",
+    #          icon = icon("education",  lib = "glyphicon")),
+    # menuItem("Media Coverage", tabName = "media",
+    #          icon = icon("newspaper")),
+    # menuItem("Members", tabName = "meet", 
+    #          icon = icon("users")),
+    # menuItem("Disclaimer", tabName = "disclaimer", 
+    #          icon = icon("exclamation"))
+    HTML('<li> <div class="line"></div></li> '),
+    HTML('<li style = "position:absolute; padding-right:1rem; bottom:0; color:grey; font-size:12px;"> 
+         <p> @ UKHO </p> </li>')
+    
+        
               
               )
   )
@@ -148,6 +140,10 @@ body <- dashboardBody(
   tags$style(
     type = "text/css",
     'div.dt-buttons {float: right;}'
+  ),
+  tags$style(
+    type = "text/css",
+    '.leaflet-container { background-color:rgba(255,0,0,0.0);}'
   ),
   
   # Home --------------------------------------------------------------------
@@ -303,62 +299,8 @@ body <- dashboardBody(
 
 
 tabItems(
-  
-  tabItem(
-    tabName = "exuberance",
-    
-    fluidRow(
-      column(
-        width = 4,
-        h3("Exuberance Indicators"),
-        p("The figures below display the real house prices and the affordability index (left) and the corresponding exuberance indicator (right) for the selected geographical location. There is exuberance when the statistic (blue line) exceeds the critical value (red line).")
-      ),
-      
-      column(
-        width = 3,
-        div(
-          class = "center",
-          selectInput(
-            inputId = "country",
-            choices = slider_names,
-            selected = slider_names[2],
-            label = "Select Geographical Area:")
-        )
-      ),
-      column(
-        width = 5,
-        div(
-          class = "regional",
-          h3("Regional Compostion"),
-          textOutput("composition")
-        )
-      )
-    ),
-    
-    fluidRow(
-      box(title = "Real House Prices", 
-          width = 4,
-          plotOutput("plot_price")),
-      box(
-        width = 4,
-        dataTableOutput("table3")
-      ),
-      box(title = "Affordability Index",
-          plotOutput("autoplot_price"),
-          width = 4)
-    ),
-    fluidRow(
-      box(title = "Real House Prices", 
-          width = 4,
-          plotOutput("plot_income")),
-      box(
-        width = 4,
-        dataTableOutput("table4")
-      ),
-      box(title = "Affordability Index",
-          plotOutput("autoplot_income"),
-          width = 4)
-    )
+  source("exuberance-ui.R", local = TRUE)$value,
+  source("indices-ui.R", local = TRUE)$value
     
     # fluidPage(
     #   style = "padding:0 5em;",
@@ -468,7 +410,6 @@ tabItems(
     #   )
     # ),
     # includeHTML("content/footer.html")
-  )
 
 # House Prices ------------------------------------------------------------
 
@@ -772,6 +713,36 @@ server <- function(session, input, output) {
     }, options = list(searching = FALSE,
                       ordering = FALSE,
                       dom = "t"))
+  
+
+# indices -----------------------------------------------------------------
+
+  output$map <- 
+    leaflet::renderLeaflet({map_nuts1})
+  
+  # observeEvent(input$map_marker_click, {
+  #   click  <-  input$map_marker_click
+  #   print(click)
+  #   text <- paste("Lattitude ", click$lat, "Longtitude ", click$lng)
+  #   proxy <- leafletProxy('map')
+  #   
+  #   proxy %>% clearPopups() %>%
+  #     addPopups(click$lng, click$lat, text)
+  # })
+  
+  observeEvent(input$map_shape_click , {
+    
+    event <- input$map_shape_click 
+    output$widget <- renderText(event$id)
+    
+    output$map_price <- 
+      renderPlot({plot_price[[event$id]]})
+    output$map_price_growth <- 
+      renderPlot({plot_income[[event$id]]})
+  })
+  
+  
+
 
   # Forecasting -------------------------------------------------------------
 

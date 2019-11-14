@@ -1,5 +1,7 @@
 # devtools::install_github("nik01010/dashboardthemes")
 
+devtools::source_url("https://raw.githubusercontent.com/nik01010/dashboardthemes/master/R/dashboardthemes.R")
+
 # Colours
 red_lanc <- "rgb(185, 80, 74)"
 white <- "rgb(255,255,255)"
@@ -36,7 +38,7 @@ contrast <- bgrey
 
 # Theme options
 
-theme_boe_website <- dashboardthemes::shinyDashboardThemeDIY(
+theme_boe_website <- shinyDashboardThemeDIY(
   
   ### general
   appFontFamily = "Arial"
