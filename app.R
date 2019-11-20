@@ -300,7 +300,7 @@ body <- dashboardBody(
 
 tabItems(
   source("exuberance-ui.R", local = TRUE)$value,
-  source("indices-ui.R", local = TRUE)$value
+  source("indices-ui.R", local = TRUE)$value,
     
     # fluidPage(
     #   style = "padding:0 5em;",
@@ -524,47 +524,36 @@ tabItems(
     
     # Uncertainty -------------------------------------------------------------
     
-    # tabItem(
-    #   tabName = "uncertainty",
-    #   
-    #   fluidPage(
-    #     style = "padding:0 5em;",
-    #     
-    #     h2(
-    #       "Uncertainty", 
-    #       style = "padding: 1em 0 0 1em;"
-    #     ),
-    #     
-    #     fluidRow(
-    #       style = "text-align:left;padding:2em;",
-    #       
-    #       h3("Uncertainty Title"),
-    #       
-    #       column(
-    #         width = 12,
-    #         p(
-    #           "TheHouse  Price  Uncertainty (HPU) Index is constructedusing  the  
-    #           methodology  suggested  byBaker, Bloom and Davis (2016) to proxy 
-    #           for economic policy uncertainty. The HPUis an index of search results 
-    #           from five large newspapers in the UK: The Guardian, The Independent,
-    #           The Times, Financial Times and Daily  Mail.  In  particular,  we  use
-    #           LexisNexis  digital  archives  of  these  newspapers  to  obtain  a  
-    #           quarterly count  of articles  that contain the following three terms:
-    #           ‘uncertainty’ or ‘uncertain’; ‘housing’ or ‘house prices’ or ‘real estate’; 
-    #           and one of the following: ‘policy’, ‘regulation’, ‘Bank of England, ‘mortgage’, 
-    #           ‘interest  rate’,  ‘stamp-duty’,  ‘tax’,  ‘bubble’  or  ‘buy-to-let’ (including 
-    #           variants  like  ‘uncertainties’, ‘housing market’ or ‘regulatory’). To meet the
-    #           search criteria an article must contain terms in all three categories.")
-    #         )
-    #       ),
-    #     box(width = 12,
-    #         title = "Quartely Housing Policy Uncertainty Index",
-    #         highchartOutput("uncertainty_index", height = 700)
-    #         
-    #         )
-    #     ),
-    #   includeHTML("content/footer.html")
-    # ),
+    tabItem(
+      tabName = "uncertainty",
+      fluidRow(
+        style = "text-align:left;padding:2em;",
+        
+        h3("Uncertainty Title"),
+        
+        column(
+          width = 12,
+          p(
+            "TheHouse  Price  Uncertainty (HPU) Index is constructedusing  the
+              methodology  suggested  byBaker, Bloom and Davis (2016) to proxy
+              for economic policy uncertainty. The HPUis an index of search results
+              from five large newspapers in the UK: The Guardian, The Independent,
+              The Times, Financial Times and Daily  Mail.  In  particular,  we  use
+              LexisNexis  digital  archives  of  these  newspapers  to  obtain  a
+              quarterly count  of articles  that contain the following three terms:
+              ‘uncertainty’ or ‘uncertain’; ‘housing’ or ‘house prices’ or ‘real estate’;
+              and one of the following: ‘policy’, ‘regulation’, ‘Bank of England, ‘mortgage’,
+              ‘interest  rate’,  ‘stamp-duty’,  ‘tax’,  ‘bubble’  or  ‘buy-to-let’ (including
+              variants  like  ‘uncertainties’, ‘housing market’ or ‘regulatory’). To meet the
+              search criteria an article must contain terms in all three categories.")
+        )
+      ),
+      box(width = 12,
+          title = "Quartely Housing Policy Uncertainty Index",
+          highchartOutput("uncertainty_index", height = 700)
+          
+      )
+    )
     
     # Download Data -------------------------------------------------------
     
@@ -792,27 +781,27 @@ server <- function(session, input, output) {
 
 # Uncertainty -------------------------------------------------------------
 
-  # 
-  # output$uncertainty_index <- 
-  #   renderHighchart({
-  #     highchart(type = "stock") %>% 
-  #       hc_add_series(hpu_index, hcaes(x = Date, y = HPU), zoomType = "x",
-  #                     type = "line", color = "#B9274A", name = "HPU", 
-  #                     alpha = 0.2) %>%  
-  #       # hc_add_series(epu_index, hcaes(x = Date, y = EPU),
-  #       #               type = "line", name = "EPU") %>% 
-  #       hc_xAxis(type = 'date',
-  #                minRange = 10,
-  #                # min = hpu_index$Date[1],
-  #                # max = hpu_index$Date[nrow(hpu_index)],
-  #                # events = list(setExtremes = list(hpu_index$Date[1], hpu_index$Date[nrow(hpu_index)])),  
-  #                breaks = list(breakSize = 10),
-  #                labels = list(format = '{value:%Y}')) %>%
-  #       hc_tooltip(valueDecimals = 0) %>%
-  #       # hc_rangeSelector(enabled = FALSE)
-  #     hc_rangeSelector(selected = 5, inputEnabled = FALSE)
-    #   
-    # })
+
+  output$uncertainty_index <-
+    renderHighchart({
+      highchart(type = "stock") %>%
+        hc_add_series(hpu_index, hcaes(x = Date, y = HPU), zoomType = "x",
+                      type = "line", color = "#B9274A", name = "HPU",
+                      alpha = 0.2) %>%
+        # hc_add_series(epu_index, hcaes(x = Date, y = EPU),
+        #               type = "line", name = "EPU") %>%
+        hc_xAxis(type = 'date',
+                 minRange = 10,
+                 # min = hpu_index$Date[1],
+                 # max = hpu_index$Date[nrow(hpu_index)],
+                 # events = list(setExtremes = list(hpu_index$Date[1], hpu_index$Date[nrow(hpu_index)])),
+                 breaks = list(breakSize = 10),
+                 labels = list(format = '{value:%Y}')) %>%
+        hc_tooltip(valueDecimals = 0) %>%
+        # hc_rangeSelector(enabled = FALSE)
+      hc_rangeSelector(selected = 5, inputEnabled = FALSE)
+
+  })
   
   # Download Data -----------------------------------------------------------
   
