@@ -49,7 +49,6 @@ header <- dashboardHeaderPlus(
               "International Housing Observatory")), 
     shiny::img(src = "logo.png",  height = "32", width = "32")
   ),
-  
   tags$li(
     a(href = 'https://github.com/lancs-macro/uk-housing-observatory',
       target = "_`blank",
