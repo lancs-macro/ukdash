@@ -42,6 +42,7 @@ if (opt_src == "main") {
 header <- dashboardHeaderPlus(
   titleWidth = 440,
   title = shiny::tagList(
+
     span(class = "logo-lg",
          span(shiny::img(src = "minimal.png",  height = "32", width = "32"),
               HTML('<span class="name"> United Kingdom </span> 
