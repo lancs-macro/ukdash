@@ -1,6 +1,6 @@
 # devtools::install_github("nik01010/dashboardthemes")
 
-devtools::source_url("https://raw.githubusercontent.com/nik01010/dashboardthemes/master/R/dashboardthemes.R")
+# devtools::source_url("https://raw.githubusercontent.com/nik01010/dashboardthemes/master/R/dashboardthemes.R")
 
 # Colours
 red_lanc <- "rgb(185, 80, 74)"
@@ -92,7 +92,7 @@ theme_boe_website <- shinyDashboardThemeDIY(
   ,sidebarTabRadiusHover = "0px"
   
   ### boxes
-  ,boxBackColor = white # "rgb(248,248,248)"
+  ,boxBackColor =  "rgb(248,248,248)" # white
   ,boxBorderRadius = 0
   ,boxShadowSize = "0px 0px 0px"
   ,boxShadowColor = ""

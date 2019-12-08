@@ -1,5 +1,70 @@
 library(rlang)
 
+box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NULL, 
+                  solidHeader = FALSE, background = NULL, width = 6, height = NULL, 
+                  popover = FALSE, popover_title = NULL, popover_content = NULL,
+                  collapsible = FALSE, collapsed = FALSE) 
+{
+  boxClass <- "box"
+  if (solidHeader || !is.null(background)) {
+    boxClass <- paste(boxClass, "box-solid")
+  }
+  if (!is.null(status)) {
+    shinydashboard:::validateStatus(status)
+    boxClass <- paste0(boxClass, " box-", status)
+  }
+  if (collapsible && collapsed) {
+    boxClass <- paste(boxClass, "collapsed-box")
+  }
+  if (!is.null(background)) {
+    shinydashboard:::validateColor(background)
+    boxClass <- paste0(boxClass, " bg-", background)
+  }
+  style <- NULL
+  if (!is.null(height)) {
+    style <- paste0("height: ", validateCssUnit(height))
+  }
+  titleTag <- NULL
+  if (!is.null(title)) {
+    titleTag <- h3(class = "box-title", title)
+  }
+  subtitleTag <- NULL
+  if (!is.null(title)) {
+    subtitleTag <- h5(class = "box-subtitle", subtitle)
+  }
+  collapseTag <- NULL
+  if (collapsible) {
+    buttonStatus <- status %OR% "default"
+    collapseIcon <- if (collapsed) 
+      "plus"
+    else "minus"
+    collapseTag <- div(class = "box-tools pull-right", 
+                       tags$button(class = paste0("btn btn-box-tool"), 
+                                   `data-widget` = "collapse", shiny::icon(collapseIcon)))
+  }
+  popoverTag <- NULL
+  if (popover) {
+    popoverTag <- div(class = "box-tools pull-right", 
+                       tags$button(class = paste0("btn btn-box-tool"), 
+                                   `title` = popover_title,
+                                   `data-content` = popover_content,
+                                   `data-trigger` = "focus",
+                                   `data-placement` = "top",
+                                   `data-toggle` = "popover", shiny::icon("info")))
+  }
+  headerTag <- NULL
+  if (!is.null(titleTag) || !is.null(collapseTag) || !is.null(popoverTag)) {
+    headerTag <- div(class = "box-header", titleTag, subtitleTag, collapseTag, popoverTag)
+  }
+  div(class = if (!is.null(width)) 
+    paste0("col-sm-", width), div(class = boxClass, style = if (!is.null(style)) 
+      style, headerTag, div(class = "box-body", ...), if (!is.null(footer)) 
+        div(class = "box-footer", footer)))
+}
+
+
+column_4 <- function(...) column(width = 4, ...)
+
 # Custom Labels  ----------------------------------------------------------
 
 extract_yq <- function(object) {
@@ -75,7 +140,7 @@ specify_buttons <- function(filename) {
           ),
           list(extend = 'excel',
                filename = filename,
-               title = "International Housing Observatory")
+               title = "UK Housing Observatory")
         ),
       text = "Download"
     )
@@ -83,23 +148,24 @@ specify_buttons <- function(filename) {
 }
 
 make_DT <- function(x, filename, caption_string = ""){
-  DT::datatable(x,
-                rownames = FALSE,
-                caption = caption_string,
-                extensions = 'Buttons',
-                options = list( 
-                  dom = 'Bfrtip', #'Blfrtip'
-                  searching = FALSE,
-                  autoWidth = TRUE,
-                  paging = TRUE,
-                  # scrollY = T,
-                  scrollX = T,
-                  columnDefs = list(
-                    list(
-                      targets = c(0), width = "80px")),
-                  buttons = specify_buttons(filename)
-                )
-  ) %>%
+  DT::datatable(
+    x,
+    rownames = FALSE,
+    caption = caption_string,
+    extensions = 'Buttons',
+    options = list( 
+      dom = 'Bfrtip', #'Blfrtip'
+      searching = FALSE,
+      pageLength = 13,
+      autoWidth = TRUE,
+      paging = TRUE,
+      # scrollY = T,
+      scrollX = T,
+      columnDefs = list(
+        list(
+          targets = c(0), width = "80px")),
+      buttons = specify_buttons(filename)
+      )) %>%
     DT::formatRound(2:NCOL(x), 3) 
 }
 

@@ -7,6 +7,8 @@ library(shinydashboardPlus)
 library(tidyverse)
 library(DT)
 library(highcharter)
+library(shinyWidgets)
+library(leaflet.extras)
 
 # Set Options -------------------------------------------------------------
 
@@ -42,27 +44,33 @@ if (opt_src == "main") {
 # Header ------------------------------------------------------------------
 
 header <- dashboardHeaderPlus(
-  titleWidth = 380,
+  titleWidth = 440,
   title = shiny::tagList(
-    span(class = "logo-lg", 
-         span(shiny::img(src = "logo.png",  height = "32", width = "32"),
-              "International Housing Observatory")), 
-    shiny::img(src = "logo.png",  height = "32", width = "32")
-  ),
+    
+    span(class = "logo-lg",
+         span(shiny::img(src = "minimal.png",  height = "32", width = "32"),
+              HTML('<span class="name"> United Kingdom </span> 
+                   <span class= "bottom-name"> Housing Observatory </span>')
+              # HTML('<div class="name"> United Kingdom <br>
+              #           <span class="bottom-name"> Housing Observatory</span>
+              #       </div>')
+              )),
+    shiny::img(src = "minimal.png",  height = "32", width = "32")
+  )#,
   
-  tags$li(
-    a(href = 'https://github.com/lancs-macro/uk-housing-observatory',
-      target = "_`blank",
-      HTML('<i title="Browse our github repositoty" class="fab fa-github"></i>'),
-      style = "font-size:28px; padding-top:10px; padding-bottom:10px;"),
-    class = "dropdown"),
+  # tags$li(
+  #   a(href = 'https://kvasilopoulos.github.io/ukho-website/',
+  #     target = "_blank",
+  #     HTML('<i title="Go back to Home" class="fas fa-home"></i>'),
+  #     style = "font-size:28px; padding-top:10px; padding-bottom:10px;"),
+  #   class = "dropdown")
   
-  tags$li(
-    a(href = "http://www.lancaster.ac.uk/lums/our-departments/economics/research/uk-housing-observatory/",
-      icon("power-off"),
-      title = "Back to Lancaster's Website"),
-    class = "dropdown"
-  )
+  # tags$li(
+  #   a(href = "http://www.lancaster.ac.uk/lums/our-departments/economics/research/uk-housing-observatory/",
+  #     icon("power-off"),
+  #     title = "Back to Lancaster's Website"),
+  #   class = "dropdown"
+  # )
 )
 
 
@@ -74,366 +82,55 @@ sidebar <- dashboardSidebar(
   
   sidebarMenu(
     id = "tabs", 
-    # menuItem("Home", tabName = "home",  selected = T,
-    #          icon = icon("home")),
-    # menuItem("Overview of UK Market", tabName = "overview", #selected = T,
-    #          icon = icon("globe",  lib = "glyphicon")),
-    # menuItem("House Prices",  tabName = "hprices", 
-    #          icon = icon("chart-area")),
-    menuItem("Financial Stability",
-             # selectInput(
-             #   inputId = "country",
-             #   choices = slider_names,
-             #   selected = slider_names[2],
-             #   label = "Select Geographical Area:"),
-             tabName = "exuberance", 
-             icon = icon("chart-area")),
-    # menuItem(HTML('Forecasting &nbsp; <span class="label label-default">TBA</span>'), 
-    #          tabName = "forecasting", icon = icon("line-chart")),
-    menuItem(HTML('Uncertainty'), tabName = "uncertainty", icon = icon("underline")),
-    menuItem("New House Price Indices", tabName = "indices", icon = icon("tv"), selected = TRUE), #house-damage
-    menuItem("Download Data", icon = icon("download"), tabName = "download"),
-    # menuSubItem("Forecasting", tabName = "download_forecasting",
-    #             icon = icon("angle-right")),
-    # menuSubItem("Uncertainty", tabName = "download_uncertainty",
-    #             icon = icon("angle-right"))),
-    # menuItem("Data Sources & Methodology", tabName = "methodology",
-    #          icon = icon("chalkboard-teacher")),
-    # menuItem("Publications", tabName = "pub",
-    #          icon = icon("education",  lib = "glyphicon")),
-    # menuItem("Media Coverage", tabName = "media",
-    #          icon = icon("newspaper")),
-    # menuItem("Members", tabName = "meet", 
-    #          icon = icon("users")),
-    # menuItem("Disclaimer", tabName = "disclaimer", 
-    #          icon = icon("exclamation"))
-    HTML('<li> <div class="line"></div></li> '),
-    HTML('<li style = "position:absolute; padding-right:1rem; bottom:0; color:grey; font-size:12px;"> 
-         <p> @ UKHO </p> </li>')
+    menuItem('Overview', tabName = "overview", icon = icon("globe", lib = "glyphicon")),
     
-        
-              
-              )
+    menuItem("Financial Stability", tabName = "exuberance", icon = icon("chart-area")),
+    conditionalPanel("input.tabs === 'exuberance'",
+                     selectInput(
+                       inputId = "country",
+                       choices = slider_names,
+                       selected = slider_names[2],
+                       label = "Select Geographical Area:")
+    ),
+    menuItem('Uncertainty', tabName = "uncertainty", icon = icon("underline")),
+    menuItem("New House Price Indices", icon = icon("house-damage"),
+             tabName = "indices"), #house-damage
+    menuItem("Download Data", icon = icon("download"), tabName = "download")
+    )
   )
 
 body <- dashboardBody(
-  
-  theme_boe_website,
-  
+
   ######## Customization #################
   
   tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", 
+              href = 'https://fonts.googleapis.com/css?family=Gloria Hallelujah'),
+    tags$style(".name {font-family: 'Gloria Hallelujah';color:#B22222;white-space: nowrap; padding-left:10px;}"),
+    tags$style(".bottom-name { color: black; font-family: 'Gloria Hallelujah';}"),
     
     tags$title("UK Housing Observatory"),
-    tags$link(rel = "shortcut icon", href = "logo.png"),
-    tags$link(rel = "stylesheet", type = "text/css", 
-              href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
-    # includeHTML("content/google-analytics.html")
-    
-  ),
-  
-  # Customize the red to red_lanc
-  tags$style(
-    type = 'text/css', 
-    '.bg-red {background-color: rgb(185, 80, 74)!important; }'
-  ),
-  tags$style(
-    type = "text/css",
-    'div.dt-buttons {float: right;}'
-  ),
-  tags$style(
-    type = "text/css",
-    '.leaflet-container { background-color:rgba(255,0,0,0.0);}'
-  ),
-  
-  # Home --------------------------------------------------------------------
-  
-  
-    
-    # tabItem(tabName = "home",
-    #         includeCSS("content/style.css"),
-    #         includeCSS("content/style-tabs.css"),
-    #         includeHTML("content/home.html")
-    # ),
-    
-    # Oveview -----------------------------------------------------------------
-    
-    # tabItem(
-    #   tabName = "overview",
-    #   
-    #   tags$section(
-    #     id = "overview", 
-    #     class = "grid",
-    #     div(
-    #       class = "content-wrap",
-    #       
-    #       # Title and Download Button
-    #       
-    #       fluidRow(
-    #         column(
-    #           width = 5, 
-    #           h1("Latest Release: 2018 Q4",
-    #              class = "content-title")
-    #           
-    #         )
-    #         # ,
-    #         # column(2,
-    #         #        br(),
-    #         #        downloadButton("downloadData", "Download")
-    #         # )
-    #       ),
-    #       
-    #       # Summary
-    #       
-    #       fluidRow(
-    #         box(
-    #           width = 6, 
-    #           title = "Real House Prices and Trend",
-    #           plotOutput("plot_UK")
-    #         ),
-    #         box(
-    #           width = 6 ,
-    #           h2("Summary"),
-    #           br(),
-    #           p("The growth rate of UK property  prices has been falling over 
-    #           the  last  two  quarters. The annual growth rate currently stands at 2.2%. This 
-    #           is the lowest growth rate of national housing prices since 2013 Q2. Furthermore, 
-    #           property prices in Greater London have fallen by nearly 2% over the last year. 
-    #           However, house prices have increased in all other regional markets. Overall, the 
-    #           regions that have experienced the highest property price inflation rates 
-    #           in the course of the last year are not in the South of the country: East 
-    #           Midlands(4.4%), West Midlands(4.2%),Wales(4%), and Scotland(3.1%).")
-    #         )
-    #       ),
-    #       
-    #       
-    #       # House Price Uncertainty
-    #       
-    #       fluidRow(
-    #         
-    #         box(
-    #           width = 6,
-    #           title = "House Price Uncertainty Index",
-    #           plotOutput("plot_index_hpu")
-    #         ),
-    #         box(
-    #           width = 6, 
-    #           
-    #           h2("House Price Uncertainty (HPU) Index"),
-    # 
-    #           p("The UK Housing Observatory has created this new series that will 
-    #             contribute to the analysis of the housing market and general economic
-    #             conditions in the UK. HPU is an index of search results from five 
-    #             large newspapers in the UK. This index proxies for movements in house
-    #             price uncertainty. We have now incorporated this series to the set of 
-    #             variables we employ in our forecast models because it helps improve 
-    #             their out-of-sample forecasting power."),
-    #           p("Furthermore, we note that HPU increased ahead of the EU Referendum 
-    #               and reached an all-time high right after the referendum took place(2016 Q3).
-    #               Although the index eventually dropped, it has remained at a high level 
-    #               ever since. Its current level (140) is still high for historical standards,
-    #               and signals potential downside risks in the UK housing market and the overall 
-    #               economy.")
-    #         )
-    #       ),
-    #       
-    #       # Exuberance Indicators
-    #       
-    #       fluidRow(
-    #         
-    #         box(width = 6,  title = "Exuberance Indicator",
-    #             plotOutput("autoplot_UK")
-    #         ),
-    #         box(width = 6,
-    #             h2("Financial Stability"),
-    #             p(
-    #               "With regards  to  the  exuberance  indicators, the  reported  statistics  show 
-    #                       no signs of exuberance at the national level. None of the regional market 
-    #                       indicators are close to the explosive  threshold  either.  The  risk  of  any 
-    #                       of  those  markets  to  enter  in  an  exuberance  phase  is therefore very low 
-    #                       at the moment (the estimated probability that any of those markets enter a phase 
-    #                       of exuberance is below 10%)."
-    #             ),
-    #             p(
-    #               "The Price-to-Income Ratio continues to be high for
-    #                       historical standards, close to its all-time high in 2007. Despite the decrease 
-    #                       in London house prices, the ratio has not declined substantially due to  the  
-    #                       fall  in  real  income.  This  indicator  will  therefore  continue  to  be  a 
-    #                       source of  concern  as pressure on indebted households does not show signs of
-    #                       easing off."
-    #             )
-    #         )
-    #       ),
-    #       
-    #       # Forecast
-    #       
-    #       fluidRow(
-    #         box(width = 6
-    #         ),
-    #         box(width = 6, 
-    #             h2("Forecasts"),
-    #             p("The prediction of the UK Housing Observatory is that the 
-    #                       growth rate ofhouse prices in the national and the majority of regional markets 
-    #                       will continue to drop in the course of 2018 and the first half of 2019. We forecast 
-    #                       a growth rate of about 1.7% in the second quarter of 2019. The forecasts predict  
-    #                       a similar  pattern  of  house  price  behaviour in  all  regions with a much  
-    #                       stronger pattern in Greater London. According to the forecasting results, the 
-    #                       property prices in this region will experience negative growth, they will 
-    #                       continue to decline during 2018 and the first quarter of 2019, however,  the  
-    #                       growth  in housing prices is predicted to build up towards the end of  
-    #                       the following year."),
-    #             p("Although the UK house prices are expected to grow at a lower rate than last year, 
-    #                       the two main factors responsible for the slow, but positive, forecasted growth in 
-    #                       the UK house prices are the fall in the real mortgage rate and the restricted 
-    #                       supply of new houses. We note that both the number of housing starts and housing 
-    #                       completions has been continually declining throughout the last year.")
-    #         )
-    #       )
-    #     )
-    #   ),
-    #   includeHTML("content/footer.html")
-    # ),
-    
-    
-
-
+    tags$link(rel = "shortcut icon", href = "minimal.png"),
+    tags$link(
+      rel = "stylesheet",
+      type = "text/css",
+      href = "https://use.fontawesome.com/releases/v5.5.0/css/all.css")
+    ),
+  includeCSS("content/style-ui.css"),
+  includeScript("content/popover.js"),
 
 tabItems(
-  source("exuberance-ui.R", local = TRUE)$value,
-  source("indices-ui.R", local = TRUE)$value,
-    
-    # fluidPage(
-    #   style = "padding:0 5em;",
-    #   
-    #   h2("Financial Stability", 
-    #      style = "padding: 1em 0 0 1em;"
-    #   ),
-    #   
-    #   fluidRow(
-    #     style = "text-align:left;padding:2em;",
-    #     
-    #     column(
-    #       width = 4, 
-    #       
-    #       h3("Exuberance Indicators"),
-    #       
-    #       p("The figures below display the real house prices and the affordability 
-    #         index (left) and the corresponding exuberance indicator (right) for the 
-    #         selected geographical location. There is exuberance when the statistic 
-    #         (blue line) exceeds the critical value (red line).")
-    #     ),
-    #     
-    #     column(
-    #       width = 3,
-    #       
-    #       div(
-    #         class = "center",
-    #         selectInput(
-    #           inputId = "country",
-    #           choices = slider_names,
-    #           selected = slider_names[2],
-    #           label = "Select Geographical Area:")
-    #       )
-    #     ),
-    #     column(
-    #       width = 5,
-    #       div(
-    #         class = "regional",
-    #         h3("Regional Compostion"),
-    #         textOutput("composition")
-    #       )
-    #     )
-    #   ),
-    #   
-    #   fluidRow(
-    #     box(title = "Real House Prices", width = 6,
-    #         plotOutput("plot_price")),
-    #     box(title = "Affordability Index",
-    #         plotOutput("plot_income"),
-    #         width = 6)
-    #   ),
-    #   
-    #   fluidRow(
-    #     box(
-    #       width = 12,
-    #       background = "red",
-    #       "Exuberance Statistics",
-    #       style = "font-size:22px;text-align:center;")
-    #   ),
-    #   
-    #   fluidRow(
-    #     box(
-    #       title = "Real House Prices",
-    #       tableOutput("table1")
-    #     ),
-    #     box(
-    #       title = "House-Price-to-Income Ratio", 
-    #       tableOutput("table2")
-    #     )
-    #   ),
-    #   
-    #   fluidRow(
-    #     box(
-    #       width = 12,
-    #       background = "red",
-    #       "Date-Stamping Periods of Exuberance",
-    #       style = "font-size:22px;text-align:center;")
-    #   ),
-    #   
-    #   fluidRow(
-    #     
-    #     box(title = "Real House Prices", width = 6,
-    #         plotOutput("autoplot_price")),
-    #     
-    #     box(title = "Affordability Index",
-    #         plotOutput("autoplot_income"),
-    #         width = 6)
-    #   ),
-    #   
-    #   fluidRow(
-    #     box(
-    #       width = 12,
-    #       background = "red",
-    #       "Date-Stamping Periods of Exuberance Table",
-    #       style = "font-size:22px;text-align:center;"
-    #     )
-    #   ),
-    #   fluidRow(
-    #     box(
-    #       title = "Real House Prices",
-    #       dataTableOutput("table3")
-    #     ),
-    #     box(
-    #       title = "Affordability Index", 
-    #       dataTableOutput("table4")
-    #     )
-    #   )
-    # ),
-    # includeHTML("content/footer.html")
-
-# House Prices ------------------------------------------------------------
-
-  # tabItem(
-  #   tabName = "hprices",
-  #   
-  #   fluidRow(
-  #     box(
-  #       title = "Regional House Prices",
-  #       width = 8),
-  #     box(
-  #       title = "Mpla Mpla",
-  #       width = 4
-  #     )
-  #   )
-  #   
-  # ),
-  
-# Exuberance --------------------------------------------------------------
+  source("ui-overview.R", local = TRUE)$value,
+  source("ui-exuberance.R", local = TRUE)$value,
+  source("R/ui-uncertainty.R", local = TRUE)$value,
+  source("ui-indices.R", local = TRUE)$value,
+  source("ui-download.R", local = TRUE)$value
+  )
+)
 
 
 
-    # Forecasting -------------------------------------------------------------
-    
+
     # tabItem(
     #   tabName = "forecasting",
     #   
@@ -524,101 +221,30 @@ tabItems(
     
     # Uncertainty -------------------------------------------------------------
     
-    tabItem(
-      tabName = "uncertainty",
-      fluidRow(
-        style = "text-align:left;padding:2em;",
-        
-        h3("Uncertainty Title"),
-        
-        column(
-          width = 12,
-          p(
-            "TheHouse  Price  Uncertainty (HPU) Index is constructedusing  the
-              methodology  suggested  byBaker, Bloom and Davis (2016) to proxy
-              for economic policy uncertainty. The HPUis an index of search results
-              from five large newspapers in the UK: The Guardian, The Independent,
-              The Times, Financial Times and Daily  Mail.  In  particular,  we  use
-              LexisNexis  digital  archives  of  these  newspapers  to  obtain  a
-              quarterly count  of articles  that contain the following three terms:
-              ‘uncertainty’ or ‘uncertain’; ‘housing’ or ‘house prices’ or ‘real estate’;
-              and one of the following: ‘policy’, ‘regulation’, ‘Bank of England, ‘mortgage’,
-              ‘interest  rate’,  ‘stamp-duty’,  ‘tax’,  ‘bubble’  or  ‘buy-to-let’ (including
-              variants  like  ‘uncertainties’, ‘housing market’ or ‘regulatory’). To meet the
-              search criteria an article must contain terms in all three categories.")
-        )
-      ),
-      box(width = 12,
-          title = "Quartely Housing Policy Uncertainty Index",
-          highchartOutput("uncertainty_index", height = 700)
-          
-      )
-    )
     
-    # Download Data -------------------------------------------------------
-    
-    
-    # tabItem(
-    #   tabName = "download",
-    #   
-    #   fluidPage(
-    #     style = "padding: 0 5em;",
-    #     
-    #     h2("Download", 
-    #        style = "padding:1em 0 0 20px;"),
-    #     h3("1) Raw Data", 
-    #        style = "padding:0 0 0 20px;"),
-    #     br(),
-    #     fluidRow(
-    #       tabBox(
-    #         width = 12,
-    #         side = "left",
-    #         tabPanel(dataTableOutput("price_table"), 
-    #                  title = "Real House Prices"),
-    #         tabPanel(dataTableOutput("income_table"), 
-    #                  title = "Real House Price to Income")
-    #       )
-    #     ),
-    #     h3("2) Exuberance Statistics", 
-    #        style = "padding:0 0 0 20px;"),
-    #     br(),
-    #     fluidRow(
-    #       tabBox(
-    #         width = 12, 
-    #         side = "left",
-    #         tabPanel(dataTableOutput("price_bsadf_table"), 
-    #                  title = "Real House Price Exuberance Statistics"),
-    #         tabPanel(dataTableOutput("income_bsadf_table"), 
-    #                  title = "Real House Price to Income Exuberance Statistics"),
-    #         tabPanel(dataTableOutput("stat_table"), 
-    #                  title = "GSADF statistics")
-    #       )
-    #     )
-    #     
-    #     # h3("3) Forecasts", 
-    #     #    style = "padding:0 0 0 20px;"),
-    #     # br(),
-    #     # fluidRow(
-    #     #   tabBox(
-    #     #     width = 12, 
-    #     #     side = "left"
-    #     #   )
-    #     # )
-    #     
-    #   ),
-    #   includeHTML("content/footer.html")
-    # )
-    # 
-    # Data Source & Methodology -----------------------------------------------
-    
-    # tabItem(
-    #   tabName = "methodology",
-    #   includeHTML("content/methodology.html")
-    # )
-    
-    
-  )
-)
+      # fluidRow(
+      #   style = "text-align:left;padding:2em;",
+      #   
+      #   h3("Uncertainty Title"),
+      #   
+      #   column(
+      #     width = 12,
+      #     p(
+      #       "TheHouse  Price  Uncertainty (HPU) Index is constructedusing  the
+      #         methodology  suggested  byBaker, Bloom and Davis (2016) to proxy
+      #         for economic policy uncertainty. The HPUis an index of search results
+      #         from five large newspapers in the UK: The Guardian, The Independent,
+      #         The Times, Financial Times and Daily  Mail.  In  particular,  we  use
+      #         LexisNexis  digital  archives  of  these  newspapers  to  obtain  a
+      #         quarterly count  of articles  that contain the following three terms:
+      #         ‘uncertainty’ or ‘uncertain’; ‘housing’ or ‘house prices’ or ‘real estate’;
+      #         and one of the following: ‘policy’, ‘regulation’, ‘Bank of England, ‘mortgage’,
+      #         ‘interest  rate’,  ‘stamp-duty’,  ‘tax’,  ‘bubble’  or  ‘buy-to-let’ (including
+      #         variants  like  ‘uncertainties’, ‘housing market’ or ‘regulatory’). To meet the
+      #         search criteria an article must contain terms in all three categories.")
+      #   )
+      # ),
+     
     
                   
 
@@ -685,6 +311,41 @@ server <- function(session, input, output) {
     renderPlot({
       autoplot_income[[input$country]]})
   
+  icon_growth_box <- function(x) {
+    if (x > 0) {
+      return(icon("arrow-up"))
+    }else{
+      return(icon("arrow-down"))
+    }
+  }
+  
+  icon_exuberanec_box <- function(x, crit) {
+    if (x > crit) {
+      return(icon("exclamations"))
+    }else{
+      return(icon("flag"))
+    }
+  }
+  
+  text_exuberance_box <- function(x, crit) {
+    if (x > crit) {
+      return("Exuberance")
+    }else{
+      return("No Exuberance")
+    }
+  }
+  
+  output$price_growth_box <- renderInfoBox({
+    infoBox(
+      title = "House Price Growth",
+      paste(round(tail(price[[input$country]], 1), 2), "%"),
+      icon = icon_growth_box(tail(price[[input$country]], 1))
+    )
+  })
+  
+  # infoBox(width = 12, title = , "2.4%", 
+  #         icon = icon("arrow-up")),
+  
   output$table3 <- 
     DT::renderDataTable({
       exuber::datestamp(radf_price, cv_price) %>%
@@ -719,7 +380,12 @@ server <- function(session, input, output) {
   #     addPopups(click$lng, click$lat, text)
   # })
   
-  observeEvent(input$map_shape_click , {
+  output$map_price <- 
+    renderPlot({plot_price[["Scotland"]]})
+  output$map_price_growth <- 
+    renderPlot({plot_income[["Scotland"]]})
+  output$widget <- renderText("Scotland")
+  observeEvent(input$map_shape_click, ignoreInit = TRUE, {
     
     event <- input$map_shape_click 
     output$widget <- renderText(event$id)
@@ -728,6 +394,7 @@ server <- function(session, input, output) {
       renderPlot({plot_price[[event$id]]})
     output$map_price_growth <- 
       renderPlot({plot_income[[event$id]]})
+    
   })
   
   
@@ -784,33 +451,23 @@ server <- function(session, input, output) {
 
   output$uncertainty_index <-
     renderHighchart({
-      highchart(type = "stock") %>%
-        hc_add_series(hpu_index, hcaes(x = Date, y = HPU), zoomType = "x",
-                      type = "line", color = "#B9274A", name = "HPU",
-                      alpha = 0.2) %>%
-        # hc_add_series(epu_index, hcaes(x = Date, y = EPU),
-        #               type = "line", name = "EPU") %>%
-        hc_xAxis(type = 'date',
-                 minRange = 10,
-                 # min = hpu_index$Date[1],
-                 # max = hpu_index$Date[nrow(hpu_index)],
-                 # events = list(setExtremes = list(hpu_index$Date[1], hpu_index$Date[nrow(hpu_index)])),
-                 breaks = list(breakSize = 10),
-                 labels = list(format = '{value:%Y}')) %>%
-        hc_tooltip(valueDecimals = 0) %>%
-        # hc_rangeSelector(enabled = FALSE)
-      hc_rangeSelector(selected = 5, inputEnabled = FALSE)
-
+      highchart
   })
   
   # Download Data -----------------------------------------------------------
   
-  # nationwide_caption <- 
-  #   glue::glue(
-  #   "The House Prices are provided by Nationwide and their use should be cited 
-  #   accordingly https://www.nationwide.co.uk"
-  #   )
-  # 
+  output$dataOutput <- 
+    DT::renderDataTable(
+      make_DT(price, "rhpi", nationwide_caption)
+    )
+  
+  
+  nationwide_caption <-
+    glue::glue(
+    "The House Prices are provided by Nationwide and their use should be cited
+    accordingly https://www.nationwide.co.uk"
+    )
+
   # output$price_table <-  
   #   DT::renderDataTable({
   #     make_DT(price, "rhpi", nationwide_caption)
@@ -841,4 +498,4 @@ server <- function(session, input, output) {
   #   })
 }
 
-shinyApp(ui = dashboardPagePlus(title = "UK Housing Observatory", header, sidebar, body), server)
+shinyApp(ui = dashboardPagePlus(skin = "black", title = "UK Housing Observatory", header, sidebar, body), server)

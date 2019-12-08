@@ -41,34 +41,48 @@ nuts1_regions <- spTransform(nuts1_boundaries, CRS("+init=epsg:4326"))
 # nuts2_regions <- spTransform(nuts2_boundaries, CRS("+init=epsg:4326")) 
 # nuts3_regions <- spTransform(nuts3_boundaries, CRS("+init=epsg:4326")) 
 
+# price_growth <- tail(price[,-1], 2) %>%
+#   map_df(diff) %>%
+#   gather(nuts118nm, growth)
+# 
+# nuts1_regions@data <-
+#   nuts1_regions@data %>%
+#   full_join(price_growth) %>%
+#   drop_na(objectid)
 
 create_leaflet <- function(x, code) {
   regional_names <- x@data[[paste0("nuts", code, "nm")]]
   regional_codes <- x@data[[paste0("nuts", code, "cd")]]
-  pal <-  colorNumeric("Reds", domain = order(regional_names))
-  pal_var <- pal(unclass(regional_names))
+  
+  # pal <-  colorNumeric("Reds", domain = order(regional_names))
+  # pal_var <- pal(unclass(regional_names))
+  
+  bins <- c(-2, -1, 0, 1, 2)
+  # pal <- colorBin("Reds", domain = x$growth, bins = bins)
+  
   lbls <- sprintf( "<strong> %s </strong> <br> NUTS Code: %s", 
                    regional_names, regional_codes) %>% 
     lapply(htmltools::HTML)
   highlights <-  highlightOptions(
       weight = 5,
-      color = "#444", #666
+      color = "#666", #"#B9504A",#"#444", #666
       dashArray = "",
       fillOpacity = 0.7,
       bringToFront = TRUE)
+  
   leaflet(
     options = 
       leafletOptions(
-        zoomControl = FALSE,
-        minZoom = 5.5,
-        maxZoom = 5.5,
-        background = "white",
-        doubleClickZoom = FALSE,
-        dragging = FALSE)
+        zoomControl = TRUE,
+        # background = "white",
+        minZoom = 6,
+        doubleClickZoom = TRUE,
+        dragging = TRUE)
   ) %>% 
     addPolygons(
       data = x,
-      fillColor = ~ pal_var,
+      fillColor = "Reds", #~ pal(growth),
+      group = 'nuts111nm',
       weight = 2,
       opacity = 1,
       color = "white",
@@ -83,55 +97,71 @@ create_leaflet <- function(x, code) {
           padding = "3px 8px"),
         textsize = "15px",
         direction = "auto")
-    )
+    ) %>% 
+      # extras
+      addResetMapButton() %>% 
+      addSearchFeatures(
+        targetGroups = 'nuts111nm',
+        options = searchFeaturesOptions(
+          zoom = 7, autoType = TRUE,
+          autoCollapse = TRUE
+        )
+      ) %>% 
+      addControl("<P>Click on the map or search for a Location by name</P>",
+                 position = 'topright')
 }
 
-x <- nuts1_regions
-code = "118"
-regional_names <- x@data[[paste0("nuts", code, "nm")]]
-regional_codes <- x@data[[paste0("nuts", code, "cd")]]
-pal <-  colorNumeric("Reds", domain = order(regional_names))
-pal_var <- pal(unclass(regional_names))
-lbls <- sprintf( "<strong> %s </strong> <br> NUTS Code: %s", 
-                 regional_names, regional_codes) %>% 
-  lapply(htmltools::HTML)
-highlights <-  highlightOptions(
-  weight = 5,
-  color = "#444", #666
-  dashArray = "",
-  fillOpacity = 0.7,
-  bringToFront = TRUE)
-leaflet(
-  options = 
-    leafletOptions(
-      zoomControl = FALSE,
-      minZoom = 5,
-      maxZoom = 5,
-      background = "white",
-      doubleClickZoom = FALSE,
-      dragging = FALSE)
-) %>% 
-  addPolygons(
-    data = x,
-    fillColor = ~ pal_var,
-    weight = 2,
-    opacity = 1,
-    color = "white",
-    dashArray = "3",
-    fillOpacity = 0.7,
-    layerId = ~ nuts118nm,
-    highlightOptions = highlights,
-    label = lbls,
-    labelOptions = labelOptions(
-      style = list(
-        "font-weight" = "normal", 
-        padding = "3px 8px"),
-      textsize = "15px",
-      direction = "auto")
-  ) 
-
-
 map_nuts1 <- create_leaflet(nuts1_regions, "118")
+
+map_nuts1
+# 
+
+# x <- nuts1_regions
+# code = "118"
+# regional_names <- x@data[[paste0("nuts", code, "nm")]]
+# regional_codes <- x@data[[paste0("nuts", code, "cd")]]
+# pal <-  colorNumeric("Reds", domain = order(regional_names))
+# pal_var <- pal(unclass(regional_names))
+# lbls <- sprintf( "<strong> %s </strong> <br> NUTS Code: %s", 
+#                  regional_names, regional_codes) %>% 
+#   lapply(htmltools::HTML)
+# highlights <-  highlightOptions(
+#   weight = 5,
+#   color = "#444", #666
+#   dashArray = "",
+#   fillOpacity = 0.7,
+#   bringToFront = TRUE)
+# leaflet(
+#   options = 
+#     leafletOptions(
+#       zoomControl = FALSE,
+#       minZoom = 5,
+#       maxZoom = 5,
+#       background = "white",
+#       doubleClickZoom = FALSE,
+#       dragging = FALSE)
+# ) %>% 
+#   addPolygons(
+#     data = x,
+#     fillColor = "red",
+#     weight = 2,
+#     opacity = 1,
+#     color = "white",
+#     dashArray = "3",
+#     fillOpacity = 0.7,
+#     layerId = ~ nuts118nm,
+#     highlightOptions = highlights,
+#     label = lbls,
+#     labelOptions = labelOptions(
+#       style = list(
+#         "font-weight" = "normal", 
+#         padding = "3px 8px"),
+#       textsize = "15px",
+#       direction = "auto")
+#   ) 
+
+
+# 
 
 # map_nuts2 <- create_leaflet(nuts2_regions, "218")
 # 
