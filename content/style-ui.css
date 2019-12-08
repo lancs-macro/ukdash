@@ -15,7 +15,7 @@
 /*Exuberance*/
   
 .info-box-icon {
-  background: fff !important;
+  background: #fff !important;
 }
   
 .info-box-text {
@@ -24,18 +24,18 @@
 }
 
 .fa-arrow-up {
-  color:222d32;
+  color:#222d32;
   /*color: rgb(	144, 238, 144);*/ /*light-green*/
 }
 .fa-arrow-down{
-  color:222d32;
+  color:#222d32;
 }
 .fa-exclamation {
-  color:222d32;
+  color:#222d32;
   /*color: rgb(185, 80, 74);*/ /*lancs-red*/
 }
 .fa-flag{
-  color:222d32;
+  color:#222d32;
 }
 
  /*.shiny-input-container:not(.shiny-input-container-inline) {
@@ -50,23 +50,22 @@
   background-color: rgba(255,0,0,0.0);
 }
   
-  pre.shiny-text-output {
-   text-align: center;
-   border-style: none;
-   font-size: 16px;
-   font-weight: 700;
-  }
- 
- /* Download*/
- 
- div.dt-buttons {
-  float: right;
-  
+pre.shiny-text-output {
+  text-align: center;
+  border-style: none;
+  font-size: 16px;
+  font-weight: 700;
 }
  
- .well {
+/* Download*/
+ 
+div.dt-buttons {
+  float: right;
+}
+ 
+.well {
   background: fff;
-    border-top: 3px solid d2d6de;
+    border-top: 3px solid #d2d6de;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
 }
 
@@ -79,17 +78,17 @@
    line-height: 1;
  }
 
- .nav-stacked>li.active>a, .nav-stacked>li.active>a:hover {
+.nav-stacked>li.active>a, .nav-stacked>li.active>a:hover {
    border-left-color: 222d32;
- }
+}
 
- .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-   background-color: rgb(185, 80, 74);
- }
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+  background-color: rgb(185, 80, 74);
+}
  
  /*Footer*/
  
- footer p {
+footer p {
   text-align: center;
   color: grey;
   font-size: small;

@@ -29,15 +29,11 @@ if (opt_load_rds) {
 # source ------------------------------------------------------------------
 
 if (opt_src == "main") {
-  # suppressMessages(
   list.files("R", full.names = TRUE, pattern = "-src.R") %>% 
     purrr::map(source)
-  # )
 }else {
-  # suppressMessages(
   list.files(c("R"), full.names = TRUE, pattern = ".R") %>% 
     purrr::map(source)
-  # )
 }
 
 
@@ -46,31 +42,13 @@ if (opt_src == "main") {
 header <- dashboardHeaderPlus(
   titleWidth = 440,
   title = shiny::tagList(
-    
     span(class = "logo-lg",
          span(shiny::img(src = "minimal.png",  height = "32", width = "32"),
               HTML('<span class="name"> United Kingdom </span> 
                    <span class= "bottom-name"> Housing Observatory </span>')
-              # HTML('<div class="name"> United Kingdom <br>
-              #           <span class="bottom-name"> Housing Observatory</span>
-              #       </div>')
               )),
     shiny::img(src = "minimal.png",  height = "32", width = "32")
-  )#,
-  
-  # tags$li(
-  #   a(href = 'https://kvasilopoulos.github.io/ukho-website/',
-  #     target = "_blank",
-  #     HTML('<i title="Go back to Home" class="fas fa-home"></i>'),
-  #     style = "font-size:28px; padding-top:10px; padding-bottom:10px;"),
-  #   class = "dropdown")
-  
-  # tags$li(
-  #   a(href = "http://www.lancaster.ac.uk/lums/our-departments/economics/research/uk-housing-observatory/",
-  #     icon("power-off"),
-  #     title = "Back to Lancaster's Website"),
-  #   class = "dropdown"
-  # )
+  )
 )
 
 
@@ -369,22 +347,14 @@ server <- function(session, input, output) {
 
   output$map <- 
     leaflet::renderLeaflet({map_nuts1})
-  
-  # observeEvent(input$map_marker_click, {
-  #   click  <-  input$map_marker_click
-  #   print(click)
-  #   text <- paste("Lattitude ", click$lat, "Longtitude ", click$lng)
-  #   proxy <- leafletProxy('map')
-  #   
-  #   proxy %>% clearPopups() %>%
-  #     addPopups(click$lng, click$lat, text)
-  # })
-  
+
   output$map_price <- 
-    renderPlot({plot_price[["Scotland"]]})
+    renderPlot({plot_price[["Wales"]]})
   output$map_price_growth <- 
-    renderPlot({plot_income[["Scotland"]]})
-  output$widget <- renderText("Scotland")
+    renderPlot({plot_income[["Wales"]]})
+  output$widget <- renderText("Wales")
+  
+  
   observeEvent(input$map_shape_click, ignoreInit = TRUE, {
     
     event <- input$map_shape_click 
@@ -397,8 +367,23 @@ server <- function(session, input, output) {
     
   })
   
+  output$map2 <- 
+    leaflet::renderLeaflet({map_nuts2})
   
-
+  observeEvent(input$map2_shape_click, ignoreInit = TRUE, {
+    
+    event <- input$map2_shape_click 
+    output$widget <- renderText(event$id)
+    
+    output$map2_price <- 
+      renderPlot({plot_price[[event$id]]})
+    output$map2_price_growth <- 
+      renderPlot({plot_income[[event$id]]})
+    
+  })
+  
+  output$map3 <- 
+    leaflet::renderLeaflet({map_nuts3})
 
   # Forecasting -------------------------------------------------------------
 

@@ -28,16 +28,27 @@ tabItem(
           width = 4),
       )
     ),
-    
+    fluidRow(
+      box(
+        width = 12,
+        height = "45px",
+        background = "red",
+        p("UK Affordability Index", 
+          style = "font-size:22px;text-align:center;")
+      )
+    ),
     fluidRow(
       box2(
+        img(src = "https://via.placeholder.com/450X450"),
         popover = TRUE, popover_title = "hello", popover_content = "What a nice content",
         title = "UK Real House Prices",
         width = 4),
       box2(
+        img(src = "https://via.placeholder.com/450X450"),
         title = "UK Real House Prices",
         width = 4),
       box2(
+        img(src = "https://via.placeholder.com/450X450"),
         title = "UK Real House Prices",
         width = 4),
     )
