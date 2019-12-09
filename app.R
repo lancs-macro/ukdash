@@ -99,11 +99,11 @@ body <- dashboardBody(
   includeScript("content/popover.js"),
 
 tabItems(
-  source("ui-overview.R", local = TRUE)$value,
-  source("ui-exuberance.R", local = TRUE)$value,
+  source("R/ui-overview.R", local = TRUE)$value,
+  source("R/ui-exuberance.R", local = TRUE)$value,
   source("R/ui-uncertainty.R", local = TRUE)$value,
-  source("ui-indices.R", local = TRUE)$value,
-  source("ui-download.R", local = TRUE)$value
+  source("R/ui-indices.R", local = TRUE)$value,
+  source("R/ui-download.R", local = TRUE)$value
   )
 )
 
