@@ -18,8 +18,6 @@ library(rgdal)
 # zip::unzip("ignore/data/nuts3/Shapefile.zip", exdir = "ignore/data/nuts3")
 
 
-
-
 # Read boundaries ---------------------------------------------------------
 
 nuts1_boundaries <- 
@@ -43,15 +41,6 @@ library(leaflet.extras)
 nuts1_regions <- spTransform(nuts1_boundaries, CRS("+init=epsg:4326")) 
 nuts2_regions <- spTransform(nuts2_boundaries, CRS("+init=epsg:4326"))
 nuts3_regions <- spTransform(nuts3_boundaries, CRS("+init=epsg:4326"))
-
-# price_growth <- tail(price[,-1], 2) %>%
-#   map_df(diff) %>%
-#   gather(nuts118nm, growth)
-# 
-# nuts1_regions@data <-
-#   nuts1_regions@data %>%
-#   full_join(price_growth) %>%
-#   drop_na(objectid)
 
 create_leaflet_nuts1 <- function(x, code = "118") {
   
@@ -121,7 +110,7 @@ create_leaflet_nuts1 <- function(x, code = "118") {
 }
 
 map_nuts1 <- create_leaflet_nuts1(nuts1_regions, "118")
-map_nuts1
+# map_nuts1
 
 create_leaflet_nuts2 <- function(x, code = "218") {
   
@@ -253,7 +242,7 @@ create_leaflet_nuts3 <- function(x, code = "318") {
     addSearchFeatures(
       targetGroups = 'nuts318nm',
       options = searchFeaturesOptions(
-        zoom = 8, autoType = TRUE,
+        zoom = 9, autoType = TRUE,
         autoCollapse = TRUE
       )
     ) %>% 
@@ -263,4 +252,4 @@ create_leaflet_nuts3 <- function(x, code = "318") {
 
 
 map_nuts3 <- create_leaflet_nuts3(nuts3_regions)
-map_nuts3
+# map_nuts3
