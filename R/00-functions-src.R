@@ -3,7 +3,7 @@ library(rlang)
 box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NULL, 
                   solidHeader = FALSE, background = NULL, width = 6, height = NULL, 
                   popover = FALSE, popover_title = NULL, popover_content = NULL,
-                  collapsible = FALSE, collapsed = FALSE) 
+                  data_toggle = "popover", collapsible = FALSE, collapsed = FALSE) 
 {
   boxClass <- "box"
   if (solidHeader || !is.null(background)) {
@@ -49,8 +49,9 @@ box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NUL
                                    `title` = popover_title,
                                    `data-content` = popover_content,
                                    `data-trigger` = "focus",
-                                   `data-placement` = "top",
-                                   `data-toggle` = "popover", shiny::icon("info")))
+                                   `data-placement` = "right",
+                                   # `data-html` = "true",
+                                   `data-toggle` = data_toggle, shiny::icon("info")))
   }
   headerTag <- NULL
   if (!is.null(titleTag) || !is.null(collapseTag) || !is.null(popoverTag)) {
@@ -61,6 +62,8 @@ box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NUL
       style, headerTag, div(class = "box-body", ...), if (!is.null(footer)) 
         div(class = "box-footer", footer)))
 }
+
+exuber_note <- HTML('<span>There is exuberance when the </span> <span class="color-blue"> solid line </span> <span> surpasses the </span><span class="color-red"> dashed line </span>.')
 
 
 column_4 <- function(...) column(width = 4, ...)

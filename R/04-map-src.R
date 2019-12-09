@@ -18,6 +18,8 @@ library(rgdal)
 # zip::unzip("ignore/data/nuts3/Shapefile.zip", exdir = "ignore/data/nuts3")
 
 
+
+
 # Read boundaries ---------------------------------------------------------
 
 nuts1_boundaries <- 
@@ -72,7 +74,7 @@ create_leaflet_nuts1 <- function(x, code = "118") {
     lapply(htmltools::HTML)
   highlights <-  highlightOptions(
       weight = 5,
-      color = "#666", #"#B9504A",#"#444", #666
+      color = "#B22222",#666", #"#B9504A",#"#444", #666
       dashArray = "",
       fillOpacity = 0.7,
       bringToFront = TRUE)
@@ -82,14 +84,14 @@ create_leaflet_nuts1 <- function(x, code = "118") {
       leafletOptions(
         zoomControl = TRUE,
         # background = "white",
-        minZoom = 6,
+        minZoom = 7,
         doubleClickZoom = TRUE,
         dragging = TRUE)
   ) %>% 
     addPolygons(
       data = x[ss, ],
       fillColor = "Reds", #~ pal(growth),
-      # group = ~ nuts118nm,
+      group = ~ "nuts118nm",
       weight = 2,
       opacity = 1,
       color = "white",
@@ -114,7 +116,7 @@ create_leaflet_nuts1 <- function(x, code = "118") {
           autoCollapse = TRUE
         )
       ) %>% 
-      addControl("<P>Click on the map or search for a Location by name</P>",
+      addControl("<P>Click on the map or search for a location by name</P>",
                  position = 'topright')
 }
 
@@ -142,7 +144,7 @@ create_leaflet_nuts2 <- function(x, code = "218") {
     lapply(htmltools::HTML)
   highlights <-  highlightOptions(
     weight = 5,
-    color = "#666", #"#B9504A",#"#444", #666
+    color = "#B22222",#666", #"#B9504A",#"#444", #666
     dashArray = "",
     fillOpacity = 0.7,
     bringToFront = TRUE)
@@ -152,14 +154,14 @@ create_leaflet_nuts2 <- function(x, code = "218") {
       leafletOptions(
         zoomControl = TRUE,
         # background = "white",
-        minZoom = 6,
+        minZoom = 7,
         doubleClickZoom = TRUE,
         dragging = TRUE)
   ) %>% 
     addPolygons(
       data = x[ss, ],
       fillColor = "Reds", #~ pal(growth),
-      group = ~ nuts218nm,
+      group = ~ "nuts218nm",
       weight = 2,
       opacity = 1,
       color = "white",
@@ -180,11 +182,11 @@ create_leaflet_nuts2 <- function(x, code = "218") {
     addSearchFeatures(
       targetGroups = 'nuts218nm',
       options = searchFeaturesOptions(
-        zoom = 7, autoType = TRUE,
+        zoom = 8, autoType = TRUE,
         autoCollapse = TRUE
       )
     ) %>% 
-    addControl("<P>Click on the map or search for a Location by name</P>",
+    addControl("<P>Click on the map or search for a location by name</P>",
                position = 'topright')
 }
 
@@ -213,7 +215,7 @@ create_leaflet_nuts3 <- function(x, code = "318") {
     lapply(htmltools::HTML)
   highlights <-  highlightOptions(
     weight = 5,
-    color = "#666", #"#B9504A",#"#444", #666
+    color = "#B22222",#666", #"#B9504A",#"#444", #666
     dashArray = "",
     fillOpacity = 0.7,
     bringToFront = TRUE)
@@ -223,14 +225,14 @@ create_leaflet_nuts3 <- function(x, code = "318") {
       leafletOptions(
         zoomControl = TRUE,
         # background = "white",
-        minZoom = 6,
+        minZoom = 7,
         doubleClickZoom = TRUE,
         dragging = TRUE)
   ) %>% 
     addPolygons(
       data = x[ss, ],
       fillColor = "Reds", #~ pal(growth),
-      group = ~ nuts318nm,
+      group = ~ "nuts318nm",
       weight = 2,
       opacity = 1,
       color = "white",
@@ -251,14 +253,14 @@ create_leaflet_nuts3 <- function(x, code = "318") {
     addSearchFeatures(
       targetGroups = 'nuts318nm',
       options = searchFeaturesOptions(
-        zoom = 7, autoType = TRUE,
+        zoom = 8, autoType = TRUE,
         autoCollapse = TRUE
       )
     ) %>% 
-    addControl("<P>Click on the map or search for a Location by name</P>",
+    addControl("<P>Click on the map or search for a location by name</P>",
                position = 'topright')
 }
 
 
 map_nuts3 <- create_leaflet_nuts3(nuts3_regions)
-# map_nuts3
+map_nuts3

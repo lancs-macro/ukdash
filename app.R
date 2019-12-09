@@ -322,9 +322,6 @@ server <- function(session, input, output) {
     )
   })
   
-  # infoBox(width = 12, title = , "2.4%", 
-  #         icon = icon("arrow-up")),
-  
   output$table3 <- 
     DT::renderDataTable({
       exuber::datestamp(radf_price, cv_price) %>%

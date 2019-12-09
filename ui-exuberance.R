@@ -15,7 +15,7 @@ tabItem(
         subtitle = "Exuberance",
         popover = TRUE,
         popover_title = "Note:",
-        popover_content = "There is exuberance when the blue solid line surpasses the red dashed line.",
+        popover_content = exuber_note,
         width = 12,
         plotOutput("autoplot_price")
       )
