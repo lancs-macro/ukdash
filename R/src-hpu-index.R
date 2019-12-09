@@ -9,9 +9,6 @@ hpu_index <- hpu_index_dta %>%
 
 # EPU ---------------------------------------------------------------------
 
-# download.file("https://www.policyuncertainty.com/media/UK_Policy_Uncertainty_Data.xlsx", 
-#               "data/epu.xlsx",  mode = 'wb')
-
 
 epu_index <- readxl::read_xlsx("data/epu.xlsx") %>%
   mutate(year_month = paste(year, month)) %>%

@@ -6,25 +6,24 @@ tabItem(
       widths = c(3, 9),
       "Available Datasets",
       "Raw Data",
-      tabPanel("Real House Prices", icon = icon("angle-double-right"), 
-               box(width = 12, title = "Preview Data", dataTableOutput("dataOutput"))),
-      tabPanel("Real House Price to Income", icon = icon("angle-double-right")),
+      tab_panel("DT_price", "Real House Prices"),
+      tab_panel("DT_afford", "Affordability Index"),
       "Financial Stability",
-      tabPanel("Real House Prices", icon = icon("angle-double-right")),
-      tabPanel("Real House Price to Income", icon = icon("angle-double-right")),
-      tabPanel("Critical Values", icon = icon("angle-double-right")),
+      tab_panel("DT_stat_table", "GSADF Statistics and Critical Values", prefix = "Financial Stability: "),
+      tab_panel("DT_bsadf_price", "Real House Prices Exuberance Statistics", prefix = "Financial Stability: "),
+      tab_panel("DT_bsadf_afford", "Affordability Index Exuberance Statistics", prefix = "Financial Stability: "),
       "Uncertainty",
-      tabPanel("House Price Uncertainty", icon = icon("angle-double-right")),
-      tabPanel("Economic Policy Uncertainty", icon = icon("angle-double-right")),
+      tab_panel("DT_hpu", "House Price Uncertainty"),
+      tab_panel("DT_epu", "Economic Policy Uncertainty"),
       "New House Price Index",
-      tabPanel("NUTS 1", icon = icon("angle-double-right")),
-      tabPanel("NUTS 2", icon = icon("angle-double-right")),
-      tabPanel("NUTS 3", icon = icon("angle-double-right")), 
+      tab_panel("DT_nuts1", "Nuts 1", "New House Price Index: "),
+      tab_panel("DT_nuts2", "Nuts 2", "New House Price Index: "),
+      tab_panel("DT_nuts3", "Nuts 3", "New House Price Index: "),
       "---------",
       tabPanel("Archive", icon = icon("angle-double-right"))
     )
   ),
-  includeHTML("content/footer.html")
+  includeHTML("www/footer.html")
 )
 
 

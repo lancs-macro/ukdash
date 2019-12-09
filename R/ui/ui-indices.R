@@ -22,16 +22,10 @@ tabItem(
           plotOutput("map_price")),
         box(
           width = 12, 
-          title = "House Price Growth (QoQ)",
+          title = "House Price Growth (Annual)",
           plotOutput("map_price_growth"))
       )
-    )
+    ),
+    includeHTML("www/footer.html")
   )
 )
-
-# pre.shiny-text-output {
-#   text-align: center;
-#   border-style: none;
-#   font-size: 16px;
-#   font-weight: 700;
-# # }

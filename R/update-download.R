@@ -1,0 +1,24 @@
+
+# Download Boundaries -----------------------------------------------------
+
+
+download.file("http://geoportal1-ons.opendata.arcgis.com/datasets/01fd6b2d7600446d8af768005992f76a_4.zip",
+        destfile = "data/shapefiles/nuts1/Shapefile.zip")
+zip::unzip("data/shapefiles/nuts1/Shapefile.zip", exdir = "data/shapefiles/nuts1")
+unlink("data/shapefiles/nuts1/Shapefile.zip")
+
+download.file("http://geoportal1-ons.opendata.arcgis.com/datasets/48b6b85bb7ea43699ee85f4ecd12fd36_4.zip",
+              destfile = "data/shapefiles/nuts2/Shapefile.zip")
+zip::unzip("data/shapefiles/nuts2/Shapefile.zip", exdir = "data/shapefiles/nuts2")
+unlink("data/shapefiles/nuts2/Shapefile.zip")
+
+download.file("http://geoportal1-ons.opendata.arcgis.com/datasets/473aefdcee19418da7e5dbfdeacf7b90_4.zip",
+              destfile = "data/shapefiles/nuts3/Shapefile.zip")
+zip::unzip("data/shapefiles/nuts3/Shapefile.zip", exdir = "data/shapefiles/nuts3")
+unlink("data/shapefiles/nuts3/Shapefile.zip")
+
+# Download EPU Index ------------------------------------------------------
+
+
+download.file("https://www.policyuncertainty.com/media/UK_Policy_Uncertainty_Data.xlsx",
+              "data/epu.xlsx",  mode = 'wb')

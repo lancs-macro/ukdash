@@ -63,10 +63,60 @@ box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NUL
         div(class = "box-footer", footer)))
 }
 
-exuber_note <- HTML('<span>There is exuberance when the </span> <span class="color-blue"> solid line </span> <span> surpasses the </span><span class="color-red"> dashed line </span>.')
+exuber_note <- 
+  HTML('<span>There is exuberance when the </span> <span class="color-blue"> solid line </span> <span> surpasses the </span><span class="color-red"> dashed line </span>.')
 
 
-column_4 <- function(...) column(width = 4, ...)
+column_4 <- function(...) {
+  column(width = 4, ...)
+} 
+
+
+icon_growth_box <- function(x) {
+  if (x > 0) {
+    return(icon("arrow-up"))
+  }else{
+    return(icon("arrow-down"))
+  }
+}
+
+icon_exuberanec_box <- function(x, crit) {
+  if (x > crit) {
+    return(icon("exclamations"))
+  }else{
+    return(icon("flag"))
+  }
+}
+
+text_exuberance_box <- function(x, crit) {
+  if (x > crit) {
+    return("Exuberance")
+  }else{
+    return("No Exuberance")
+  }
+}
+
+DT_preview <- function(x, sub = NULL) {
+  box2(width = 12, title = "Preview Data", subtitle = sub, dataTableOutput(x))
+}
+
+tab_panel <- function(x, title, prefix = "") {
+  tabPanel(title, icon = icon("angle-double-right"), DT_preview(x, sub = paste0(prefix, title)))
+}
+
+
+# Simple -----------------------------------------------------------------
+
+ldiff <- function(x, n = 4) {
+  log(x) - dplyr::lag(log(x), n = n)
+} 
+
+calc_growth <- function(x) {
+  ldiff(x) %>% 
+    tail(1) %>% 
+    round(4) %>% 
+    `*`(100)
+}
 
 # Custom Labels  ----------------------------------------------------------
 
@@ -164,6 +214,7 @@ make_DT <- function(x, filename, caption_string = ""){
       searching = FALSE,
       autoWidth = TRUE,
       paging = TRUE,
+      pageLength = 12,
       # scrollY = T,
       scrollX = T,
       columnDefs = list(
@@ -183,6 +234,7 @@ make_DT_general <- function(x, filename) {
       dom = 'Bfrtip',#'Blfrtip',
       searching = FALSE,
       autoWidth = TRUE,
+      pageLength = 12,
       paging = TRUE,
       scrollX = F,
       # columnDefs = list(list(targets = c(0), width = "80px")),
@@ -204,5 +256,32 @@ ukhp_get <- function(frequency = "monthly", classification = "nuts1", release = 
   query <- paste(endpoint, release, frequency, paste0(classification, ".json"), sep = "/")
   request <- GET(query)
   stop_for_status(request)
-  parse_json(content(request), simplifyVector = TRUE)
+  parse_json(request, simplifyVector = TRUE)
+}
+
+
+plot_ukhp_index <- function(.data, .y) {
+  .data %>% 
+    ggplot(aes_string(x = "Date", y = as.name(.y))) +
+    geom_line() +
+    theme_bw() +
+    scale_x_date(date_breaks = "5 years", date_labels = "%Y") +
+    theme(
+      panel.grid = element_line(linetype = 2),
+      axis.title = element_blank()
+    )
+}
+
+plot_ukhp_growth <- function(.data, .y) {
+  .data %>% 
+    modify_at(vars(-Date), ldiff, n = 12) %>% 
+    drop_na() %>% 
+    ggplot(aes_string(x = "Date", y = as.name(.y))) +
+    geom_line() +
+    theme_bw() +
+    scale_x_date(date_breaks = "5 years", date_labels = "%Y") +
+    theme(
+      panel.grid = element_line(linetype = 2),
+      axis.title = element_blank()
+    )
 }

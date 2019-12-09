@@ -1,6 +1,7 @@
 library(tidyverse)
 library(readxl)
 library(rgdal)
+source("R/src-functions.R")
 
 # Naming  -----------------------------------------------------------------
 
@@ -64,7 +65,7 @@ hpi <-
   nationwider::ntwd_get("seasonal_regional") %>% 
   dplyr::filter(type == "Index") %>% 
   select(-type, hpi = value) %>% 
-  mutate(region = recode(region, "Uk" = "UK")) %>% 
+  mutate(region = recode(region, "Uk" = "United Kingdom")) %>% 
   mutate(region = recode(region, !!!ntwd_to_names))
 
 cpi <- 
@@ -98,6 +99,13 @@ ntwd_data <- right_join(hpi, rpdi, by = c("region" ,"Date")) %>%
   drop_na() %>% 
   mutate(rhpi = hpi/cpi, afford = rhpi/rpdi) 
 
+rhpi <- ntwd_data %>% 
+  select(Date, region, rhpi) %>% 
+  spread(region, rhpi)
+
+afford <- ntwd_data %>% 
+  select(Date, region, afford) %>% 
+  spread(region, afford)
 
 # Reading HPU -------------------------------------------------------------
 
@@ -111,30 +119,35 @@ hpu_index <- hpu_index_dta %>%
 
 # Reading House Price Indices --------------------------------
 
+nuts1_data <- ukhp_get(classification = "nuts1") %>% 
+  as_tibble() %>% 
+  mutate(Date = as.Date(Date))
 
-nuts1_data <- ukhp_get(classification = "nuts1")
+nuts2_data <- ukhp_get(classification = "nuts2") %>% 
+  as_tibble() %>% 
+  mutate(Date = as.Date(Date))
 
-nuts2_data <- ukhp_get(classification = "nuts2")
-
-nuts3_data <- ukhp_get(classification = "nuts3")
+nuts3_data <- ukhp_get(classification = "nuts3") %>% 
+  as_tibble() %>% 
+  mutate(Date = as.Date(Date))
 
 
 # Reading House Price Regions ---------------------------------------------
 
 nuts1_regions <- 
   readOGR(
-    "data/nuts1", 
+    "data/shapefiles/nuts1", 
     "NUTS_Level_1_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom") %>% 
   spTransform(., CRS("+init=epsg:4326")) 
 
 nuts2_regions <-
   readOGR(
-    "data/nuts2",
+    "data/shapefiles/nuts2",
     "NUTS_Level_2_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom") %>% 
   spTransform(., CRS("+init=epsg:4326")) 
 
 nuts3_regions <-
   readOGR(
-    "data/nuts3",
+    "data/shapefiles/nuts3",
     "NUTS_Level_3_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom") %>% 
   spTransform(., CRS("+init=epsg:4326")) 

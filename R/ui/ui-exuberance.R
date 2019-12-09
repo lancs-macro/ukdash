@@ -22,37 +22,31 @@ tabItem(
     ),
     column_4(
       infoBoxOutput("price_growth_box", width = 12),
-      # infoBoxOutput("price_exuber_box"),
-      # infoBox(width = 12, title = "House Price Growth", "2.4%", 
-              # icon = icon("arrow-up")),
-      infoBox(title = "BSADF", width = 12, HTML("2.5 <br> Exuberance"),
-              icon = icon("exclamation")),
-      box(width = 12, title = "Datestamping", dataTableOutput("table3"))
+      infoBoxOutput("price_exuberance_box", width = 12),
+      box(width = 12, title = "Datestamping", dataTableOutput("ds_price"))
     )
   ),
-    
   fluidRow(
     column_4(
       box2(
         title = "Affordability Index",
         subtitle = "Index Levels (1975 Q1 = 1)",
         width = 12,
-        plotOutput("plot_income")
+        plotOutput("plot_afford")
       )
     ),
     column_4(
       box(
         title = "Affordability Index - Exuberance",
         width = 12,
-        plotOutput("autoplot_income")
+        plotOutput("autoplot_afford")
       )
     ),
     column_4(
-      infoBox(width = 12, title = "House Price Growth", "2.4%", 
-              icon = icon("arrow-up")),
-      infoBox(title = "BSADF", width = 12, HTML("2.5 <br> Exuberance"),
-              icon = icon("exclamation")),
-      box(width = 12, title = "Datestamping", dataTableOutput("table4"))
+      infoBoxOutput("afford_growth_box", width = 12),
+      infoBoxOutput("afford_exuberance_box", width = 12),
+      box(width = 12, title = "Datestamping", dataTableOutput("ds_afford"))
     )
   ),
+  includeHTML("www/footer.html")
 )

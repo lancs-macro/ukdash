@@ -1,46 +1,6 @@
 library(rgdal)
-
-# Download Boundaries -----------------------------------------------------
-
-
-# download.file("http://geoportal1-ons.opendata.arcgis.com/datasets/01fd6b2d7600446d8af768005992f76a_4.zip",
-#         destfile = "ignore/data/nuts1/Shapefile.zip")
-# zip::unzip("ignore/data/nuts1/Shapefile.zip", exdir = "ignore/data/nuts1")
-# 
-# 
-# download.file("http://geoportal1-ons.opendata.arcgis.com/datasets/48b6b85bb7ea43699ee85f4ecd12fd36_4.zip",
-#               destfile = "ignore/data/nuts2/Shapefile.zip")
-# zip::unzip("ignore/data/nuts2/Shapefile.zip", exdir = "ignore/data/nuts2")
-# 
-# 
-# download.file("http://geoportal1-ons.opendata.arcgis.com/datasets/473aefdcee19418da7e5dbfdeacf7b90_4.zip",
-#               destfile = "ignore/data/nuts3/Shapefile.zip")
-# zip::unzip("ignore/data/nuts3/Shapefile.zip", exdir = "ignore/data/nuts3")
-
-
-# Read boundaries ---------------------------------------------------------
-
-nuts1_boundaries <- 
-  readOGR(
-    "ignore/data/nuts1", 
-    "NUTS_Level_1_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom")
-
-nuts2_boundaries <-
-  readOGR(
-    "ignore/data/nuts2",
-    "NUTS_Level_2_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom")
-
-nuts3_boundaries <-
-  readOGR(
-    "ignore/data/nuts3",
-    "NUTS_Level_3_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom")
-
 library(leaflet)
 library(leaflet.extras)
-
-nuts1_regions <- spTransform(nuts1_boundaries, CRS("+init=epsg:4326")) 
-nuts2_regions <- spTransform(nuts2_boundaries, CRS("+init=epsg:4326"))
-nuts3_regions <- spTransform(nuts3_boundaries, CRS("+init=epsg:4326"))
 
 create_leaflet_nuts1 <- function(x, code = "118") {
   
@@ -110,7 +70,7 @@ create_leaflet_nuts1 <- function(x, code = "118") {
 }
 
 map_nuts1 <- create_leaflet_nuts1(nuts1_regions, "118")
-# map_nuts1
+map_nuts1
 
 create_leaflet_nuts2 <- function(x, code = "218") {
   

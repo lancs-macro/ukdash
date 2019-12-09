@@ -25,6 +25,20 @@
   color: #B22222 !important; 
   font-weight: 600;
 }
+
+/* Title */
+
+.name {
+  font-family: 'Gloria Hallelujah';
+  color:#B22222;
+  white-space: nowrap; 
+  padding-left:10px;
+  
+}
+.bottom-name { 
+  color: black; 
+  font-family: 'Gloria Hallelujah';
+}
   
 /*Exuberance*/
   
@@ -73,10 +87,12 @@ pre.shiny-text-output {
  
 /* Download*/
  
-div.dt-buttons {
-  float: right;
-}
  
+ div.dt-buttons {
+    float: right;
+ }
+
+
 .well {
   background: fff;
   border-top: 3px solid #d2d6de;
