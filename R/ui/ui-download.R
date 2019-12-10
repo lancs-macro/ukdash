@@ -20,7 +20,7 @@ tabItem(
       tab_panel("DT_nuts2", "Nuts 2", "New House Price Index: "),
       tab_panel("DT_nuts3", "Nuts 3", "New House Price Index: "),
       "---------",
-      tabPanel("Archive", icon = icon("angle-double-right"))
+      tabPanel("Archive", icon = icon("angle-double-right"), box2(width = 12, includeHTML("www/archive.html")))
     )
   ),
   includeHTML("www/footer.html")
