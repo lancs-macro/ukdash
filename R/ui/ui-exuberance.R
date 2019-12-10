@@ -5,6 +5,9 @@ tabItem(
       box2(
         title = "Real House Prices",
         subtitle = "Index Levels",
+        popover = TRUE,
+        popover_title = "Note:",
+        popover_content = shade_note,
         width = 12,
         plotOutput("plot_price")
       )
@@ -30,14 +33,21 @@ tabItem(
     column_4(
       box2(
         title = "Affordability Index",
-        subtitle = "Index Levels (1975 Q1 = 1)",
+        subtitle = "Index Levels",
+        popover = TRUE,
+        popover_title = "Note:",
+        popover_content = shade_note,
         width = 12,
         plotOutput("plot_afford")
       )
     ),
     column_4(
-      box(
-        title = "Affordability Index - Exuberance",
+      box2(
+        title = "Affordability Index",
+        subtitle = "Exuberance",
+        popover = TRUE,
+        popover_title = "Note:",
+        popover_content = exuber_note,
         width = 12,
         plotOutput("autoplot_afford")
       )

@@ -66,6 +66,9 @@ box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NUL
 exuber_note <- 
   HTML('<span>There is exuberance when the </span> <span class="color-blue"> solid line </span> <span> surpasses the </span><span class="color-red"> dashed line </span>.')
 
+shade_note <- 
+  HTML('<span class="color-grey">Shaded areas</span> <span>indicate contraction (peak to trough) of the index.</span>')
+
 
 column_4 <- function(...) {
   column(width = 4, ...)
@@ -90,9 +93,9 @@ icon_exuberanec_box <- function(x, crit) {
 
 text_exuberance_box <- function(x, crit) {
   if (x > crit) {
-    return("Exuberance")
+    return(HTML("<b>Exuberance</b>"))
   }else{
-    return("No Exuberance")
+    return(HTML("<b>No Exuberance</b>"))
   }
 }
 

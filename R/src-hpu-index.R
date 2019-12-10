@@ -1,6 +1,9 @@
-hpu_index_dta <- haven::read_dta("data/HPU_QUARTERLY.dta")
 
 library(dplyr)
+
+# HPU ---------------------------------------------------------------------
+
+hpu_index_dta <- haven::read_dta("data/HPU_QUARTERLY.dta")
 
 hpu_index <- hpu_index_dta %>% 
   mutate(year_quarter = paste(Year, Quarter)) %>% 
@@ -9,7 +12,6 @@ hpu_index <- hpu_index_dta %>%
 
 # EPU ---------------------------------------------------------------------
 
-
 epu_index <- readxl::read_xlsx("data/epu.xlsx") %>%
   mutate(year_month = paste(year, month)) %>%
   mutate(year_month = lubridate::ymd(year_month, truncated = 1)) %>%
@@ -17,6 +19,8 @@ epu_index <- readxl::read_xlsx("data/epu.xlsx") %>%
   group_by(Date = zoo::as.Date(zoo::as.yearqtr(Date, "%b-%Y"))) %>%
   summarise_all(mean) %>% 
   drop_na()
+
+# Highchart ---------------------------------------------------------------
 
 highchart <- 
   highchart(type = "stock") %>%

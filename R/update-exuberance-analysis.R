@@ -167,8 +167,12 @@ for (i in seq_along(nms$names)) {
     # geom_smooth(method = "lm", se = FALSE,
     #             aes_string("Date", as.name(slide_names[i]))) +
     theme_light() +
-    theme(axis.title.x = element_blank(),
-          axis.title.y = element_blank())
+    theme_light() +
+    theme(
+      axis.title = element_blank(),
+      panel.grid = element_line(linetype = 2),
+      panel.grid.minor = element_blank(),
+      title = element_blank()) 
   
   if (!is.null(shade))
     plot_afford[[i]] <- plot_afford[[i]] + 
@@ -219,7 +223,7 @@ growth_rates_price <-
   modify_at(vars(-Date), ldiff, n = 4) %>% 
   drop_na() 
 
-quantiles_prices <- growth_rates_price %>% 
+quantiles_price <- growth_rates_price %>% 
   gather(region, value, -Date) %>% 
   group_by(Date) %>% 
   summarise(
@@ -227,11 +231,10 @@ quantiles_prices <- growth_rates_price %>%
     q90 = quantile(value, probs = c(0.90))
   )
 
-plot_growth_UK_price <- growth_rates_price %>% 
-  select(Date, `United Kingdom`) %>% 
-  ggplot(aes(Date, `United Kingdom`)) +
-  geom_line() +
-  geom_ribbon(aes(ymin = quantiles_prices$q10, ymax = quantiles_prices$q90), fill = "#174b97", alpha = 0.5) +
+plot_growth_UK_price <- ggplot() +
+  geom_line(data = growth_rates_price, aes(Date, `United Kingdom`)) +
+  geom_ribbon(data = quantiles_price,
+              aes(x = Date, ymin = q10, ymax = q90), fill = "#174b97", alpha = 0.5) +
   theme_bw() +
   theme(
     axis.title = element_blank(),
@@ -245,7 +248,7 @@ growth_rates_afford <-
   modify_at(vars(-Date), ldiff, n = 4) %>% 
   drop_na() 
 
-quantiles_affords <- growth_rates_afford %>% 
+quantiles_afford <- growth_rates_afford %>% 
   gather(region, value, -Date) %>% 
   group_by(Date) %>% 
   summarise(
@@ -253,11 +256,10 @@ quantiles_affords <- growth_rates_afford %>%
     q90 = quantile(value, probs = c(0.90))
   )
 
-plot_growth_UK_afford <- growth_rates_afford %>% 
-  select(Date, `United Kingdom`) %>% 
-  ggplot(aes(Date, `United Kingdom`)) +
-  geom_line() +
-  geom_ribbon(aes(ymin = quantiles_affords$q10, ymax = quantiles_affords$q90), fill = "#174b97", alpha = 0.5) +
+plot_growth_UK_afford <- ggplot() +
+  geom_line(data = growth_rates_afford, aes(Date, `United Kingdom`)) +
+  geom_ribbon(data = quantiles_afford,
+              aes(x = Date, ymin = q10, ymax = q90), fill = "#174b97", alpha = 0.5) +
   theme_bw() +
   theme(
     axis.title = element_blank(),
@@ -272,9 +274,9 @@ library(glue)
 items <- c("price", "afford")
 store <- c(
   items, 
-  glue("cv_{items}"), 
+  glue("cv_{items}"),
   glue("plot_growth_UK_{items}"),
-  glue("plot_{items}"), 
+  glue("plot_{items}"),
   glue("autoplot_{items}"),
   glue("bsadf_table_{items}"),
   glue("autoplot_datestamp_{items}"), 

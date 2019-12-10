@@ -21,6 +21,7 @@ for (i in seq_along(path_store_rds)) {
 
 source("R/src-functions.R")
 source("R/src-read.R")
+source("R/src-read-shapefiles.R")
 source("R/src-hpu-index.R")
 source("R/src-map.R")
 
@@ -50,7 +51,6 @@ sidebar <- dashboardSidebar(
   sidebarMenu(
     id = "tabs", 
     menuItem('Overview', tabName = "overview", icon = icon("globe", lib = "glyphicon")),
-    
     menuItem("Financial Stability", tabName = "exuberance", icon = icon("chart-area")),
     conditionalPanel("input.tabs === 'exuberance'",
                      selectInput(
@@ -58,7 +58,10 @@ sidebar <- dashboardSidebar(
                        selected = nms$names[11], label = "Select Geographical Area:")),
     menuItem('Uncertainty', tabName = "uncertainty", icon = icon("underline")),
     menuItem("New House Price Indices", icon = icon("house-damage"), tabName = "indices"),
-    menuItem("Download Data", icon = icon("download"), tabName = "download")
+    menuItem("Download Data", icon = icon("download"), tabName = "download"),
+    
+    tags$li(HTML('<button type="button" class="btn btn-light btn-intro" data-toggle="modal" 
+                 data-target=".intro-modal-text">Instructions</button>'))
     )
   )
 
@@ -66,13 +69,14 @@ body <- dashboardBody(
 
   ######## Customization #################
   tags$head(
-    tags$title("UK Housing Observatory"),
+    # tags$title("UK Housing Observatory • Dashboard"),
     tags$link(rel = "shortcut icon", href = "minimal.png"),
     tags$link(rel = "stylesheet", type = "text/css", 
               href = 'https://fonts.googleapis.com/css?family=Gloria Hallelujah'),
     tags$link(
       rel = "stylesheet", type = "text/css",
       href = "https://use.fontawesome.com/releases/v5.5.0/css/all.css"),
+    includeHTML("www/intro-modal.html"),
     includeCSS("www/style-ui.css"),
     includeScript("www/popover.js")
   ),
@@ -345,4 +349,4 @@ server <- function(session, input, output) {
   
 }
 
-shinyApp(ui = dashboardPagePlus(skin = "black", title = "UK Housing Observatory", header, sidebar, body), server)
+shinyApp(ui = dashboardPagePlus(skin = "black", title = "UK Housing Observatory • Dashboard", header, sidebar, body), server)

@@ -9,6 +9,10 @@
   color:red;
 }
 
+.color-grey{
+  color:#B3B3B3;
+}
+
 .box-title {
   font-weight:600;
 }
@@ -39,6 +43,21 @@
   color: black; 
   font-family: 'Gloria Hallelujah';
 }
+
+
+/* Sidebar */
+
+.btn-intro{
+  margin: auto;
+  display: block;
+  margin-top: 20px;
+  color:#222d32;
+}
+
+.btn-intro:hover {
+  background-color:white;
+}
+
   
 /*Exuberance*/
   

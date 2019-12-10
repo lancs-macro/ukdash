@@ -1,7 +1,6 @@
 library(tidyverse)
 library(readxl)
-library(rgdal)
-source("R/src-functions.R")
+
 
 # Naming  -----------------------------------------------------------------
 
@@ -70,7 +69,7 @@ hpi <-
 
 cpi <- 
   readr::read_csv(
-    "https://stats.oecd.org/sdmx-json/data/DP_LIVE/.CPI.TOT.IDX2015.Q/OECD?contentType=csv&detail=code&separator=comma&csv-lang=en&startPeriod=1973-Q1", 
+    "data/cpi.csv", 
     col_types = 
       cols_only(LOCATION = col_guess(), 
                 TIME = col_guess(), 
@@ -119,6 +118,18 @@ hpu_index <- hpu_index_dta %>%
 
 # Reading House Price Indices --------------------------------
 
+library(jsonlite)
+library(httr)
+
+ukhp_get <- function(frequency = "monthly", classification = "nuts1", release = "latest") {
+  endpoint <- "https://lancs-macro.github.io/uk-house-prices"
+  query <- paste(endpoint, release, frequency, paste0(classification, ".json"), sep = "/")
+  request <- GET(query)
+  stop_for_status(request)
+  parse_json(request, simplifyVector = TRUE)
+}
+
+
 nuts1_data <- ukhp_get(classification = "nuts1") %>% 
   as_tibble() %>% 
   mutate(Date = as.Date(Date))
@@ -130,24 +141,3 @@ nuts2_data <- ukhp_get(classification = "nuts2") %>%
 nuts3_data <- ukhp_get(classification = "nuts3") %>% 
   as_tibble() %>% 
   mutate(Date = as.Date(Date))
-
-
-# Reading House Price Regions ---------------------------------------------
-
-nuts1_regions <- 
-  readOGR(
-    "data/shapefiles/nuts1", 
-    "NUTS_Level_1_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom") %>% 
-  spTransform(., CRS("+init=epsg:4326")) 
-
-nuts2_regions <-
-  readOGR(
-    "data/shapefiles/nuts2",
-    "NUTS_Level_2_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom") %>% 
-  spTransform(., CRS("+init=epsg:4326")) 
-
-nuts3_regions <-
-  readOGR(
-    "data/shapefiles/nuts3",
-    "NUTS_Level_3_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom") %>% 
-  spTransform(., CRS("+init=epsg:4326")) 
