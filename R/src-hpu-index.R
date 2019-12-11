@@ -5,7 +5,7 @@ library(dplyr)
 
 hpu_index_csv <- readr::read_csv("data/hpu.csv", col_types = cols(X1 = col_skip()))
 
-hpu_index <- hpu_index_dta %>% 
+hpu_index <- hpu_index_csv %>% 
   mutate(year_quarter = paste(Year, Quarter)) %>% 
   mutate(year_quarter = lubridate::yq(year_quarter)) %>% 
   select(Date = year_quarter, HPU)
