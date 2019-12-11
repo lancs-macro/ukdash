@@ -277,7 +277,7 @@ plot_ukhp_index <- function(.data, .y) {
 
 plot_ukhp_growth <- function(.data, .y) {
   .data %>% 
-    modify_at(vars(-Date), ldiff, n = 12) %>% 
+    modify_at(vars(-Date), ldiff, n = 4) %>% 
     drop_na() %>% 
     ggplot(aes_string(x = "Date", y = as.name(.y))) +
     geom_line() +

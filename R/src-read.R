@@ -106,15 +106,6 @@ afford <- ntwd_data %>%
   select(Date, region, afford) %>% 
   spread(region, afford)
 
-# Reading HPU -------------------------------------------------------------
-
-hpu_index_dta <- haven::read_dta("data/HPU_QUARTERLY.dta")
-
-hpu_index <- hpu_index_dta %>% 
-  mutate(year_quarter = paste(Year, Quarter)) %>% 
-  mutate(year_quarter = lubridate::yq(year_quarter)) %>% 
-  select(Date = year_quarter, HPU)
-
 
 # Reading House Price Indices --------------------------------
 
@@ -130,14 +121,14 @@ ukhp_get <- function(frequency = "monthly", classification = "nuts1", release = 
 }
 
 
-nuts1_data <- ukhp_get(classification = "nuts1") %>% 
+nuts1_data <- ukhp_get(frequency = "quarterly", classification = "nuts1") %>% 
   as_tibble() %>% 
   mutate(Date = as.Date(Date))
 
-nuts2_data <- ukhp_get(classification = "nuts2") %>% 
+nuts2_data <- ukhp_get(frequency = "quarterly", classification = "nuts2") %>% 
   as_tibble() %>% 
   mutate(Date = as.Date(Date))
 
-nuts3_data <- ukhp_get(classification = "nuts3") %>% 
+nuts3_data <- ukhp_get(frequency = "quarterly", classification = "nuts3") %>% 
   as_tibble() %>% 
   mutate(Date = as.Date(Date))

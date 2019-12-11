@@ -176,7 +176,7 @@ server <- function(session, input, output) {
       exuber::datestamp(radf_price, cv_price) %>%
         .[[input$country]] %>% 
         to_yq(radf_price, cv_var = cv_price)
-    }, options = list(searching = FALSE,
+    }, options = list(seSarching = FALSE,
                       ordering = FALSE,
                       dom = "t"))
   output$ds_afford <- 
@@ -212,28 +212,26 @@ server <- function(session, input, output) {
   })
   
   # Map 2
-  output$map2 <- 
-    leaflet::renderLeaflet({map_nuts2})
+  output$map2 <- leaflet::renderLeaflet({map_nuts2})
   observeEvent(input$map2_shape_click, ignoreInit = TRUE, {
     event <- input$map2_shape_click 
     output$widget <- renderText(event$id)
     
-    output$map2_price <- 
+    output$map_price <- 
       renderPlot({plot_ukhp_index(nuts2_data, event$id)})
-    output$map2_price_growth <- 
+    output$map_price_growth <- 
       renderPlot({plot_ukhp_growth(nuts2_data, event$id)})
   })
   
   # Map 3
-  output$map3 <- 
-    leaflet::renderLeaflet({map_nuts3})
-  observeEvent(input$map2_shape_click, ignoreInit = TRUE, {
-    event <- input$map2_shape_click 
+  output$map3 <- leaflet::renderLeaflet({map_nuts3})
+  observeEvent(input$map3_shape_click, ignoreInit = TRUE, {
+    event <- input$map3_shape_click 
     output$widget <- renderText(event$id)
     
-    output$map2_price <- 
+    output$map_price <- 
       renderPlot({plot_ukhp_index(nuts3_data, event$id)})
-    output$map2_price_growth <- 
+    output$map_price_growth <- 
       renderPlot({plot_ukhp_growth(nuts3_data, event$id)})
   })
 

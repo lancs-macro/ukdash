@@ -188,7 +188,7 @@ names(plot_afford) <- col_names(radf_afford)
 bsadf_table_price <-
   radf_price %>%
   "[["("bsadf") %>% 
-  as.tibble() %>%
+  as_tibble() %>%
   bind_cols(`Critical Values` = cv_price$bsadf_cv[-1, 2]) %>% 
   bind_cols(Date = ind) %>% 
   select(Date, `Critical Values`, `United Kingdom`, everything())
@@ -196,7 +196,7 @@ bsadf_table_price <-
 bsadf_table_afford <- 
   radf_afford %>%
   "[["("bsadf") %>% 
-  as.tibble() %>%
+  as_tibble() %>%
   bind_cols(`Critical Values` = cv_afford$bsadf_cv[-1, 2]) %>% 
   bind_cols(Date = ind2) %>% 
   select(Date, `Critical Values`, `United Kingdom`, everything())
@@ -273,7 +273,8 @@ library(glue)
 
 items <- c("price", "afford")
 store <- c(
-  items, 
+  items,
+  "stat_table",
   glue("cv_{items}"),
   glue("plot_growth_UK_{items}"),
   glue("plot_{items}"),
