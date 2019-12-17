@@ -16,9 +16,9 @@ tabItem(
       tab_panel("DT_hpu", "House Price Uncertainty"),
       tab_panel("DT_epu", "Economic Policy Uncertainty"),
       "New House Price Index",
-      tab_panel("DT_nuts1", "Nuts 1", "New House Price Index: "),
-      tab_panel("DT_nuts2", "Nuts 2", "New House Price Index: "),
-      tab_panel("DT_nuts3", "Nuts 3", "New House Price Index: "),
+      tab_panel("DT_nuts1", "NUTS 1", "New House Price Index: "),
+      tab_panel("DT_nuts2", "NUTS 2", "New House Price Index: "),
+      tab_panel("DT_nuts3", "NUTS 3", "New House Price Index: "),
       "---------",
       tabPanel("Archive", icon = icon("angle-double-right"), box2(width = 12, includeHTML("www/archive-table.html")))
     )

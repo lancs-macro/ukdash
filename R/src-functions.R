@@ -255,7 +255,7 @@ library(jsonlite)
 library(httr)
 
 ukhp_get <- function(frequency = "monthly", classification = "nuts1", release = "latest") {
-  endpoint <- "https://lancs-macro.github.io/uk-house-prices"
+  endpoint <- "https://lancs-macro.github.io/uk-house-prices/releases"
   query <- paste(endpoint, release, frequency, paste0(classification, ".json"), sep = "/")
   request <- GET(query)
   stop_for_status(request)

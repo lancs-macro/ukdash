@@ -112,14 +112,6 @@ afford <- ntwd_data %>%
 library(jsonlite)
 library(httr)
 
-ukhp_get <- function(frequency = "monthly", classification = "nuts1", release = "latest") {
-  endpoint <- "https://lancs-macro.github.io/uk-house-prices"
-  query <- paste(endpoint, release, frequency, paste0(classification, ".json"), sep = "/")
-  request <- GET(query)
-  stop_for_status(request)
-  parse_json(request, simplifyVector = TRUE)
-}
-
 
 nuts1_data <- ukhp_get(frequency = "quarterly", classification = "nuts1") %>% 
   as_tibble() %>% 
