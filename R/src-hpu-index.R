@@ -3,7 +3,7 @@ library(dplyr)
 
 # HPU ---------------------------------------------------------------------
 
-hpu_index_csv <- readr::read_csv("data/hpu.csv", col_types = cols(X1 = col_skip()))
+hpu_index_csv <- readr::read_csv("data/hpu.csv", col_types = cols(Row = col_skip()))
 
 hpu_index <- hpu_index_csv %>% 
   mutate(year_quarter = paste(Year, Quarter)) %>% 
@@ -13,6 +13,7 @@ hpu_index <- hpu_index_csv %>%
 # EPU ---------------------------------------------------------------------
 
 epu_index <- readxl::read_xlsx("data/epu.xlsx") %>%
+  slice(-n()) %>% 
   mutate(year_month = paste(year, month)) %>%
   mutate(year_month = lubridate::ymd(year_month, truncated = 1)) %>%
   select(Date = year_month, EPU = UK_EPU_Index) %>%

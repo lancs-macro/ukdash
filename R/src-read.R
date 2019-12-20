@@ -84,7 +84,6 @@ cpi <-
 
 rpdi <- 
   read_excel("data/rpdi.xlsx") %>% 
-  rename(Date = 1) %>%
   mutate(Date = Date %>% 
            zoo::as.yearqtr(format = "Q%q %Y") %>%
            zoo::as.Date()
@@ -107,20 +106,3 @@ afford <- ntwd_data %>%
   spread(region, afford)
 
 
-# Reading House Price Indices --------------------------------
-
-library(jsonlite)
-library(httr)
-
-
-nuts1_data <- ukhp_get(frequency = "quarterly", classification = "nuts1") %>% 
-  as_tibble() %>% 
-  mutate(Date = as.Date(Date))
-
-nuts2_data <- ukhp_get(frequency = "quarterly", classification = "nuts2") %>% 
-  as_tibble() %>% 
-  mutate(Date = as.Date(Date))
-
-nuts3_data <- ukhp_get(frequency = "quarterly", classification = "nuts3") %>% 
-  as_tibble() %>% 
-  mutate(Date = as.Date(Date))
