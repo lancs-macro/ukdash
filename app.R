@@ -20,7 +20,7 @@ for (i in seq_along(path_store_rds)) {
 # source ------------------------------------------------------------------
 
 source("R/src-functions.R")
-source("R/src-read.R")
+source("R/src-read-ntwd.R")
 source("R/src-read-shapefiles.R")
 source("R/src-hpu-index.R")
 source("R/src-map.R")
@@ -196,9 +196,9 @@ server <- function(session, input, output) {
     leaflet::renderLeaflet({map_nuts1})
   # Default Value
   output$map_price <- 
-    renderPlot({plot_ukhp_index(nuts1_data, "Wales")})
+    renderPlot({plot_ukhp_index(nuts1_data, aggregate_data, "Wales")})
   output$map_price_growth <- 
-    renderPlot({plot_ukhp_growth(nuts1_data, "Wales")})
+    renderPlot({plot_ukhp_growth(nuts1_data, aggregate_data, "Wales")})
   output$widget <- renderText("Wales")
   
   observeEvent(input$map_shape_click, ignoreInit = TRUE, {
@@ -206,9 +206,9 @@ server <- function(session, input, output) {
     output$widget <- renderText(event$id)
     
     output$map_price <- 
-      renderPlot({plot_ukhp_index(nuts1_data, event$id)})
+      renderPlot({plot_ukhp_index(nuts1_data, aggregate_data, event$id)})
     output$map_price_growth <- 
-      renderPlot({plot_ukhp_growth(nuts1_data, event$id)})
+      renderPlot({plot_ukhp_growth(nuts1_data, aggregate_data, event$id)})
   })
   
   # Map 2
@@ -218,9 +218,9 @@ server <- function(session, input, output) {
     output$widget <- renderText(event$id)
     
     output$map_price <- 
-      renderPlot({plot_ukhp_index(nuts2_data, event$id)})
+      renderPlot({plot_ukhp_index(nuts2_data, aggregate_data, event$id)})
     output$map_price_growth <- 
-      renderPlot({plot_ukhp_growth(nuts2_data, event$id)})
+      renderPlot({plot_ukhp_growth(nuts2_data, aggregate_data, event$id)})
   })
   
   # Map 3
@@ -230,9 +230,9 @@ server <- function(session, input, output) {
     output$widget <- renderText(event$id)
     
     output$map_price <- 
-      renderPlot({plot_ukhp_index(nuts3_data, event$id)})
+      renderPlot({plot_ukhp_index(nuts3_data, aggregate_data, event$id)})
     output$map_price_growth <- 
-      renderPlot({plot_ukhp_growth(nuts3_data, event$id)})
+      renderPlot({plot_ukhp_growth(nuts3_data, aggregate_data, event$id)})
   })
 
   # Forecasting -------------------------------------------------------------

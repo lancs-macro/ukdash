@@ -3,7 +3,7 @@
 
 library(exuber)
 source("R/src-functions.R")
-source("R/src-read.R")
+source("R/src-read-ntwd.R")
 
 # Create variables in appropriate format ----------------------------------
 
@@ -73,6 +73,13 @@ autoplot_price <-
            panel.grid.minor = element_blank(),
            title = element_blank()))
 
+for (i in seq_along(autoplot_price)) {
+  autoplot_price[[i]]$layers[[1]]$aes_params$colour <- "black"
+  autoplot_price[[i]]$layers[[1]]$aes_params$size <- 0.7
+  autoplot_price[[i]]$layers[[2]]$aes_params$color <- "#B22222"
+}
+
+
 autoplot_afford <- 
   radf_afford %>%
   autoplot(include = TRUE, cv = cv_afford, arrange = FALSE) %>%
@@ -81,6 +88,13 @@ autoplot_afford <-
            panel.grid = element_line(linetype = 2),
            panel.grid.minor = element_blank(),
            title = element_blank()))
+
+
+for (i in seq_along(autoplot_price)) {
+  autoplot_afford[[i]]$layers[[1]]$aes_params$colour <- "black"
+  autoplot_afford[[i]]$layers[[1]]$aes_params$size <- 0.7
+  autoplot_afford[[i]]$layers[[2]]$aes_params$color <- "#B22222"
+}
 
 # autoplot datestamp ------------------------------------------------------
 

@@ -259,32 +259,47 @@ ukhp_get <- function(frequency = "monthly", classification = "nuts1", release = 
   query <- paste(endpoint, release, frequency, paste0(classification, ".json"), sep = "/")
   request <- GET(query)
   stop_for_status(request)
-  parse_json(request, simplifyVector = TRUE)
+  parse_json(request, simplifyVector = TRUE) %>% 
+    as_tibble() %>% 
+    mutate(Date = as.Date(Date))
 }
 
 
-plot_ukhp_index <- function(.data, .y) {
-  .data %>% 
-    ggplot(aes_string(x = "Date", y = as.name(.y))) +
-    geom_line() +
+plot_ukhp_index <- function(hp_data, hp_data_agg, .y) {
+  hp_data %>% 
+    right_join(hp_data_agg, by = "Date") %>% 
+    tidyr::pivot_longer(-Date) %>% 
+    filter(name %in% c(.y, "England and Wales")) %>% 
+    mutate(name = fct_relevel(name, "England and Wales", .y)) %>% 
+    ggplot(aes(Date, value)) +
+    geom_line(aes(colour = name),size = 0.8) + 
     theme_bw() +
-    scale_x_date(date_breaks = "5 years", date_labels = "%Y") +
+    scale_color_manual(
+      values = c("black", "#B22222")) +
     theme(
+      legend.title = element_blank(),
+      legend.position = "bottom",
       panel.grid = element_line(linetype = 2),
       axis.title = element_blank()
     )
 }
 
-plot_ukhp_growth <- function(.data, .y) {
-  .data %>% 
-    modify_at(vars(-Date), ldiff, n = 4) %>% 
+plot_ukhp_growth <- function(hp_data, hp_data_agg, .y) {
+  hp_data %>% 
+    right_join(hp_data_agg, by = "Date") %>% 
+    tidyr::pivot_longer(-Date) %>% 
+    filter(name %in% c(.y, "England and Wales")) %>% 
+    mutate(value = ldiff(value, n = 4)) %>% 
     drop_na() %>% 
-    ggplot(aes_string(x = "Date", y = as.name(.y))) +
-    geom_line() +
-    theme_bw() +
-    scale_x_date(date_breaks = "5 years", date_labels = "%Y") +
-    theme(
-      panel.grid = element_line(linetype = 2),
-      axis.title = element_blank()
-    )
+      ggplot(aes(Date, value)) +
+      geom_line(aes(colour = name),size = 0.8) + 
+      theme_bw() +
+      scale_color_manual(
+        values = c("black", "#B22222")) +
+      theme(
+        legend.title = element_blank(),
+        legend.position = "bottom",
+        panel.grid = element_line(linetype = 2),
+        axis.title = element_blank()
+      )
 }

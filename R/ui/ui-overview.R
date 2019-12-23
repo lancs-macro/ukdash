@@ -50,5 +50,6 @@ tabItem(
         title = "Peak-to-Trough Contraction Periods",
         width = 6)
     )
-  )
+  ),
+  includeHTML("www/footer.html")
 )

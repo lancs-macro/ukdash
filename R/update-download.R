@@ -4,27 +4,15 @@
 # Download Data until you fix the uk-house-price API
 
 ukhp_get(frequency = "quarterly", classification = "aggregate") %>% 
-  as_tibble() %>% 
-  mutate(Date = as.Date(index), index = NULL) %>% 
-  select(Date, everything()) %>% 
-  saveRDS("data/RDS/aggregate.rds")
+  saveRDS("data/RDS/aggregate_data.rds")
 
 ukhp_get(frequency = "quarterly", classification = "nuts1") %>% 
-  as_tibble() %>% 
-  mutate(Date = as.Date(index), index = NULL) %>% 
-  select(Date, everything()) %>% 
   saveRDS("data/RDS/nuts1_data.rds")
 
 ukhp_get(frequency = "quarterly", classification = "nuts2") %>% 
-  as_tibble() %>% 
-  mutate(Date = as.Date(index), index = NULL) %>% 
-  select(Date, everything()) %>% 
   saveRDS("data/RDS/nuts2_data.rds")
 
 ukhp_get(frequency = "quarterly", classification = "nuts3") %>% 
-  as_tibble() %>% 
-  mutate(Date = as.Date(Date)) %>% 
-  select(Date, everything()) %>% 
   saveRDS("data/RDS/nuts3_data.rds")
 
 # Download Boundaries -----------------------------------------------------
