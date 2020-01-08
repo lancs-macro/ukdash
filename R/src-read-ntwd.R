@@ -62,10 +62,12 @@ ntwd_to_names <- c(
 
 hpi <- 
   nationwider::ntwd_get("seasonal_regional") %>% 
-  dplyr::filter(type == "Index") %>% 
+  dplyr::filter(type == "Index", Date >= "1975-01-01") %>% 
   select(-type, hpi = value) %>% 
   mutate(region = recode(region, "Uk" = "United Kingdom")) %>% 
   mutate(region = recode(region, !!!ntwd_to_names))
+
+last_obs <- select(hpi, Date, region)
 
 cpi <- 
   readr::read_csv(
@@ -82,14 +84,17 @@ cpi <-
            zoo::as.Date()
   ) 
 
-rpdi <- 
-  read_excel("data/rpdi.xlsx") %>% 
+rpdi <-  read_excel("data/rpdi.xlsx") %>%
   mutate(Date = Date %>% 
            zoo::as.yearqtr(format = "Q%q %Y") %>%
            zoo::as.Date()
   ) %>% 
   gather(region, rpdi, -Date) %>% 
-  mutate(region = recode(region, !!!abbr_to_names))
+  mutate(region = recode(region, !!!abbr_to_names)) %>% 
+  right_join(last_obs, by = c("Date", "region")) %>% 
+  group_by(region) %>% 
+  mutate(rpdi = zoo::na.locf(rpdi)) %>% 
+  ungroup() 
 
 
 ntwd_data <- right_join(hpi, rpdi, by = c("region" ,"Date")) %>%
