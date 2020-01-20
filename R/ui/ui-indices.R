@@ -8,9 +8,9 @@ tabItem(
           width = 12, 
           height = "1040px",
           tabsetPanel(
-            tabPanel("Nuts 1", leaflet::leafletOutput("map", height = "1000px")),
-            tabPanel("Nuts 2", leaflet::leafletOutput("map2", height = "1000px")),
-            tabPanel("Nuts 3", leaflet::leafletOutput("map3", height = "1000px"))
+            tabPanel("NUTS 1", leaflet::leafletOutput("map", height = "950px")),
+            tabPanel("NUTS 2", leaflet::leafletOutput("map2", height = "950px")),
+            tabPanel("NUTS 3", leaflet::leafletOutput("map3", height = "950px"))
           ))
       ),
       column(

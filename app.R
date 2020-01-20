@@ -19,11 +19,11 @@ for (i in seq_along(path_store_rds)) {
 
 # source ------------------------------------------------------------------
 
-source("R/src-functions.R")
-source("R/src-read-ntwd.R")
-source("R/src-read-shapefiles.R")
-source("R/src-hpu-index.R")
-source("R/src-map.R")
+source("R/src-functions.R", local = TRUE)$value
+source("R/src-read-ntwd.R", local = TRUE)$value
+source("R/src-read-shapefiles.R", local = TRUE)$value
+source("R/src-hpu-index.R", local = TRUE)$value
+source("R/src-map.R", local = TRUE)$value
 
 # Header ------------------------------------------------------------------
 
@@ -201,8 +201,8 @@ server <- function(session, input, output) {
     renderPlot({plot_ukhp_growth(nuts1_data, aggregate_data, "Wales")})
   output$widget <- renderText("Wales")
   
-  observeEvent(input$map_shape_click, ignoreInit = TRUE, {
-    event <- input$map_shape_click 
+  observeEvent(input$map_shape_mouseover, ignoreInit = TRUE, {
+    event <- input$map_shape_mouseover 
     output$widget <- renderText(event$id)
     
     output$map_price <- 
@@ -213,8 +213,8 @@ server <- function(session, input, output) {
   
   # Map 2
   output$map2 <- leaflet::renderLeaflet({map_nuts2})
-  observeEvent(input$map2_shape_click, ignoreInit = TRUE, {
-    event <- input$map2_shape_click 
+  observeEvent(input$map2_shape_mouseover, ignoreInit = TRUE, {
+    event <- input$map2_shape_mouseover 
     output$widget <- renderText(event$id)
     
     output$map_price <- 
@@ -225,8 +225,8 @@ server <- function(session, input, output) {
   
   # Map 3
   output$map3 <- leaflet::renderLeaflet({map_nuts3})
-  observeEvent(input$map3_shape_click, ignoreInit = TRUE, {
-    event <- input$map3_shape_click 
+  observeEvent(input$map3_shape_mouseover, ignoreInit = TRUE, {
+    event <- input$map3_shape_mouseover 
     output$widget <- renderText(event$id)
     
     output$map_price <- 

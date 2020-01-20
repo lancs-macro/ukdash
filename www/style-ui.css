@@ -12,6 +12,10 @@
       color: #B3B3B3;
   }
   
+  .color-blue {
+    color: blue;
+  }
+  
   .box-title {
       font-weight: 600;
   }
@@ -106,7 +110,7 @@
   }
   
   .well {
-      background: fff;
+      background-color: #fff !important;
       border-top: 3px solid #d2d6de;
       box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
   }

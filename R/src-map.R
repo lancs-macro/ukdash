@@ -2,7 +2,7 @@ library(rgdal)
 library(leaflet)
 library(leaflet.extras)
 
-create_leaflet_nuts1 <- function(x, code = "118") {
+create_leaflet_nuts1 <- function(x = nuts1_regions, code = "118") {
   
   nuts_cd <- paste0("nuts", code, "cd")
   nuts_nm <- paste0("nuts", code, "nm")
@@ -12,23 +12,53 @@ create_leaflet_nuts1 <- function(x, code = "118") {
   regional_names <- x@data[[paste0("nuts", code, "nm")]][ss]
   regional_codes <- x@data[[nuts_cd]][ss]
   
-  # pal <-  colorNumeric("Reds", domain = order(regional_names))
-  # pal_var <- pal(unclass(regional_names))
+  growth <- nuts1_data %>% 
+    select(-Date) %>% 
+    map_df(~ldiff(.x, n = 1)*100) %>% 
+    slice(n()) %>% 
+    map_df(round, 2) %>%
+    pivot_longer(
+      cols = everything(), 
+      names_to = "nuts118nm", 
+      values_to = "growth") %>% 
+    mutate_at(vars(nuts118nm), as.factor)
   
-  bins <- c(-2, -1, 0, 1, 2)
-  # pal <- colorBin("Reds", domain = x$growth, bins = bins)
+  price <- nuts1_data %>% 
+    select(-Date) %>% 
+    slice(n()) %>% 
+    map_df(round, 2) %>% 
+    pivot_longer(
+      cols = everything(), 
+      names_to = "nuts118nm", 
+      values_to = "price")
   
-  lbls <- sprintf( "<strong> %s </strong> <br> NUTS Code: %s", 
-                   regional_names, regional_codes) %>% 
+  suppressWarnings({
+    x@data <- full_join(x@data, growth, by = "nuts118nm")
+  })
+  
+  # bins <- seq(-2, 2, 0.5)
+  # bin_colors <- viridis::magma(length(bins))
+  # bin_colors <- rev(RColorBrewer::brewer.pal(length(bins), "YlGnBu"))
+  
+  # pal <- colorBin("YlOrRd", domain = x@data$growth[ss], bins = 2)
+  pal <- colorBin("YlOrRd", domain = NULL, bins = 3)
+  # previewColors(colorBin("YlOrRd", domain = x@data$growth, 
+  #                        bins = 2), x@data$growth)
+
+  lbls <- sprintf(
+    "<strong> %s </strong> <br> NUTS Code: %s <br> Index %s <br> Annual Growth %s %%", 
+    regional_names, regional_codes, price$price, growth$growth) %>% 
     lapply(htmltools::HTML)
+  
   highlights <-  highlightOptions(
       weight = 5,
       color = "#B22222",#666", #"#B9504A",#"#444", #666
       dashArray = "",
-      fillOpacity = 0.7,
+      fillOpacity = 0.5,
       bringToFront = TRUE)
   
   leaflet(
+    x,
     options = 
       leafletOptions(
         zoomControl = TRUE,
@@ -37,15 +67,20 @@ create_leaflet_nuts1 <- function(x, code = "118") {
         doubleClickZoom = TRUE,
         dragging = TRUE)
   ) %>% 
+    addProviderTiles(
+      providers$CartoDB.Positron,
+      options = providerTileOptions(opacity = 0.5)) %>% 
     addPolygons(
       data = x[ss, ],
-      fillColor = "Reds", #~ pal(growth),
+      fillColor =  "Reds",#~ pal(growth),   #"Reds",
+      fillOpacity = 0.4,
+      # color = "#BDBDC3",
+      color = "white",
       group = ~ "nuts118nm",
       weight = 2,
       opacity = 1,
-      color = "white",
+      # color = "white",
       dashArray = "3",
-      fillOpacity = 0.7,
       layerId = ~ nuts118nm,
       highlightOptions = highlights,
       label = lbls,
@@ -61,12 +96,18 @@ create_leaflet_nuts1 <- function(x, code = "118") {
       addSearchFeatures(
         targetGroups = 'nuts118nm',
         options = searchFeaturesOptions(
-          zoom = 7, autoType = TRUE,
+          zoom = 7, 
+          autoType = TRUE,
           autoCollapse = TRUE
         )
       ) %>% 
       addControl("<P>Click on the map or search for a location by name</P>",
-                 position = 'topright')
+                 position = 'topright')# %>% 
+    # addLegend(pal = pal(growth),
+    #           values = ~ growth,
+    #           opacity = 0.7,
+    #           title = "Annual Growth (%)",
+    #           position = "topright")
 }
 
 map_nuts1 <- create_leaflet_nuts1(nuts1_regions, "118")

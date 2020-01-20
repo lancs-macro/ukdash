@@ -44,14 +44,17 @@ box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NUL
   }
   popoverTag <- NULL
   if (popover) {
-    popoverTag <- div(class = "box-tools pull-right", 
-                       tags$button(class = paste0("btn btn-box-tool"), 
-                                   `title` = popover_title,
-                                   `data-content` = popover_content,
-                                   `data-trigger` = "focus",
-                                   `data-placement` = "right",
-                                   # `data-html` = "true",
-                                   `data-toggle` = data_toggle, shiny::icon("info")))
+    popoverTag <- div(
+      class = "box-tools pull-right", 
+      tags$button(
+        class = paste0("btn btn-box-tool"), 
+        `title` = popover_title,
+        `data-content` = popover_content,
+        `data-trigger` = "focus",
+        `data-placement` = "right",
+        # `data-html` = "true",
+        `data-toggle` = data_toggle, shiny::icon("info"))
+    )
   }
   headerTag <- NULL
   if (!is.null(titleTag) || !is.null(collapseTag) || !is.null(popoverTag)) {
@@ -63,13 +66,16 @@ box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NUL
         div(class = "box-footer", footer)))
 }
 
-exuber_note <- 
+note_exuber <- 
   HTML('<span>There is exuberance when the </span> <span class="color-blue"> solid line </span> <span> surpasses the </span><span class="color-red"> dashed line </span>.')
 
-shade_note <- 
+note_shade <- 
   HTML('<span class="color-grey">Shaded areas</span> <span>indicate contraction (peak to trough) of the index.</span>')
 
+note_bands <- 
+  HTML('<span>The </span> <span class="color-blue">shaded bands </span><span> refer to the difference between the upper and lower decile (the highest and lowest 10 percent) of the growth rates across all regions .</span>')
 
+  
 column_4 <- function(...) {
   column(width = 4, ...)
 } 
@@ -175,7 +181,7 @@ to_yq <- function(ds, radf_var, cv_var){
     ds_yq()
 }
 
-ggarrange = function (...) {
+ggarrange = function(...) {
   do.call(gridExtra::arrangeGrob, c(...))
 }
 
@@ -268,11 +274,11 @@ ukhp_get <- function(frequency = "monthly", classification = "nuts1", release = 
 plot_ukhp_index <- function(hp_data, hp_data_agg, .y) {
   hp_data %>% 
     right_join(hp_data_agg, by = "Date") %>% 
-    tidyr::pivot_longer(-Date) %>% 
+    pivot_longer(-Date) %>% 
     filter(name %in% c(.y, "England and Wales")) %>% 
     mutate(name = fct_relevel(name, "England and Wales", .y)) %>% 
     ggplot(aes(Date, value)) +
-    geom_line(aes(colour = name),size = 0.8) + 
+    geom_line(aes(colour = name), size = 0.9) + 
     theme_bw() +
     scale_color_manual(
       values = c("black", "#B22222")) +
@@ -287,12 +293,12 @@ plot_ukhp_index <- function(hp_data, hp_data_agg, .y) {
 plot_ukhp_growth <- function(hp_data, hp_data_agg, .y) {
   hp_data %>% 
     right_join(hp_data_agg, by = "Date") %>% 
-    tidyr::pivot_longer(-Date) %>% 
+    pivot_longer(-Date) %>% 
     filter(name %in% c(.y, "England and Wales")) %>% 
     mutate(value = ldiff(value, n = 4)) %>% 
     drop_na() %>% 
       ggplot(aes(Date, value)) +
-      geom_line(aes(colour = name),size = 0.8) + 
+      geom_line(aes(colour = name), size = 0.9) + 
       theme_bw() +
       scale_color_manual(
         values = c("black", "#B22222")) +

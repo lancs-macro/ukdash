@@ -12,22 +12,17 @@ tabItem(
         )
       ),
       fluidRow(
-        
         box2(
-          # status = "danger",
           plotOutput("plot_growth_UK_price"),
           title = "Growth Rates (annual)",
+          popover = TRUE,
+          popover_title = "Note:",
+          popover_content = note_bands,
           width = 6),
         box2(
-          # background = "red",
-          # img(src = "https://via.placeholder.com/450X450"),
           plotOutput("autoplot_datestamp_price"),
           title = "Peak-to-Trough Contraction Periods",
           width = 6)
-        # box2(
-        #   img(src = "https://via.placeholder.com/450X450"),
-        #   title = "Peak-to-Trough Contraction Periods",
-        #   width = 4)
       ),
     fluidRow(
       box(
@@ -41,12 +36,13 @@ tabItem(
     fluidRow(
       box2(
         plotOutput("plot_growth_UK_afford"),
-        popover = TRUE, popover_title = "hello", popover_content = "What a nice content",
+        popover = TRUE,
+        popover_title = "Note:",
+        popover_content = note_bands,
         title = "Growth Rates (annual)",
         width = 6),
       box2(
         plotOutput("autoplot_datestamp_afford"),
-        # img(src = "https://via.placeholder.com/450X450"),
         title = "Peak-to-Trough Contraction Periods",
         width = 6)
     )

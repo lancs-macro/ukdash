@@ -7,7 +7,7 @@ tabItem(
         subtitle = "Index Levels",
         popover = TRUE,
         popover_title = "Note:",
-        popover_content = shade_note,
+        popover_content = note_shade,
         width = 12,
         plotOutput("plot_price")
       )
@@ -18,7 +18,7 @@ tabItem(
         subtitle = "Exuberance",
         popover = TRUE,
         popover_title = "Note:",
-        popover_content = exuber_note,
+        popover_content = note_exuber,
         width = 12,
         plotOutput("autoplot_price")
       )
@@ -26,7 +26,9 @@ tabItem(
     column_4(
       infoBoxOutput("price_growth_box", width = 12),
       infoBoxOutput("price_exuberance_box", width = 12),
-      box(width = 12, title = "Datestamping", dataTableOutput("ds_price"))
+      box(width = 12, 
+          title = "Datestamping", 
+          dataTableOutput("ds_price"))
     )
   ),
   fluidRow(
@@ -36,7 +38,7 @@ tabItem(
         subtitle = "Index Levels",
         popover = TRUE,
         popover_title = "Note:",
-        popover_content = shade_note,
+        popover_content = note_shade,
         width = 12,
         plotOutput("plot_afford")
       )
@@ -47,7 +49,7 @@ tabItem(
         subtitle = "Exuberance",
         popover = TRUE,
         popover_title = "Note:",
-        popover_content = exuber_note,
+        popover_content = note_exuber,
         width = 12,
         plotOutput("autoplot_afford")
       )
