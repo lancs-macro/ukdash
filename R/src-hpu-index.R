@@ -23,9 +23,9 @@ epu_index <- readxl::read_xlsx("data/epu.xlsx") %>%
 
 # Highchart ---------------------------------------------------------------
 
-highchart <- 
+highchart <-
   highchart(type = "stock") %>%
-  hc_add_series(epu_index, hcaes(x = Date, y = EPU), zoomType = "x",
+  hc_add_series(epu_index, hcaes(x = Date, y = EPU), zoomType = "x", visible = FALSE,
                 type = "line", name = "Economic Policy Uncertainty", color = "#222d32")  %>%
   hc_add_series(hpu_index, hcaes(x = Date, y = HPU), zoomType = "x",
                 type = "line", name = "House Price Uncertainty", color = "#B22222",
