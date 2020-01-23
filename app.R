@@ -39,6 +39,15 @@ header <- dashboardHeaderPlus(
         )
       ),
     shiny::img(src = "minimal.png",  height = "32", width = "32")
+  ),
+  tags$li(
+    a(
+      HTML('<i title ="Return to Home" class="fas fa-home"></i>'),
+      target = "_blank",
+      href  = "https://lancs-macro.github.io/uk-housing-observatory/",
+      style = "font-size:28px; padding: 10px;border-style:none;"
+    ),
+    class = "dropdown"
   )
 )
 
@@ -57,7 +66,9 @@ sidebar <- dashboardSidebar(
                        inputId = "country", choices = nms$names,
                        selected = nms$names[11], label = "Select Geographical Area:")),
     menuItem('Uncertainty', tabName = "uncertainty", icon = icon("underline")),
-    menuItem("New Price Indices", icon = icon("house-damage"), tabName = "indices"),
+    menuItem("Price Indices", icon = icon("house-damage"), 
+             badgeLabel = "New", badgeColor = "red",
+             tabName = "indices"),
     menuItem("Download Data", icon = icon("download"), tabName = "download"),
     menuItem(
       HTML('<button type="button" class="btn btn-light btn-intro" data-toggle="modal" 
