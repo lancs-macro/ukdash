@@ -59,9 +59,10 @@ sidebar <- dashboardSidebar(
     menuItem('Uncertainty', tabName = "uncertainty", icon = icon("underline")),
     menuItem("New Price Indices", icon = icon("house-damage"), tabName = "indices"),
     menuItem("Download Data", icon = icon("download"), tabName = "download"),
-    
-    tags$li(HTML('<button type="button" class="btn btn-light btn-intro" data-toggle="modal" 
-                 data-target=".intro-modal-text">Instructions</button>'))
+    menuItem(
+      HTML('<button type="button" class="btn btn-light btn-intro" data-toggle="modal" 
+                 data-target=".intro-modal-text">Instructions</button>')
+    )
     )
   )
 
