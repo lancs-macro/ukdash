@@ -227,7 +227,7 @@ stat_table <-
   tibble(
     Regions = nms$names,
     `Real House Prices` = radf_price$gsadf,
-    `Affordability INdex` = radf_afford$gsadf,
+    `Affordability Index` = radf_afford$gsadf,
     cv90 = cv$gsadf_cv[1],
     cv95 = cv$gsadf_cv[2],
     cv99 = cv$gsadf_cv[3]
