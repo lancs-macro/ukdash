@@ -57,7 +57,7 @@ sidebar <- dashboardSidebar(
                        inputId = "country", choices = nms$names,
                        selected = nms$names[11], label = "Select Geographical Area:")),
     menuItem('Uncertainty', tabName = "uncertainty", icon = icon("underline")),
-    menuItem("New House Price Indices", icon = icon("house-damage"), tabName = "indices"),
+    menuItem("New Price Indices", icon = icon("house-damage"), tabName = "indices"),
     menuItem("Download Data", icon = icon("download"), tabName = "download"),
     
     tags$li(HTML('<button type="button" class="btn btn-light btn-intro" data-toggle="modal" 
@@ -133,7 +133,7 @@ server <- function(session, input, output) {
   output$price_growth_box <- renderInfoBox({
     value <- calc_growth(price[[input$country]])
     infoBox(
-      title = "House Price Growth",
+      title = "Latest House Price Growth",
       paste(value, "%"),
       icon = icon_growth_box(value)
     )
@@ -141,7 +141,7 @@ server <- function(session, input, output) {
   output$afford_growth_box <- renderInfoBox({
     value <- calc_growth(afford[[input$country]])
     infoBox(
-      title = "Affordability Index Growth",
+      title = "Latest Affordability Index Growth",
       paste(value, "%"),
       icon = icon_growth_box(value)
     )
@@ -152,7 +152,7 @@ server <- function(session, input, output) {
   output$price_exuberance_box <- renderInfoBox({
     value <- round(tail(bsadf_table_price[[input$country]], 1),3)
     infoBox(
-      title = "BSADF",
+      title = "Latest Exuberance Statistic (BSADF)",
       value,
       text_exuberance_box(value, crit),
       icon = icon_exuberanec_box(value, crit),
@@ -162,7 +162,7 @@ server <- function(session, input, output) {
   output$afford_exuberance_box <- renderInfoBox({
     value <- round(tail(bsadf_table_afford[[input$country]], 1),3)
     infoBox(
-      title = "BSADF",
+      title = "Latest Exuberance Statistic (BSADF)",
       value,
       text_exuberance_box(value, crit),
       icon = icon_exuberanec_box(value, crit),
@@ -179,14 +179,24 @@ server <- function(session, input, output) {
     }, options = list(seSarching = FALSE,
                       ordering = FALSE,
                       dom = "t"))
-  output$ds_afford <- 
-    DT::renderDataTable({
+  
+  ds_afford_reactive <- reactive({
+    if(input$country == "Greater London") {
+      NULL
+    }else{
       exuber::datestamp(radf_afford, cv_afford) %>%
         .[[input$country]] %>% 
         to_yq(radf_afford, cv_var = cv_afford)
+    }
+  })
+  
+  output$ds_afford <- 
+    DT::renderDataTable({
+      ds_afford_reactive()
     }, options = list(searching = FALSE,
                       ordering = FALSE,
                       dom = "t"))
+  
   
 
 # indices -----------------------------------------------------------------
@@ -294,55 +304,39 @@ server <- function(session, input, output) {
     accordingly https://www.nationwide.co.uk"
     )
 
-  output$DT_price <-
-    DT::renderDataTable({
+  output$DT_price <-DT::renderDataTable(server = FALSE, {
       make_DT(price, "prices", nationwide_caption)
       })
-  output$DT_afford <-
-    DT::renderDataTable({
+  output$DT_afford <-DT::renderDataTable(server = FALSE, {
       make_DT(afford, "afford", nationwide_caption)
     })
   
-  output$DT_bsadf_price <-
-    DT::renderDataTable({
-      make_DT(
-        bsadf_table_price,"bsadf_prices")
+  output$DT_bsadf_price <- DT::renderDataTable(server = FALSE, {
+      make_DT(bsadf_table_price,"bsadf_prices")
     })
-  output$DT_bsadf_afford <-
-    DT::renderDataTable({
+  output$DT_bsadf_afford <-DT::renderDataTable(server = FALSE, {
       make_DT(
         bsadf_table_afford,"bsadf_afford")
     })
   
-  output$DT_stat_table <-
-    DT::renderDataTable({
-      make_DT_general(
-        stat_table, "stat_table")
+  output$DT_stat_table <-DT::renderDataTable(server = FALSE, {
+      make_DT_general(stat_table, "stat_table")
     })
   
-  output$DT_hpu <- DT::renderDataTable({
-    make_DT_general(
-      hpu_index, "hpu_index")
+  output$DT_hpu <- DT::renderDataTable(server = FALSE, {
+    make_DT_general(hpu_index, "hpu_index")
   })
   
-  output$DT_epu <- DT::renderDataTable({
-    make_DT_general(
-      epu_index, "epu_index")
+  output$DT_nuts1 <-DT::renderDataTable(server = FALSE, {
+    make_DT(nuts1_data, "hp_nuts1")
   })
   
-  output$DT_nuts1 <- DT::renderDataTable({
-    make_DT(
-      nuts1_data, "hp_nuts1")
+  output$DT_nuts2 <- DT::renderDataTable(server = FALSE, {
+    make_DT(nuts2_data, "hp_nuts2")
   })
   
-  output$DT_nuts2 <- DT::renderDataTable({
-    make_DT(
-      nuts2_data, "hp_nuts2")
-  })
-  
-  output$DT_nuts3 <- DT::renderDataTable({
-    make_DT(
-      nuts3_data, "hp_nuts3")
+  output$DT_nuts3 <- DT::renderDataTable(server = FALSE, {
+    make_DT(nuts3_data, "hp_nuts3")
   })
   
 }
