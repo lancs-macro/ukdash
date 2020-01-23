@@ -1,4 +1,5 @@
 library(rgdal)
+library(htmltools)
 library(leaflet)
 library(leaflet.extras)
 
@@ -46,11 +47,13 @@ create_leaflet_nuts1 <- function(x = nuts1_regions, code = "118") {
   #                        bins = 2), x@data$growth)
 
   lbls <- sprintf(
-    "<strong> %s </strong> <br> 
-    NUTS Code: %s <br> 
-    Latest Index Level: <strong> %s </strong> <br> 
-    Latest Growth Rate (Annual %%): <strong> %s </strong>", 
-    regional_names, regional_codes, price$price, growth$growth) %>% 
+    paste(
+      "<span style='font-size: 18px; font-weight:700;'> %s </span> <br>", 
+      "<span style ='font-style: italic; color:grey;'> NUTS Code: %s </span><br>", 
+      "Latest Index Level: <strong> %s </strong> <br>", 
+      "Latest Growth Rate (Annual %%): <strong> %s </strong>"
+    ),
+   regional_names, regional_codes, price$price, growth$growth) %>%  #),htmlEscape(price$price)) %>%  #, price$price, growth$growth
     lapply(htmltools::HTML)
   
   highlights <-  highlightOptions(
@@ -89,22 +92,25 @@ create_leaflet_nuts1 <- function(x = nuts1_regions, code = "118") {
       label = lbls,
       labelOptions = labelOptions(
         style = list(
-          "font-weight" = "normal", 
+          "font-weight" = "normal",
           padding = "3px 8px"),
         textsize = "15px",
         direction = "auto")
     ) %>% 
     addResetMapButton() %>% 
-    addControl("<P>Click on the map or search for a location by name</P>",
+    addControl("<p style='color:black;font-size:16px; font-weight:600px;'>Search for a location by name </p>",
                position = 'topleft') %>% 
-      addSearchFeatures(
-        targetGroups = 'nuts118nm',
-        options = searchFeaturesOptions(
-          zoom = 7, 
-          autoType = TRUE,
-          autoCollapse = TRUE
-        )
-      ) # %>% 
+    addSearchFeatures(
+      targetGroups = 'nuts118nm',
+      options = searchFeaturesOptions(
+        zoom = 7, 
+        autoType = TRUE,
+        autoCollapse = TRUE
+      ) 
+    ) %>% 
+    addControl("<p style='color:black;font-size:16px; font-weight:600px;'> Click on the map </p>",
+               position = 'topright')
+  # %>% 
     # addLegend(pal = pal(growth),
     #           values = ~ growth,
     #           opacity = 0.7,

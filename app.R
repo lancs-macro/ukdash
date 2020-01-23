@@ -198,9 +198,14 @@ server <- function(session, input, output) {
                       ordering = FALSE,
                       dom = "t"))
   
+ # Uncertainty -------------------------------------------------------------
   
+  output$uncertainty_index <-
+    renderHighchart({
+      highchart
+    })
 
-# indices -----------------------------------------------------------------
+# Indices -----------------------------------------------------------------
   
   # Map 1
   output$map <- 
@@ -212,8 +217,8 @@ server <- function(session, input, output) {
     renderPlot({plot_ukhp_growth(nuts1_data, aggregate_data, "Wales")})
   output$widget <- renderText("Wales")
   
-  observeEvent(input$map_shape_mouseover, ignoreInit = TRUE, {
-    event <- input$map_shape_mouseover 
+  observeEvent(input$map_shape_click, ignoreInit = TRUE, {
+    event <- input$map_shape_click 
     output$widget <- renderText(event$id)
     
     output$map_price <- 
@@ -224,8 +229,8 @@ server <- function(session, input, output) {
   
   # Map 2
   output$map2 <- leaflet::renderLeaflet({map_nuts2})
-  observeEvent(input$map2_shape_mouseover, ignoreInit = TRUE, {
-    event <- input$map2_shape_mouseover 
+  observeEvent(input$map2_shape_click, ignoreInit = TRUE, {
+    event <- input$map2_shape_click 
     output$widget <- renderText(event$id)
     
     output$map_price <- 
@@ -236,8 +241,8 @@ server <- function(session, input, output) {
   
   # Map 3
   output$map3 <- leaflet::renderLeaflet({map_nuts3})
-  observeEvent(input$map3_shape_mouseover, ignoreInit = TRUE, {
-    event <- input$map3_shape_mouseover 
+  observeEvent(input$map3_shape_click, ignoreInit = TRUE, {
+    event <- input$map3_shape_click 
     output$widget <- renderText(event$id)
     
     output$map_price <- 
@@ -289,13 +294,7 @@ server <- function(session, input, output) {
   #   })
   
 
-# Uncertainty -------------------------------------------------------------
 
-
-  output$uncertainty_index <-
-    renderHighchart({
-      highchart
-  })
   
   # Download Data -----------------------------------------------------------
   

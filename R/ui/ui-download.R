@@ -25,22 +25,3 @@ tabItem(
   ),
   includeHTML("www/footer.html")
 )
-
-
-
-# .navbar-brand {
-#   font-size: 16px;
-#   font-weight: 800;
-# }
-
-# ul.nav.nav-pills.nav-stacked {
-#   line-height: 0;
-# }
-
-# .nav-stacked>li.active>a, .nav-stacked>li.active>a:hover {
-#   border-left-color: red;
-# }
-
-# .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-#   background-color: red;
-# }

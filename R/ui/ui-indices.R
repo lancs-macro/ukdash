@@ -16,7 +16,7 @@ tabItem(
         box(
           width = 12, 
           height = "1040px",
-          title = "Level of Regional Disaggregation",
+          title = "Level of Regional Disaggregation (NUTS)",
           tabsetPanel(
             tabPanel("Level 1", leaflet::leafletOutput("map", height = "950px")),
             tabPanel("Level 2", leaflet::leafletOutput("map2", height = "950px")),
