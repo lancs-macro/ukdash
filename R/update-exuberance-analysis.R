@@ -211,7 +211,7 @@ bsadf_table_price <-
   as_tibble() %>%
   bind_cols(`Critical Values` = cv_price$bsadf_cv[-1, 2]) %>% 
   bind_cols(Date = ind) %>% 
-  select(Date, `Critical Values`, `United Kingdom`, everything())
+  select(Date, `Critical Values`, `United Kingdom`, everything()) 
 
 bsadf_table_afford <- 
   radf_afford %>%
@@ -219,24 +219,22 @@ bsadf_table_afford <-
   as_tibble() %>%
   bind_cols(`Critical Values` = cv_afford$bsadf_cv[-1, 2]) %>% 
   bind_cols(Date = ind2) %>% 
-  select(Date, `Critical Values`, `United Kingdom`, everything())
-
+  select(Date, `Critical Values`, `United Kingdom`, everything()) 
 
 cv <- crit[[NROW(price)]]
 
 stat_table <- 
   tibble(
     Regions = nms$names,
-    gsadf_rhpi = radf_price$gsadf,
-    gsadf_hpi_dpi = radf_afford$gsadf,
-    gsadf_cv90 = cv$gsadf_cv[1],
-    gsadf_cv95 = cv$gsadf_cv[2],
-    gsadf_cv99 = cv$gsadf_cv[3]
+    `Real House Prices` = radf_price$gsadf,
+    `Affordability INdex` = radf_afford$gsadf,
+    cv90 = cv$gsadf_cv[1],
+    cv95 = cv$gsadf_cv[2],
+    cv99 = cv$gsadf_cv[3]
   )
 
 
 # Overview Graphs ---------------------------------------------------------
-
 
 growth_rates_price <- 
   price %>% 
@@ -281,7 +279,7 @@ plot_growth_UK_afford <- ggplot() +
   geom_ribbon(data = quantiles_afford,
               aes(x = Date, ymin = q10, ymax = q90), fill = "#174b97", alpha = 0.5) +
   theme_bw() +
-  ylab("Year on Year (%)") 
+  ylab("Year on Year (%)") +
   theme(
     axis.title.x = element_blank(),
     panel.grid = element_line(linetype = 2),
