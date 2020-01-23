@@ -8,16 +8,16 @@ nms <- tibble::tribble(
   1,   "EA",      "East Anglia",               "East Anglia",
   2,   "EM",        "East Mids",              "East Midlands",
   3,   "GL",           "London",           "Greater London",
+  4,   "NT",            "North",                    "North",
+  5,   "NW",       "North West",               "North West",
   4,   "NI",        "N Ireland",         "Northern Ireland",
-  5,   "NT",            "North",                    "North",
-  6,   "NW",       "North West",               "North West",
   7,   "OM",        "Outer Met",       "Outer Metropolitan",
   8,  "OSE",     "Outer S East",         "Outer South East",
   9,   "SC",         "Scotland",                 "Scotland",
   10,   "SW",       "South West",               "South West",
   11,   "UK",               "UK",           "United Kingdom",
-  12,   "WM",        "West Mids",            "West Midlands",
-  13,   "WW",            "Wales",                    "Wales",
+  12,   "WW",            "Wales",                    "Wales",
+  13,   "WM",        "West Mids",            "West Midlands",
   14,   "YH",    "Yorks & Hside",   "Yorkshire & Humberside",
 )
 
@@ -101,12 +101,12 @@ ntwd_data <- right_join(hpi, rpdi, by = c("region" ,"Date")) %>%
   drop_na() %>% 
   mutate(rhpi = hpi/cpi, afford = rhpi/rpdi) 
 
-rhpi <- ntwd_data %>% 
+
+price <- ntwd_data %>% 
   select(Date, region, rhpi) %>% 
   spread(region, rhpi)
 
 afford <- ntwd_data %>% 
   select(Date, region, afford) %>% 
   spread(region, afford)
-
 

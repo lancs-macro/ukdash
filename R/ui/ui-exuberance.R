@@ -27,7 +27,7 @@ tabItem(
       infoBoxOutput("price_growth_box", width = 12),
       infoBoxOutput("price_exuberance_box", width = 12),
       box(width = 12, 
-          title = "Datestamping", 
+          title = "Date-stamping", 
           dataTableOutput("ds_price"))
     )
   ),
@@ -57,7 +57,7 @@ tabItem(
     column_4(
       infoBoxOutput("afford_growth_box", width = 12),
       infoBoxOutput("afford_exuberance_box", width = 12),
-      box(width = 12, title = "Datestamping", dataTableOutput("ds_afford"))
+      box(width = 12, title = "Date-stamping", dataTableOutput("ds_afford"))
     )
   ),
   includeHTML("www/footer.html")

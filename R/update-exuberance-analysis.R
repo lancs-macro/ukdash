@@ -5,16 +5,6 @@ library(exuber)
 source("R/src-functions.R")
 source("R/src-read-ntwd.R")
 
-# Create variables in appropriate format ----------------------------------
-
-price <- ntwd_data %>% 
-  select(Date, region, rhpi) %>% 
-  spread(region, rhpi)
-
-afford <- ntwd_data %>% 
-  select(Date, region, afford) %>% 
-  spread(region, afford)
-
 # Estimation & Critical Values --------------------------------------------
 
 library(exuber)
@@ -25,8 +15,9 @@ radf_price <- price %>%
 radf_afford <- afford %>%
   radf(lag = 1, minw = 37)
 
-cv_price <- mc_cv(NROW(price), opt_bsadf = "conservative", minw = 37)
 
+set.seed(123)
+cv_price <- mc_cv(NROW(price), opt_bsadf = "conservative", minw = 37)
 cv_afford <- mc_cv(NROW(afford), opt_bsadf = "conservative", minw = 37)
 
 # Summary -----------------------------------------------------------------
@@ -50,6 +41,7 @@ rejected_afford <-
   radf_afford %>% 
   diagnostics(cv = cv_afford) %>% 
   .$rejected
+rejected_afford
 
 # datestamp ---------------------------------------------------------------
 
@@ -61,7 +53,18 @@ datestamp_afford <-
   radf_afford %>%
   datestamp(cv = cv_afford)
 
-# afford ------------------------------------------------------------------
+# autoplot ------------------------------------------------------------------
+
+NULL_plot <- function(n = 1, .size = 5) {
+  text <- "The series does not exhibit exuberant behavior"
+  np <- list(length = n)
+  for (i in 1:n) {
+    np[[i]] <- ggplot() +
+      annotate("text", x = 4, y = 25, size = .size, label = text) +
+      theme_void()
+  }
+  if(n > 1) np else np[[1]]
+}
 
 autoplot_price <- 
   radf_price %>%
@@ -79,7 +82,6 @@ for (i in seq_along(autoplot_price)) {
   autoplot_price[[i]]$layers[[2]]$aes_params$color <- "#B22222"
 }
 
-
 autoplot_afford <- 
   radf_afford %>%
   autoplot(include = TRUE, cv = cv_afford, arrange = FALSE) %>%
@@ -95,6 +97,8 @@ for (i in seq_along(autoplot_price)) {
   autoplot_afford[[i]]$layers[[1]]$aes_params$size <- 0.7
   autoplot_afford[[i]]$layers[[2]]$aes_params$color <- "#B22222"
 }
+autoplot_afford[[rejected_afford]] <- NULL_plot(length(rejected_afford))
+
 
 # autoplot datestamp ------------------------------------------------------
 
@@ -174,7 +178,9 @@ for (i in seq_along(nms$names)) {
   
   shade <- datestamp_afford %>% "[["(nms$names[i])
   
-  plot_afford[[i]] <- ggplot(afford) +
+  plot_afford[[i]] <- 
+    filter(afford, Date >= ind[2]) %>% 
+    ggplot() +
     geom_line(aes_string(x = "Date", y = as.name(nms$names[i])),
               size = 0.7, colour = "black") +
     scale_custom(object = fortify(radf_afford, cv = cv_afford)) +
@@ -234,7 +240,7 @@ stat_table <-
 
 growth_rates_price <- 
   price %>% 
-  modify_at(vars(-Date), ldiff, n = 4) %>% 
+  modify_at(vars(-Date), ~ ldiff(.x, n = 4) *100) %>% 
   drop_na() 
 
 quantiles_price <- growth_rates_price %>% 
@@ -250,16 +256,16 @@ plot_growth_UK_price <- ggplot() +
   geom_ribbon(data = quantiles_price,
               aes(x = Date, ymin = q10, ymax = q90), fill = "#174b97", alpha = 0.5) +
   theme_bw() +
+  ylab("Year on Year (%)") +
   theme(
-    axis.title = element_blank(),
+    axis.title.x = element_blank(),
     panel.grid = element_line(linetype = 2),
-    panel.grid.minor = element_blank(),
-    title = element_blank()) 
+    panel.grid.minor = element_blank()) 
 
 
 growth_rates_afford <- 
   afford %>% 
-  modify_at(vars(-Date), ldiff, n = 4) %>% 
+  modify_at(vars(-Date), ~ ldiff(.x, n = 4) *100) %>% 
   drop_na() 
 
 quantiles_afford <- growth_rates_afford %>% 
@@ -275,11 +281,11 @@ plot_growth_UK_afford <- ggplot() +
   geom_ribbon(data = quantiles_afford,
               aes(x = Date, ymin = q10, ymax = q90), fill = "#174b97", alpha = 0.5) +
   theme_bw() +
+  ylab("Year on Year (%)") 
   theme(
-    axis.title = element_blank(),
+    axis.title.x = element_blank(),
     panel.grid = element_line(linetype = 2),
-    panel.grid.minor = element_blank(),
-    title = element_blank()) 
+    panel.grid.minor = element_blank()) 
 
 # store -------------------------------------------------------------------
 
