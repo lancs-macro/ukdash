@@ -67,13 +67,16 @@ box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NUL
 }
 
 note_exuber <- 
-  HTML('<span>There is exuberance when the </span> <span class="color-blue"> solid line </span> <span> surpasses the </span><span class="color-red"> dashed line </span>.')
+  HTML('<span>There is exuberance when the </span> <span class="textbf"> solid line </span> <span> surpasses the </span><span class="color-red"> dashed line </span>.')
+
+note_ds <- 
+  HTML('Periods of time identified as exuberant by the financial stability analysis.')
 
 note_shade <- 
-  HTML('<span class="color-grey">Shaded areas</span> <span>indicate contraction (peak to trough) of the index.</span>')
+  HTML('<span class="color-grey">Shaded areas</span> <span>indicate identified periods of exuberance.</span>')
 
 note_bands <- 
-  HTML('<span>The </span> <span class="color-blue">shaded bands </span><span> refer to the difference between the upper and lower decile (the highest and lowest 10 percent) of the growth rates across all regions .</span>')
+  HTML('<span>The </span> <span class="color-blue">shaded bands </span><span> refer to the difference between the top and bottom decile of growth rates across all regions in the UK.</span>')
 
   
 column_4 <- function(...) {
@@ -105,12 +108,12 @@ text_exuberance_box <- function(x, crit) {
   }
 }
 
-DT_preview <- function(x, sub = NULL) {
-  box2(width = 12, title = "Preview Data", subtitle = sub, dataTableOutput(x))
+DT_preview <- function(x, title = NULL) {
+  box2(width = 12, title = title, dataTableOutput(x))
 }
 
 tab_panel <- function(x, title, prefix = "") {
-  tabPanel(title, icon = icon("angle-double-right"), DT_preview(x, sub = paste0(prefix, title)))
+  tabPanel(title, icon = icon("angle-double-right"), DT_preview(x, title = paste0(prefix, title)))
 }
 
 
@@ -139,20 +142,23 @@ extract_yq <- function(object) {
     rename(breaks = Date)
 }
 
+custom_date <- function(object, variable, div) {
+  yq <- extract_yq(object)
+  seq_slice <- seq(1, NROW(yq), length.out = div)
+  yq %>% 
+    slice(seq_slice) %>% 
+    pull(!!parse_expr(variable))
+}
+
 scale_custom <- function(object, div = 7) {
   require(lubridate)
-  custom_date <- function(object, variable, div) {
-    
-    yq <- extract_yq(object)
-    seq_slice <- seq(1, NROW(yq), length.out = div)
-    yq %>% 
-      slice(seq_slice) %>% 
-      pull(!!parse_expr(variable))
-  }
+  
+  cbreaks <- custom_date(fortify(object), variable = "breaks", div = div)
   
   scale_x_date(
-    breaks = custom_date(fortify(object), variable = "breaks", div = div),
-    labels = custom_date(fortify(object), variable = "labels", div = div)
+    breaks = cbreaks,
+    labels = custom_date(fortify(object), variable = "labels", div = div),
+    limits = cbreaks[c(1, length(cbreaks))]
   )
 }
 
@@ -182,7 +188,7 @@ to_yq <- function(ds, radf_var, cv_var){
 }
 
 ggarrange = function(...) {
-  do.call(gridExtra::arrangeGrob, c(...))
+  do.call(gridExtra::grid.arrange, c(...))
 }
 
 # datatable-DT ------------------------------------------------------------
@@ -197,16 +203,17 @@ specify_buttons <- function(filename) {
           list(
             extend = 'csv',
             filename = filename, 
-            exportOptions  =
-              list(
-                modifier = 
-                  list(
-                    page = "all",
-                    search = 'none'))),
+            exportOptions = list(
+              modifier = list(
+                page = "all", 
+                search = 'none')
+              )
+            ),
           list(
             extend = 'excel',
             filename = filename,
-            title = "International Housing Observatory")),
+            title = "UK Housing Observatory")
+          ),
       text = "Download"
     )
   )
@@ -295,17 +302,18 @@ plot_ukhp_growth <- function(hp_data, hp_data_agg, .y) {
     right_join(hp_data_agg, by = "Date") %>% 
     pivot_longer(-Date) %>% 
     filter(name %in% c(.y, "England and Wales")) %>% 
-    mutate(value = ldiff(value, n = 4)) %>% 
+    mutate(value = ldiff(value, n = 4)*100) %>% 
     drop_na() %>% 
-      ggplot(aes(Date, value)) +
-      geom_line(aes(colour = name), size = 0.9) + 
-      theme_bw() +
-      scale_color_manual(
-        values = c("black", "#B22222")) +
-      theme(
-        legend.title = element_blank(),
-        legend.position = "bottom",
-        panel.grid = element_line(linetype = 2),
-        axis.title = element_blank()
-      )
+    ggplot(aes(Date, value)) +
+    geom_line(aes(colour = name), size = 0.9) + 
+    ylab("Year on Year (%)") +
+    theme_bw() +
+    scale_color_manual(
+      values = c("black", "#B22222")) +
+    theme(
+      legend.title = element_blank(),
+      legend.position = "bottom",
+      axis.title.x = element_blank(),
+      panel.grid = element_line(linetype = 2)
+    )
 }

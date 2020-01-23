@@ -1,7 +1,7 @@
   /* General */
   
-  .color-blue {
-      color: blue;
+  .textbf {
+      font-weight:600;
   }
   
   .color-red {

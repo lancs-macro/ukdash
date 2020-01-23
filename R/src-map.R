@@ -46,7 +46,10 @@ create_leaflet_nuts1 <- function(x = nuts1_regions, code = "118") {
   #                        bins = 2), x@data$growth)
 
   lbls <- sprintf(
-    "<strong> %s </strong> <br> NUTS Code: %s <br> Index %s <br> Annual Growth %s %%", 
+    "<strong> %s </strong> <br> 
+    NUTS Code: %s <br> 
+    Latest Index Level: <strong> %s </strong> <br> 
+    Latest Growth Rate (Annual %%): <strong> %s </strong>", 
     regional_names, regional_codes, price$price, growth$growth) %>% 
     lapply(htmltools::HTML)
   
@@ -91,8 +94,9 @@ create_leaflet_nuts1 <- function(x = nuts1_regions, code = "118") {
         textsize = "15px",
         direction = "auto")
     ) %>% 
-      # extras
-      addResetMapButton() %>% 
+    addResetMapButton() %>% 
+    addControl("<P>Click on the map or search for a location by name</P>",
+               position = 'topleft') %>% 
       addSearchFeatures(
         targetGroups = 'nuts118nm',
         options = searchFeaturesOptions(
@@ -100,9 +104,7 @@ create_leaflet_nuts1 <- function(x = nuts1_regions, code = "118") {
           autoType = TRUE,
           autoCollapse = TRUE
         )
-      ) %>% 
-      addControl("<P>Click on the map or search for a location by name</P>",
-                 position = 'topright')# %>% 
+      ) # %>% 
     # addLegend(pal = pal(growth),
     #           values = ~ growth,
     #           opacity = 0.7,
