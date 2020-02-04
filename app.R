@@ -66,14 +66,14 @@ sidebar <- dashboardSidebar(
                        inputId = "country", choices = nms$names,
                        selected = nms$names[11], label = "Select Geographical Area:")),
     menuItem('Uncertainty', tabName = "uncertainty", icon = icon("underline")),
-    menuItem("Price Indices", icon = icon("house-damage"), 
+    menuItem("Price Indices - HOPI", icon = icon("house-damage"), 
              badgeLabel = "New", badgeColor = "red",
              tabName = "indices"),
-    menuItem("Download Data", icon = icon("download"), tabName = "download"),
-    menuItem(
-      HTML('<button type="button" class="btn btn-light btn-intro" data-toggle="modal" 
-                 data-target=".intro-modal-text">Instructions</button>')
-    )
+    menuItem("Download Data", icon = icon("download"), tabName = "download")#,
+    # menuItem(
+    #   HTML('<button type="button" class="btn btn-light btn-intro" data-toggle="modal" 
+    #              data-target=".intro-modal-text">Instructions</button>')
+    # )
     )
   )
 
