@@ -43,7 +43,6 @@ header <- dashboardHeaderPlus(
   tags$li(
     a(
       HTML('<i title ="Return to Home" class="fas fa-home"></i>'),
-      target = "_blank",
       href  = "https://lancs-macro.github.io/uk-housing-observatory/",
       style = "font-size:28px; padding: 10px;border-style:none;"
     ),
@@ -252,7 +251,7 @@ server <- function(session, input, output) {
   
   # Map 3
   output$map3 <- leaflet::renderLeaflet({map_nuts3})
-  observeEvent(input$map3_shape_click, ignoreInit = TRUE, {
+  observeEvent(input$map3_shape_click, ignoreInit = TRUE, ignoreNULL = FALSE, {
     event <- input$map3_shape_click 
     output$widget <- renderText(event$id)
     
