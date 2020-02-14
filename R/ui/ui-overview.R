@@ -35,7 +35,7 @@ tabItem(
       HTML("
       <p style = 'text-align:center;padding:0px;'>
         <span style = 'font-size:22px;'> UK Affordability Index </span>  <br>
-        <span style='font-size:18px:'> (The index is constructed as the ratio of real hous prices over real personal disposable income)</span>
+        <span style='font-size:18px:'> (The index is constructed as the ratio of real house prices over real personal disposable income)</span>
       </p>")
       )
     ),
