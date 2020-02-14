@@ -37,7 +37,6 @@ unlink("data/shapefiles/nuts3/Shapefile.zip")
 download.file("https://www.policyuncertainty.com/media/UK_Policy_Uncertainty_Data.xlsx",
               "data/epu.xlsx",  mode = 'wb')
 
-
 # Download CPI index ------------------------------------------------------
 
 download.file("https://stats.oecd.org/sdmx-json/data/DP_LIVE/.CPI.TOT.IDX2015.Q/OECD?contentType=csv&detail=code&separator=comma&csv-lang=en&startPeriod=1973-Q1",

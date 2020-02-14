@@ -35,7 +35,7 @@ create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code =
   
   regional_names <- x@data[[nuts_nm]][ss]
   regional_codes <- x@data[[nuts_cd]][ss]
-  
+  latest_date <- map_data[nrow(map_data), 1, drop = TRUE]
   
   names(x@data)[3] <- "layerId"
   suppressWarnings({
@@ -56,11 +56,13 @@ create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code =
   lbls <- sprintf(
     paste(
       "<span style='font-size: 18px; font-weight:700;'> %s </span> <br>", 
-      "<span style ='font-style: italic; color:grey;'> NUTS Code: %s </span><br>", 
-      "Latest Index Level: <strong> %s </strong> <br>", 
-      "Latest Growth Rate (Annual %%): <strong> %s </strong>"
+      "<span style ='font-style: italic; color:grey;'> NUTS Code: %s </span><br>",
+      "<span> Date: <strong> %s </strong> </span><br>",
+      "Index Level: <strong> %s </strong> <br>", 
+      "Growth Rate (Annual %%): <strong> %s </strong>"
     ),
-  x@data[,3], x@data[,2], x@data$price, x@data$growth) %>%  #),htmlEscape(price$price)) %>%  #, price$price, growth$growth
+  x@data[,3], x@data[,2], latest_date,
+  x@data$price, x@data$growth) %>%  #),htmlEscape(price$price)) %>%  #, price$price, growth$growth
     lapply(htmltools::HTML)
   
   lbls <- lbls[ss]
