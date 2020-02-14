@@ -249,7 +249,8 @@ quantiles_price <- growth_rates_price %>%
     q90 = quantile(value, probs = c(0.90))
   )
 
-plot_growth_UK_price <- ggplot() +
+plot_growth_UK_price <- 
+  ggplot() +
   geom_line(data = growth_rates_price, aes(Date, `United Kingdom`)) +
   geom_ribbon(data = quantiles_price,
               aes(x = Date, ymin = q10, ymax = q90), fill = "#174b97", alpha = 0.5) +
@@ -266,7 +267,9 @@ growth_rates_afford <-
   modify_at(vars(-Date), ~ ldiff(.x, n = 4) *100) %>% 
   drop_na() 
 
-quantiles_afford <- growth_rates_afford %>% 
+quantiles_afford <- 
+  growth_rates_afford %>% 
+  select(-`United Kingdom`) %>% 
   gather(region, value, -Date) %>% 
   group_by(Date) %>% 
   summarise(
