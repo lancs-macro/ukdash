@@ -196,13 +196,13 @@ server <- function(session, input, output) {
                       dom = "t"))
   
   ds_afford_reactive <- reactive({
-    if (input$country == "Greater London") {
-      NULL
-    }else{
+    # if (input$country == "Greater London") {
+    #   NULL
+    # }else{
       exuber::datestamp(radf_afford, cv_afford) %>%
         .[[input$country]] %>% 
         to_yq(radf_afford, cv_var = cv_afford)
-    }
+    # }
   })
   
   output$ds_afford <- 
