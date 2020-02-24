@@ -1,4 +1,5 @@
 library(rlang)
+library(shiny)
 
 box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NULL, 
                   solidHeader = FALSE, background = NULL, width = 6, height = NULL, 
@@ -76,7 +77,7 @@ note_shade <-
   HTML('<span class="color-grey">Shaded areas</span> <span>indicate identified periods of exuberance.</span>')
 
 note_bands <- 
-  HTML('<span>The </span> <span class="color-blue">shaded bands </span><span> refer to the difference between the top and bottom decile of growth rates across all regions in the UK.</span>')
+  HTML('<span>The </span> <span class="color-grey">shaded bands </span><span> refer to the difference between the top and bottom decile of growth rates across all regions in the UK.</span>')
 
   
 column_4 <- function(...) {
