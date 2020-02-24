@@ -3,6 +3,10 @@ library(htmltools)
 library(leaflet)
 library(leaflet.extras)
 
+x = nuts3_regions
+map_data = nuts3_data
+code = "318"
+
 create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code = "318") {
   
   growth <- map_data %>% 
@@ -31,7 +35,7 @@ create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code =
   
   regional_names <- x@data[[nuts_nm]][ss]
   regional_codes <- x@data[[nuts_cd]][ss]
-  
+  latest_date <- map_data[nrow(map_data), 1, drop = TRUE]
   
   names(x@data)[3] <- "layerId"
   suppressWarnings({
@@ -52,12 +56,16 @@ create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code =
   lbls <- sprintf(
     paste(
       "<span style='font-size: 18px; font-weight:700;'> %s </span> <br>", 
-      "<span style ='font-style: italic; color:grey;'> NUTS Code: %s </span><br>", 
-      "Latest Index Level: <strong> %s </strong> <br>", 
-      "Latest Growth Rate (Annual %%): <strong> %s </strong>"
+      "<span style ='font-style: italic; color:grey;'> NUTS Code: %s </span><br>",
+      "<span> Date: <strong> %s </strong> </span><br>",
+      "Index Level: <strong> %s </strong> <br>", 
+      "Growth Rate (Annual %%): <strong> %s </strong>"
     ),
-  x@data[,3], x@data[,2], x@data$growth, x@data$price) %>%  #),htmlEscape(price$price)) %>%  #, price$price, growth$growth
+  x@data[,3], x@data[,2], latest_date,
+  x@data$price, x@data$growth) %>%  #),htmlEscape(price$price)) %>%  #, price$price, growth$growth
     lapply(htmltools::HTML)
+  
+  lbls <- lbls[ss]
   
   highlights <-  highlightOptions(
       weight = 5,
@@ -85,7 +93,7 @@ create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code =
       fillOpacity = 0.4,
       # color = "#BDBDC3",
       color = "white",
-      group = ~ nuts_nm,
+      group = ~ "layerId",
       weight = 2,
       opacity = 1,
       # color = "white",
@@ -104,16 +112,15 @@ create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code =
     addControl("<p style='color:black;font-size:16px; font-weight:600px;'>Search for a location by name </p>",
                position = 'topleft') %>% 
     addSearchFeatures(
-      targetGroups = nuts_nm,
+      targetGroups = "layerId",
       options = searchFeaturesOptions(
-        zoom = 7, 
+        zoom = 9, 
         autoType = TRUE,
         autoCollapse = TRUE
       ) 
     ) %>% 
     addControl("<p style='color:black;font-size:16px; font-weight:600px;'> Click on the map </p>",
-               position = 'topright')
-  # %>% 
+               position = 'topright') #%>%
     # addLegend(pal = pal(growth),
     #           values = ~ growth,
     #           opacity = 0.7,

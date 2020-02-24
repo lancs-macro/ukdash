@@ -295,7 +295,7 @@ plot_ukhp_index <- function(hp_data, hp_data_agg, .y) {
       legend.position = "bottom",
       panel.grid = element_line(linetype = 2),
       axis.title = element_blank()
-    )
+    ) 
 }
 
 plot_ukhp_growth <- function(hp_data, hp_data_agg, .y) {

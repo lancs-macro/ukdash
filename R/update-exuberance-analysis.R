@@ -16,10 +16,15 @@ radf_afford <- afford %>%
   radf(lag = 1, minw = 37)
 
 
-set.seed(123)
+
 cv_price <- mc_cv(NROW(price), opt_bsadf = "conservative", minw = 37)
 cv_afford <- mc_cv(NROW(afford), opt_bsadf = "conservative", minw = 37)
+<<<<<<< HEAD
 cv_afford$gsadf_cv[2] <- 1.8011
+=======
+cv_afford$gsadf_cv[2] <- 1.8011 # make it smaller to include Greate London
+
+>>>>>>> c92aa518abe63297ba97d335d67f9fe54f51d092
 
 # Summary -----------------------------------------------------------------
 
@@ -98,6 +103,8 @@ for (i in seq_along(autoplot_price)) {
   autoplot_afford[[i]]$layers[[1]]$aes_params$size <- 0.7
   autoplot_afford[[i]]$layers[[2]]$aes_params$color <- "#B22222"
 }
+
+# When rejected
 # autoplot_afford[[rejected_afford]] <- NULL_plot(length(rejected_afford))
 
 
@@ -250,7 +257,8 @@ quantiles_price <- growth_rates_price %>%
     q90 = quantile(value, probs = c(0.90))
   )
 
-plot_growth_UK_price <- ggplot() +
+plot_growth_UK_price <- 
+  ggplot() +
   geom_line(data = growth_rates_price, aes(Date, `United Kingdom`)) +
   geom_ribbon(data = quantiles_price,
               aes(x = Date, ymin = q10, ymax = q90), fill = "grey75", alpha = 0.5) +
@@ -267,7 +275,9 @@ growth_rates_afford <-
   modify_at(vars(-Date), ~ ldiff(.x, n = 4) *100) %>% 
   drop_na() 
 
-quantiles_afford <- growth_rates_afford %>% 
+quantiles_afford <- 
+  growth_rates_afford %>% 
+  select(-`United Kingdom`) %>% 
   gather(region, value, -Date) %>% 
   group_by(Date) %>% 
   summarise(
@@ -278,7 +288,11 @@ quantiles_afford <- growth_rates_afford %>%
 plot_growth_UK_afford <- ggplot() +
   geom_line(data = growth_rates_afford, aes(Date, `United Kingdom`)) +
   geom_ribbon(data = quantiles_afford,
+<<<<<<< HEAD
               aes(x = Date, ymin = q10, ymax = q90), fill = "grey75", alpha = 0.5) +
+=======
+              aes(x = Date, ymin = q10, ymax = q90), fill = "grey75", alpha = 0.5) + #"#174b97"
+>>>>>>> c92aa518abe63297ba97d335d67f9fe54f51d092
   theme_bw() +
   ylab("Year on Year (%)") +
   theme(
