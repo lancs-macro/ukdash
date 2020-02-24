@@ -19,12 +19,7 @@ radf_afford <- afford %>%
 
 cv_price <- mc_cv(NROW(price), opt_bsadf = "conservative", minw = 37)
 cv_afford <- mc_cv(NROW(afford), opt_bsadf = "conservative", minw = 37)
-<<<<<<< HEAD
 cv_afford$gsadf_cv[2] <- 1.8011
-=======
-cv_afford$gsadf_cv[2] <- 1.8011 # make it smaller to include Greate London
-
->>>>>>> c92aa518abe63297ba97d335d67f9fe54f51d092
 
 # Summary -----------------------------------------------------------------
 
@@ -288,11 +283,7 @@ quantiles_afford <-
 plot_growth_UK_afford <- ggplot() +
   geom_line(data = growth_rates_afford, aes(Date, `United Kingdom`)) +
   geom_ribbon(data = quantiles_afford,
-<<<<<<< HEAD
-              aes(x = Date, ymin = q10, ymax = q90), fill = "grey75", alpha = 0.5) +
-=======
               aes(x = Date, ymin = q10, ymax = q90), fill = "grey75", alpha = 0.5) + #"#174b97"
->>>>>>> c92aa518abe63297ba97d335d67f9fe54f51d092
   theme_bw() +
   ylab("Year on Year (%)") +
   theme(
