@@ -318,22 +318,22 @@ server <- function(session, input, output) {
     accordingly https://www.nationwide.co.uk"
     )
 
-  output$DT_price <-DT::renderDataTable(server = FALSE, {
+  output$DT_price <- DT::renderDataTable(server = FALSE, {
       make_DT(price, "prices", nationwide_caption)
       })
-  output$DT_afford <-DT::renderDataTable(server = FALSE, {
+  output$DT_afford <- DT::renderDataTable(server = FALSE, {
       make_DT(afford, "afford", nationwide_caption)
     })
   
   output$DT_bsadf_price <- DT::renderDataTable(server = FALSE, {
       make_DT(bsadf_table_price,"bsadf_prices")
     })
-  output$DT_bsadf_afford <-DT::renderDataTable(server = FALSE, {
+  output$DT_bsadf_afford <- DT::renderDataTable(server = FALSE, {
       make_DT(
         bsadf_table_afford,"bsadf_afford")
     })
   
-  output$DT_stat_table <-DT::renderDataTable(server = FALSE, {
+  output$DT_stat_table <- DT::renderDataTable(server = FALSE, {
       make_DT_general(stat_table, "stat_table")
     })
   
@@ -341,7 +341,7 @@ server <- function(session, input, output) {
     make_DT_general(hpu_index, "hpu_index")
   })
   
-  output$DT_nuts1 <-DT::renderDataTable(server = FALSE, {
+  output$DT_nuts1 <- DT::renderDataTable(server = FALSE, {
     make_DT(nuts1_data, "hp_nuts1")
   })
   

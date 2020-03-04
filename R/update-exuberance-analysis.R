@@ -17,8 +17,7 @@ radf_afford <- afford %>%
 
 cv_price <- mc_cv(NROW(price), opt_bsadf = "conservative", minw = 37)
 cv_afford <- mc_cv(NROW(afford), opt_bsadf = "conservative", minw = 37)
-cv_afford$gsadf_cv[2] <- 1.8011 # make it smaller to include Greate London
-
+cv_afford$gsadf_cv[2] <- 1.8011
 
 # Summary -----------------------------------------------------------------
 
@@ -63,7 +62,7 @@ NULL_plot <- function(n = 1, .size = 5) {
       annotate("text", x = 4, y = 25, size = .size, label = text) +
       theme_void()
   }
-  if(n > 1) np else np[[1]]
+  if (n > 1) np else np[[1]]
 }
 
 autoplot_price <- 
@@ -97,6 +96,7 @@ for (i in seq_along(autoplot_price)) {
   autoplot_afford[[i]]$layers[[1]]$aes_params$size <- 0.7
   autoplot_afford[[i]]$layers[[2]]$aes_params$color <- "#B22222"
 }
+
 # When rejected
 # autoplot_afford[[rejected_afford]] <- NULL_plot(length(rejected_afford))
 
@@ -254,7 +254,7 @@ plot_growth_UK_price <-
   ggplot() +
   geom_line(data = growth_rates_price, aes(Date, `United Kingdom`)) +
   geom_ribbon(data = quantiles_price,
-              aes(x = Date, ymin = q10, ymax = q90), fill = "#174b97", alpha = 0.5) +
+              aes(x = Date, ymin = q10, ymax = q90), fill = "grey75", alpha = 0.5) +
   theme_bw() +
   ylab("Year on Year (%)") +
   theme(
