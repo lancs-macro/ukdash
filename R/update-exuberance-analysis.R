@@ -7,8 +7,6 @@ source("R/src-read-ntwd.R")
 
 # Estimation & Critical Values --------------------------------------------
 
-library(exuber)
-
 radf_price <- price %>%
   radf(lag = 1, minw = 37)
 
