@@ -1,5 +1,3 @@
-library(rlang)
-library(shiny)
 
 box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NULL, 
                   solidHeader = FALSE, background = NULL, width = 6, height = NULL, 

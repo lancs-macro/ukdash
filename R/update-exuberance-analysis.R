@@ -2,8 +2,6 @@
 # Exuber ------------------------------------------------------------------
 
 library(exuber)
-source("R/src-functions.R")
-source("R/src-read-ntwd.R")
 
 # Estimation & Critical Values --------------------------------------------
 
@@ -12,8 +10,6 @@ radf_price <- price %>%
 
 radf_afford <- afford %>%
   radf(lag = 1, minw = 37)
-
-
 
 cv_price <- mc_cv(NROW(price), opt_bsadf = "conservative", minw = 37)
 cv_afford <- mc_cv(NROW(afford), opt_bsadf = "conservative", minw = 37)
