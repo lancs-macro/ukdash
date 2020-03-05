@@ -33,12 +33,12 @@ header <- dashboardHeaderPlus(
     span(
       class = "logo-lg",
       span(
-        shiny::img(src = "minimal.png",  height = "32", width = "32"),
+        shiny::img(src = "ukho-logo.png",  height = "32", width = "32"),
         HTML('<span class="name"> United Kingdom </span>
              <span class= "bottom-name"> Housing Observatory </span>')
         )
       ),
-    shiny::img(src = "minimal.png",  height = "32", width = "32")
+    shiny::img(src = "ukho-logo.png",  height = "32", width = "32")
   ),
   tags$li(
     a(
@@ -81,7 +81,7 @@ body <- dashboardBody(
   ######## Customization #################
   tags$head(
     # tags$title("UK Housing Observatory • Dashboard"),
-    tags$link(rel = "shortcut icon", href = "minimal.png"),
+    tags$link(rel = "shortcut icon", href = "ukho-logo.png"),
     tags$link(rel = "stylesheet", type = "text/css", 
               href = 'https://fonts.googleapis.com/css?family=Gloria Hallelujah'),
     tags$link(

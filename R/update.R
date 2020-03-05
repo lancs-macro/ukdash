@@ -31,3 +31,11 @@ rsconnect::deployApp(
   forceUpdate = TRUE,
   metadata = list(asMultiple = FALSE, asStatic = FALSE), 
   logLevel = "verbose")
+
+library(git2r)
+
+repo <- git2r::repository(appDir)
+
+add(repo, ".")
+commit(repo, message = glue::glue("update to version {release_date}"))
+push(repo, credentials = cred_token()) ##ssh path
