@@ -31,3 +31,10 @@ rsconnect::deployApp(
   forceUpdate = TRUE,
   metadata = list(asMultiple = FALSE, asStatic = FALSE), 
   logLevel = "verbose")
+
+
+library(git2r)
+
+repo <- git2r::repository(appDir)
+add(repo, ".")
+commit("update version")
