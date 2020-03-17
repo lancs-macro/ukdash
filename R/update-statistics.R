@@ -88,3 +88,11 @@ json_df <- jsonlite::toJSON(
              afford_uk = uk_afford, afford_london = london_afford), dataframe = "columns")
 jscode[1] <- glue("var txt = '{json_df}';")
 cat(jscode, sep = "\n", file = "output/stat.js")
+
+# Create map --------------------------------------------------------------
+
+ggplot(nuts1_regions, aes(x = long, y = lat, group = group)) +
+  geom_polygon(fill = "#222d32", colour = "white") +
+  theme_void()
+
+ggsave("ukmap-dark.png", width = 4)

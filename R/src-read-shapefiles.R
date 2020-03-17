@@ -22,3 +22,6 @@ nuts3_regions <-
     "data/shapefiles/nuts3",
     "NUTS_Level_3_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom") %>% 
   spTransform(., CRS("+init=epsg:4326")) 
+
+
+

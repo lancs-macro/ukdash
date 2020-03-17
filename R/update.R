@@ -38,4 +38,8 @@ repo <- git2r::repository(appDir)
 
 add(repo, ".")
 commit(repo, message = glue::glue("update to version {release_date}"))
+<<<<<<< HEAD
 push(repo, credentials = cred_token()) 
+=======
+push(repo, credentials = cred_token()) ##ssh path
+>>>>>>> 64f7395c626ed0cf757c297a11bcd8b1aae35515
