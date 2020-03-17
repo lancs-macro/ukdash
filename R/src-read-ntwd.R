@@ -83,7 +83,7 @@ cpi <-
            zoo::as.Date()
   ) 
 
-rpdi <-  read_excel("data/rpdi.xlsx") %>%
+rpdi <- read_excel("data/rpdi.xlsx") %>% 
   mutate(Date = Date %>% 
            zoo::as.yearqtr(format = "Q%q %Y") %>%
            zoo::as.Date()
@@ -92,7 +92,7 @@ rpdi <-  read_excel("data/rpdi.xlsx") %>%
   mutate(region = recode(region, !!!abbr_to_names)) %>% 
   right_join(last_obs, by = c("Date", "region")) %>% 
   group_by(region) %>% 
-  mutate(rpdi = zoo::na.locf(rpdi)) %>% 
+  mutate(rpdi = imputeTS::na_interpolation(rpdi, option = "spline")) %>% 
   ungroup() 
 
 
