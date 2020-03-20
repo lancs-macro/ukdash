@@ -1,13 +1,15 @@
 ## app.R ##
 
-library(shiny)
-library(shinydashboard)
-library(shinydashboardPlus)
-library(tidyverse)
-library(DT)
-library(highcharter)
-library(shinyWidgets)
-library(leaflet.extras)
+suppressMessages({
+  library(shiny)
+  library(shinydashboard)
+  library(shinydashboardPlus)
+  library(tidyverse)
+  library(DT)
+  library(highcharter)
+  library(shinyWidgets)
+  library(leaflet.extras)
+})
 
 # Load everything ---------------------------------------------------------
 
@@ -19,35 +21,41 @@ for (i in seq_along(path_store_rds)) {
 
 # source ------------------------------------------------------------------
 
-source("R/src-functions.R", local = TRUE)$value
-source("R/src-read-ntwd.R", local = TRUE)$value
-source("R/src-read-shapefiles.R", local = TRUE)$value
-source("R/src-hpu-index.R", local = TRUE)$value
-source("R/src-map.R", local = TRUE)$value
+suppressMessages({
+  source("R/src-functions.R", local = TRUE)$value
+  source("R/src-read-ntwd.R", local = TRUE)$value
+  source("R/src-read-shapefiles.R", local = TRUE)$value
+  source("R/src-hpu-index.R", local = TRUE)$value
+  source("R/src-map.R", local = TRUE)$value
+})
 
 # Header ------------------------------------------------------------------
 
 header <- dashboardHeaderPlus(
-  titleWidth = 440,
+  titleWidth = 450,
   title = shiny::tagList(
     span(
       class = "logo-lg",
-      span(
-        shiny::img(src = "ukho-logo.png",  height = "32", width = "32"),
-        HTML('<span class="name"> United Kingdom </span>
+      a(
+        href = "https://housing-observatory.com/uk/index.html",
+        span(
+          shiny::img(src = "ukho-logo.png",  height = "32", width = "32"),
+          HTML('<span class="name"> United Kingdom </span>
              <span class= "bottom-name"> Housing Observatory </span>')
         )
-      ),
-    shiny::img(src = "ukho-logo.png",  height = "32", width = "32")
-  ),
-  tags$li(
-    a(
-      HTML('<i title ="Return to Home" class="fas fa-home"></i>'),
-      href  = "https://lancs-macro.github.io/uk-housing-observatory/",
-      style = "font-size:28px; padding: 10px;border-style:none;"
+      )
     ),
-    class = "dropdown"
+    shiny::img(src = "ukho-logo.png",  height = "32", width = "32")
   )
+  # ,
+  # tags$li(
+  #   a(
+  #     HTML('<i title ="Return to Home" class="fas fa-home"></i>'),
+  #     href  = "https://housing-observatory.com/",
+  #     style = "font-size:28px; padding: 10px;border-style:none;"
+  #   ),
+  #   class = "dropdown"
+  # )`
 )
 
 # Sidebar -----------------------------------------------------------------
@@ -104,8 +112,6 @@ body <- dashboardBody(
 server <- function(session, input, output) {
   
   # Summary - Download Report
-  
-  
   
   # Oveview  -------------------------------------------------
 

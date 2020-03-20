@@ -36,14 +36,28 @@
   
   .name {
       font-family: 'Oswald', sans-serif;
-      color: #B22222;
+      /*color: #B22222;*/
+      color: #992F2F;
       white-space: nowrap;
       padding-left: 10px;
+      font-variant: small-caps;
   }
   
   .bottom-name {
       color: black;
+      font-variant: small-caps;
       font-family: 'Oswald', sans-serif;
+  }
+  
+  @media (max-width: 767px) {
+    .skin-black .main-header .logo {
+      background-color: white;
+      font-size: 16px;
+    }
+    .skin-black .main-header img {
+      max-width: 25px;
+        max-height: 25px;
+    }
   }
   /* Sidebar */
   

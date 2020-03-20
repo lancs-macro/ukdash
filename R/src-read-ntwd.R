@@ -60,7 +60,7 @@ ntwd_to_names <- c(
 # Reading ntwd ------------------------------------------------------------
 
 hpi <- 
-  nationwider::ntwd_get("seasonal_regional") %>% 
+  nationwider::ntwd_get("seasonal_regional", verbose = FALSE) %>% 
   dplyr::filter(type == "Index", Date >= "1975-01-01") %>% 
   select(-type, hpi = value) %>% 
   mutate(region = recode(region, "Uk" = "United Kingdom")) %>% 
