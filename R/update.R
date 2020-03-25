@@ -12,10 +12,9 @@ options(
 options(rsconnect.check.certificate = TRUE)
 
 appDir <- usethis::proj_path()
-
 manifestLines <- rsconnect:::bundleFiles(appDir)
-exclude <- grep("update", manifestLines)
-appLines <- manifestLines[-exclude]
+excludeFiles <- grep("update", manifestLines)
+appLines <- manifestLines[-excludeFiles]
 
 rsconnect::deployApp(
   appDir = appDir,      
