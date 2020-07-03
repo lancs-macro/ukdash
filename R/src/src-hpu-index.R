@@ -3,8 +3,6 @@ library(dplyr)
 
 # HPU ---------------------------------------------------------------------
 
-
-
 hpu_index <-
   readxl::read_excel("data/hpu.xlsx") %>% 
   mutate(year_quarter = paste(Year, Quarter)) %>% 
@@ -12,8 +10,6 @@ hpu_index <-
   select(Date = year_quarter, HPU)
 
 # EPU ---------------------------------------------------------------------
-
-
 
 epu_index <- 
   readxl::read_xlsx("data/epu.xlsx") %>%
@@ -26,6 +22,8 @@ epu_index <-
   drop_na()
 
 # Highchart ---------------------------------------------------------------
+
+library(highcharter)
 
 highchart <-
   highchart(type = "stock") %>%

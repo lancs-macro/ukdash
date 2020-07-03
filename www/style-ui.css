@@ -59,6 +59,24 @@
         max-height: 25px;
     }
   }
+  
+  .release {
+    font-family: 'Oswald', sans-serif;
+    font-variant: small-caps;
+    font-size: 22px;
+    text-align: center;
+    vertical-align: middle;
+    color: black;
+    display: table-cell;
+    padding: 8px 8px 0 0;
+  }
+  
+  @media (max-width: 767px) {
+    .release {
+      font-size: 14px
+    }
+  }
+  
   /* Sidebar */
   
   .btn-intro {

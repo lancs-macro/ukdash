@@ -1,0 +1,119 @@
+---
+output: 
+  html_document:
+    keep_tex: false
+header-includes:
+  - \usepackage{fullpage}
+  - \usepackage{color}
+  - \definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+  - \definecolor{lightblue}{rgb}{0.68, 0.85, 0.9}
+  - \usepackage{booktabs}
+  - \usepackage{sectsty} \allsectionsfont{\centering}
+  - \usepackage{paralist} \let\itemize\compactitem
+  - \usepackage[labelformat=empty]{caption}
+params:
+  vers: vers
+  uk_price: uk_price
+  london_price: london_price
+  uk_afford: uk_afford
+  london_afford: london_afford
+  plot_growth_UK_price: plot_growth_UK_price
+  plot_growth_UK_afford: plot_growth_UK_afford
+  autoplot_datestamp_price: autoplot_datestamp_price
+  autoplot_datestamp_afford: autoplot_datestamp_afford
+  hpu_index: hpu_index
+title: "UKHO - Summary - `r params$vers` Release"
+fontsize: 12pt 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+options(knitr.table.format = "latex")
+library(patchwork)
+```
+
+## Latest Statistics
+
+
+```{r latest-statistics-html}
+cbind(params$uk_price, params$uk_afford, params$london_price, params$london_afford) %>% 
+  kable(format = "html")
+```
+
+```{r latest-statistics-pdf, results='asis'}
+
+cat(c("\\begin{table}[!htpb]
+    \\begin{minipage}[t]{.5\\linewidth}
+    \\centering
+    \\begin{tabular}{cc}
+    \\multicolumn{2}{c}{National} \\\\ ",
+    "\\large", params$uk_price,"\\%", "&", "\\large", params$uk_afford, "\\%", "\\\\",
+    "House Price Change & Affordability Change \\\\ \\cmidrule(lr){1-1} \\cmidrule(lr){2-2}
+    \\end{tabular}
+    \\end{minipage}
+    \\begin{minipage}[t]{.5\\linewidth}
+    \\centering
+    \\begin{tabular}{cc}
+    \\multicolumn{2}{c}{London} \\\\ ",
+    "\\large", params$london_price, "\\%", "&", "\\large", params$london_afford, "\\%", "\\\\",
+    "House Price Change & Affordability Change \\\\ \\cmidrule(lr){1-1} \\cmidrule(lr){2-2}
+    \\end{tabular}
+    \\end{minipage}
+    \\end{table}"
+))
+```
+```{r plot, fig.align='center', fig.height=4, fig.width=7, message=FALSE}
+p1 <-  plot_growth_UK_price +
+  ggtitle("Real House Prices") +
+  scale_custom(price, div = 4) +
+  theme(plot.title = element_text())
+p2 <- plot_growth_UK_afford +
+  ggtitle("Affordability Index") +
+  scale_custom(afford, div = 4) +
+  theme(plot.title = element_text())
+p1 + p2
+```
+
+\vfill
+
+\center{\textit{ © 2020 Housing Observatory. All rights reserved}}
+
+\newpage
+
+# House Price Uncertainty Index
+
+```{r hpu-index, fig.align='center', fig.height=4, fig.width=7, message=FALSE}
+
+ggplot(hpu_index, aes(Date, HPU)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = NULL, y = NULL) +
+  geom_label(
+    data = data.frame(x = as.Date("1990-07-04"), y = 230, label = "'Boom & Bust' Economic Cycle"),
+    mapping = aes(x = x, y = y, label = label),
+    inherit.aes = FALSE,
+    show.legend = FALSE
+  ) +
+  geom_label(
+    data = data.frame(x = as.Date("2008-08-05"), y = 315, label = "Financial Crisis"),
+    mapping = aes(x = x, y = y, label = label),
+    inherit.aes = FALSE,
+    show.legend = FALSE) +
+  geom_label(
+    data = data.frame(x = as.Date("2016-06-01"), y = 300, label = "EU Referendum"),
+    mapping = aes(x = x, y = y, label = label),
+    inherit.aes = FALSE,
+    show.legend = FALSE) +
+  geom_label(
+    data = data.frame(x = as.Date("2018/02/01"), y = 170, label = "Brexit Uncertainty"),
+    mapping = aes(x = x, y = y, label = label),
+    inherit.aes = FALSE,
+    show.legend = FALSE)
+
+```
+
+
+\vfill
+
+\center{\textit{ © 2020 Housing Observatory. All rights reserved}}

@@ -181,9 +181,6 @@ for (i in 1:length(nms)) {
 fcst_dma <- sapply(dma, function(x) getLastForecast(x)$PointForecast)
 names(fcst_dma95) <- nms
 
-
-
-
 # compare -----------------------------------------------------------------
 
 tibble(
@@ -201,9 +198,8 @@ tibble(
 
 # MSE ---------------------------------------------------------------------
 
-fcst_dma[[1]]@Est$
-  
-  mean((fcst_dma[[1]]@data$vY - fcst_dma[[1]]@Est$vyhat)^2)
+fcst_dma[[1]]@Est
+mean((fcst_dma[[1]]@data$vY - fcst_dma[[1]]@Est$vyhat)^2)
 mean(residuals(fcst_dma[[1]])^2)
 
 # plot --------------------------------------------------------------------

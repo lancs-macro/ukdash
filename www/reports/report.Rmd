@@ -1,0 +1,174 @@
+---
+output: 
+  pdf_document:
+    keep_tex: false
+header-includes:
+  - \usepackage{fullpage}
+  - \usepackage{color}
+  - \definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+  - \definecolor{lightblue}{rgb}{0.68, 0.85, 0.9}
+  - \usepackage{booktabs}
+  - \usepackage{sectsty} \allsectionsfont{\centering}
+  - \usepackage{paralist} \let\itemize\compactitem
+  - \usepackage[labelformat=empty]{caption}
+params:
+  region: "East Anglia"
+  vers: vers
+  price: price
+  afford: afford
+  plot_price: plot_price
+  plot_afford: plot_afford
+  bsadf_table_price: bsadf_table_price,
+  bsadf_table_afford: bsadf_table_afford,
+  autoplot_price: autoplot_price
+  autoplot_afford: autoplot_afford
+  crit: crit
+title: "UKHO - `r params$region` - `r params$vers` Release"
+fontsize: 12pt 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(exuber)
+library(knitr)
+options(knitr.table.format = "latex")
+library(xtable)
+library(patchwork)
+```
+
+This page provides figures for real house prices and house-price-to-disposable-income ratios (housing affordability) starting in 1975, exuberance statistics, as well as date-stamping of the specific periods of exuberance.
+
+```{r plot, fig.align='center', fig.height=4, fig.width=7, message=FALSE}
+p1 <- plot_price[[params$region]] +
+  ggtitle("Real House Prices") +
+  scale_custom(price, div = 4) +
+  theme(plot.title = element_text())
+p2 <- plot_afford[[params$region]] +
+  ggtitle("Affordability Index") +
+  scale_custom(afford, div = 4) +
+  theme(plot.title = element_text())
+p1 + p2
+```
+
+## Latest Statistics
+
+```{r calc-statistics}
+x1 <- calc_growth(price[[params$region]])
+x2 <- calc_growth(afford[[params$region]])
+```
+
+```{r stat-html}
+c(x1, x2) %>% 
+  kable()
+```
+
+```{r stats-pdf, results='asis'}
+cat(c("\\begin{table}[!htpb]
+    \\begin{minipage}[t]{.5\\linewidth}
+    \\centering
+    \\begin{tabular}{c}
+    Real House Price Change \\\\
+    \\midrule",
+    x1, "\\\\
+    \\end{tabular}
+    \\end{minipage}%
+    \\begin{minipage}[t]{.5\\linewidth}
+    \\centering
+    \\begin{tabular}{c}
+    Affordability Index Change \\\\
+    \\midrule",
+    x2, "\\\\
+    \\end{tabular}
+    \\end{minipage}
+    \\end{table}"
+))
+```
+
+\vfill
+
+\center{\textit{ © 2020 Housing Observatory. All rights reserved}}
+
+\newpage
+
+# Financial Stability
+
+```{r autoplot, fig.align='center', fig.height=4, fig.width=7, message=FALSE}
+ap1 <- autoplot(price, select_series = params$region) +
+  ggtitle("Real House Prices") +
+  scale_custom(price, div = 4) +
+  theme(plot.title = element_text())
+ap2 <- autoplot(afford, select_series = params$region) +
+  ggtitle("Affordability Index") +
+  scale_custom(afford, div = 4) +
+  theme(plot.title = element_text())
+ap1 + ap2
+```
+
+## Latest Exuberance Indicators
+
+```{r latest-exuberance-indicators, results='asis'}
+ax1 <- round(tail(bsadf_table_price[[params$region]], 1),3)
+ax2 <- round(tail(bsadf_table_afford[[params$region]], 1),3)
+ax1_exuber <- if (ax1 > crit) "Exuberance" else "No Exuberance"
+ax2_exuber <- if (ax2 > crit) "Exuberance" else "No Exuberance"
+cat(c(
+  "\\begin{table}[!htpb]
+    \\begin{minipage}[t]{.5\\linewidth}
+    \\centering 
+    \\begin{tabular}{c}
+    Real House Price (BSADF) \\\\
+    \\midrule",
+    ax1, "\\\\",
+    "\\textbf{", ax1_exuber, "}\\\\",
+    "\\end{tabular}
+    \\end{minipage}%
+    \\begin{minipage}[t]{.5\\linewidth}
+    \\centering
+    \\begin{tabular}{c}
+    Affordability Index (BSADF) \\\\
+    \\midrule",
+    ax2, "\\\\",
+    "\\textbf{",  ax2_exuber, "}\\\\",
+    "\\end{tabular}
+    \\end{minipage}
+    \\end{table}"
+))
+```
+
+
+## Date-Stamping Periods of Exuberance
+
+```{r datestamp, results='asis'}
+
+null_df <- data.frame("Start" = "","End" = "", "Duration" = "")
+
+t1 <- kable(datestamp(radf_price, cv_price)[[params$region]] %||% 
+           null_df,format = "latex", booktabs = TRUE)
+          
+t2 <- kable(datestamp(radf_afford, cv_afford)[[params$region]] %||% 
+           null_df,format = "latex", booktabs = TRUE)
+
+cat(c("\\begin{table}[!htpb]
+    \\begin{minipage}[t]{.5\\linewidth}
+      \\caption{Real House Prices}
+      \\centering",
+        t1,
+    "\\end{minipage}%
+    \\begin{minipage}[t]{.5\\linewidth}
+      \\centering
+        \\caption{Affordability Index}",
+        t2,
+    "\\end{minipage}
+\\end{table}"
+))
+
+```
+
+
+
+
+
+
+\vfill
+
+\center{\textit{ © 2020 Housing Observatory. All rights reserved}}

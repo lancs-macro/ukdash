@@ -1,4 +1,6 @@
 
+library(shiny)
+
 box2 <- function(..., title = NULL, subtitle = NULL, footer = NULL, status = NULL, 
                   solidHeader = FALSE, background = NULL, width = 6, height = NULL, 
                   popover = FALSE, popover_title = NULL, popover_content = NULL,
@@ -131,6 +133,7 @@ calc_growth <- function(x) {
 
 # Custom Labels  ----------------------------------------------------------
 
+
 extract_yq <- function(object) {
   yq <- object %>% 
     select_if(lubridate::is.Date) %>% 
@@ -145,27 +148,33 @@ custom_date <- function(object, variable, div) {
   yq <- extract_yq(object)
   seq_slice <- seq(1, NROW(yq), length.out = div)
   yq %>% 
-    slice(seq_slice) %>% 
+    slice(as.integer(seq_slice)) %>% 
     pull(!!parse_expr(variable))
 }
 
 scale_custom <- function(object, div = 7) {
   require(lubridate)
-  
-  cbreaks <- custom_date(fortify(object), variable = "breaks", div = div)
-  
   scale_x_date(
-    breaks = cbreaks,
-    labels = custom_date(fortify(object), variable = "labels", div = div),
-    limits = cbreaks[c(1, length(cbreaks))]
+    breaks = custom_date(object, variable = "breaks", div = div),
+    labels = custom_date(object, variable = "labels", div = div)
   )
 }
 
-# Datestamp into yq
 
+# Plot Normal Series ------------------------------------------------------
+
+my_theme <- theme_light() +
+  theme(
+    axis.title.x = element_blank(),
+    panel.grid.minor = element_blank() ,
+    panel.grid.major = element_line(linetype = "dashed")
+  )
+
+
+# Datestamp into yq
 to_yq <- function(ds, radf_var, cv_var){
-  
-  index_yq <- extract_yq(fortify(radf_var, cv =  cv_var))
+  idx <- tibble(Date = index(radf_var, trunc = FALSE))
+  index_yq <- extract_yq(idx)
   
   ds_yq <- function(ds) {
     start <- ds[, 1]
@@ -266,14 +275,21 @@ make_DT_general <- function(x, filename) {
 library(jsonlite)
 library(httr)
 
-ukhp_get <- function(frequency = "monthly", classification = "nuts1", release = "latest") {
-  endpoint <- "https://lancs-macro.github.io/uk-house-prices/releases"
-  query <- paste(endpoint, release, frequency, paste0(classification, ".json"), sep = "/")
+ukhp_get_latest <- function() {
+  endpoint <- "https://lancs-macro.github.io/hopi/latest.json"
+  request <- GET(endpoint)
+  stop_for_status(request)
+  parse_json(request, simplifyVector = TRUE)
+}
+
+ukhp_get <- function(frequency = "monthly", classification = "nuts1") {
+  endpoint <- "https://lancs-macro.github.io/hopi"
+  query <- paste(endpoint, ukhp_get_latest(), frequency, paste0(classification, ".json"), sep = "/")
   request <- GET(query)
   stop_for_status(request)
   parse_json(request, simplifyVector = TRUE) %>% 
     as_tibble() %>% 
-    mutate(Date = as.Date(Date))
+    mutate(Date = lubridate::myd(Date, truncated = 1))
 }
 
 
@@ -286,6 +302,7 @@ plot_ukhp_index <- function(hp_data, hp_data_agg, .y) {
     ggplot(aes(Date, value)) +
     geom_line(aes(colour = name), size = 0.9) + 
     theme_bw() +
+    scale_custom(hp_data) +
     scale_color_manual(
       values = c("black", "#B22222")) +
     theme(
@@ -307,6 +324,7 @@ plot_ukhp_growth <- function(hp_data, hp_data_agg, .y) {
     geom_line(aes(colour = name), size = 0.9) + 
     ylab("Year on Year (%)") +
     theme_bw() +
+    scale_custom(hp_data) +
     scale_color_manual(
       values = c("black", "#B22222")) +
     theme(
@@ -315,4 +333,13 @@ plot_ukhp_growth <- function(hp_data, hp_data_agg, .y) {
       axis.title.x = element_blank(),
       panel.grid = element_line(linetype = 2)
     )
+}
+
+
+
+# utils -------------------------------------------------------------------
+
+capitalize <- function(x) {
+  s <- strsplit(x, " ")[[1]]
+  paste(toupper(substring(s, 1,1)), substring(s, 2), sep = "", collapse = " ")
 }

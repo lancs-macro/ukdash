@@ -3,10 +3,6 @@ library(htmltools)
 library(leaflet)
 library(leaflet.extras)
 
-x = nuts3_regions
-map_data = nuts3_data
-code = "318"
-
 create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code = "318") {
   
   growth <- map_data %>% 

@@ -2,13 +2,16 @@
 
 suppressMessages({
   library(shiny)
+  library(shinyjs)
   library(shinydashboard)
   library(shinydashboardPlus)
+  library(rlang)
   library(tidyverse)
   library(DT)
   library(highcharter)
   library(shinyWidgets)
   library(leaflet.extras)
+  library(exuber)
 })
 
 # Load everything ---------------------------------------------------------
@@ -21,12 +24,14 @@ for (i in seq_along(path_store_rds)) {
 
 # source ------------------------------------------------------------------
 
+idx <- tibble(Date = index(radf_price, trunc = FALSE))
+
 suppressMessages({
-  source("R/src-functions.R", local = TRUE)$value
-  source("R/src-read-ntwd.R", local = TRUE)$value
-  source("R/src-read-shapefiles.R", local = TRUE)$value
-  source("R/src-hpu-index.R", local = TRUE)$value
-  source("R/src-map.R", local = TRUE)$value
+  source("R/src/src-functions.R", local = TRUE)$value
+  source("R/src/src-read-ntwd.R", local = TRUE)$value
+  source("R/src/src-read-shapefiles.R", local = TRUE)$value
+  source("R/src/src-hpu-index.R", local = TRUE)$value
+  source("R/src/src-map.R", local = TRUE)$value
 })
 
 # Header ------------------------------------------------------------------
@@ -37,25 +42,23 @@ header <- dashboardHeaderPlus(
     span(
       class = "logo-lg",
       a(
-        href = "https://housing-observatory.com/uk/index.html",
+        href = "https://uk.housing-observatory.com",
         span(
-          shiny::img(src = "ukho-logo.png",  height = "32", width = "32"),
+          shiny::img(src = "ukho-logo.png",  height = "28", width = "28"),
           HTML('<span class="name"> United Kingdom </span>
              <span class= "bottom-name"> Housing Observatory </span>')
         )
       )
     ),
-    shiny::img(src = "ukho-logo.png",  height = "32", width = "32")
+    shiny::img(src = "ukho-logo.png",  height = "28", width = "28")
+  ),
+  tags$li(
+    class = "dropdown",
+    h3(
+      class = "release", 
+      glue::glue("Release: {release_date}")
+    )
   )
-  # ,
-  # tags$li(
-  #   a(
-  #     HTML('<i title ="Return to Home" class="fas fa-home"></i>'),
-  #     href  = "https://housing-observatory.com/",
-  #     style = "font-size:28px; padding: 10px;border-style:none;"
-  #   ),
-  #   class = "dropdown"
-  # )`
 )
 
 # Sidebar -----------------------------------------------------------------
@@ -68,19 +71,16 @@ sidebar <- dashboardSidebar(
     id = "tabs", 
     menuItem('Overview', tabName = "overview", icon = icon("globe", lib = "glyphicon")),
     menuItem("Financial Stability", tabName = "exuberance", icon = icon("chart-area")),
-    conditionalPanel("input.tabs === 'exuberance'",
+    conditionalPanel("input.tabs === 'exuberance' && input.sidebarCollapsed == true",
                      selectInput(
-                       inputId = "country", choices = nms$names,
+                         inputId = "region", choices = nms$names,
                        selected = nms$names[11], label = "Select Geographical Area:")),
     menuItem('Uncertainty', tabName = "uncertainty", icon = icon("underline")),
     menuItem("Price Indices - HOPI", icon = icon("house-damage"), 
              badgeLabel = "New", badgeColor = "red",
              tabName = "indices"),
     menuItem("Download Data", icon = icon("download"), tabName = "download")#,
-    # menuItem(
-    #   HTML('<button type="button" class="btn btn-light btn-intro" data-toggle="modal" 
-    #              data-target=".intro-modal-text">Instructions</button>')
-    # )
+    # menuItem("Report", icon = icon("file-alt"), tabName = "report", selected = T)
     )
   )
 
@@ -104,14 +104,12 @@ body <- dashboardBody(
     source("R/ui/ui-exuberance.R", local = TRUE)$value,
     source("R/ui/ui-uncertainty.R", local = TRUE)$value,
     source("R/ui/ui-indices.R", local = TRUE)$value,
-    source("R/ui/ui-download.R", local = TRUE)$value
+    source("R/ui/ui-download.R", local = TRUE)$value,
+    source("R/ui/ui-report.R", local = TRUE)$value
   )
 )
-                  
 
 server <- function(session, input, output) {
-  
-  # Summary - Download Report
   
   # Oveview  -------------------------------------------------
 
@@ -137,32 +135,46 @@ server <- function(session, input, output) {
   # Index Plots
   output$plot_price <- 
     renderPlot({
-      plot_price[[input$country]]})
+      plot_price[[input$region]]})
   output$plot_afford <- 
     renderPlot({
-      plot_afford[[input$country]]})
+      plot_afford[[input$region]]})
   
   # Exuberance Plots
+  autoplot_price_reactive <- 
+    reactive({
+        autoplot(radf_price, cv_price, select_series = input$region) + 
+          ggtitle("") + scale_custom(idx) + 
+    scale_exuber_manual(color_values = c("#B22222", "black"), size_values = c(0.8, 0.6))
+    })
   output$autoplot_price <- 
     renderPlot({
-      autoplot_price[[input$country]]})
+      autoplot_price_reactive()
+    })
+  autoplot_afford_reactive <- 
+    reactive({
+      autoplot(radf_afford, cv_afford, select_series = input$region) + 
+        ggtitle("") + scale_custom(idx) + 
+        scale_exuber_manual(color_values = c("#B22222", "black"), size_values = c(0.8, 0.6))
+    })
   output$autoplot_afford <- 
     renderPlot({
-      autoplot_afford[[input$country]]})
+      autoplot_afford_reactive()
+    })
   
   # Growth Info boxes
   output$price_growth_box <- renderInfoBox({
-    value <- calc_growth(price[[input$country]])
+    value <- calc_growth(price[[input$region]])
     infoBox(
-      title = "Latest House Price Growth",
+      title = "Latest House Price Change",
       paste(value, "%"),
       icon = icon_growth_box(value)
     )
   })
   output$afford_growth_box <- renderInfoBox({
-    value <- calc_growth(afford[[input$country]])
+    value <- calc_growth(afford[[input$region]])
     infoBox(
-      title = "Latest Affordability Index Growth",
+      title = "Latest Affordability Index Change",
       paste(value, "%"),
       icon = icon_growth_box(value)
     )
@@ -171,7 +183,7 @@ server <- function(session, input, output) {
   # Exuberance Info Boxes
   crit <-  tail(bsadf_table_price$`Critical Values`, 1)
   output$price_exuberance_box <- renderInfoBox({
-    value <- round(tail(bsadf_table_price[[input$country]], 1),3)
+    value <- round(tail(bsadf_table_price[[input$region]], 1),3)
     infoBox(
       title = "Latest Exuberance Statistic (BSADF)",
       value,
@@ -181,7 +193,7 @@ server <- function(session, input, output) {
     )
   })
   output$afford_exuberance_box <- renderInfoBox({
-    value <- round(tail(bsadf_table_afford[[input$country]], 1),3)
+    value <- round(tail(bsadf_table_afford[[input$region]], 1),3)
     infoBox(
       title = "Latest Exuberance Statistic (BSADF)",
       value,
@@ -195,28 +207,16 @@ server <- function(session, input, output) {
   output$ds_price <- 
     DT::renderDataTable({
       exuber::datestamp(radf_price, cv_price) %>%
-        .[[input$country]] %>% 
-        to_yq(radf_price, cv_var = cv_price)
-    }, options = list(seSarching = FALSE,
-                      ordering = FALSE,
-                      dom = "t"))
+        purrr::pluck(input$region) %>%
+        to_yq(radf_price, cv_price)
+    }, options = list(searching = FALSE, ordering = FALSE, dom = "t"))
   
-  ds_afford_reactive <- reactive({
-    # if (input$country == "Greater London") {
-    #   NULL
-    # }else{
-      exuber::datestamp(radf_afford, cv_afford) %>%
-        .[[input$country]] %>% 
-        to_yq(radf_afford, cv_var = cv_afford)
-    # }
-  })
-  
-  output$ds_afford <- 
+   output$ds_afford <- 
     DT::renderDataTable({
-      ds_afford_reactive()
-    }, options = list(searching = FALSE,
-                      ordering = FALSE,
-                      dom = "t"))
+      exuber::datestamp(radf_afford, cv_afford) %>%
+        purrr::pluck(input$region) %>%
+        to_yq(radf_afford, cv_afford)
+    }, options = list(searching = FALSE, ordering = FALSE, dom = "t"))
   
  # Uncertainty -------------------------------------------------------------
   
@@ -230,22 +230,6 @@ server <- function(session, input, output) {
   # Map 1
   output$map <- 
     leaflet::renderLeaflet({map_nuts1})
-  # Default Value
-  output$map_price <- 
-    renderPlot({plot_ukhp_index(nuts1_data, aggregate_data, "Wales")})
-  output$map_price_growth <- 
-    renderPlot({plot_ukhp_growth(nuts1_data, aggregate_data, "Wales")})
-  output$widget <- renderText("Wales")
-  
-  observeEvent(input$map_shape_click, ignoreInit = TRUE, {
-    event <- input$map_shape_click 
-    output$widget <- renderText(event$id)
-    
-    output$map_price <- 
-      renderPlot({plot_ukhp_index(nuts1_data, aggregate_data, event$id)})
-    output$map_price_growth <- 
-      renderPlot({plot_ukhp_growth(nuts1_data, aggregate_data, event$id)})
-  })
   
   # Map 2
   output$map2 <- leaflet::renderLeaflet({map_nuts2})
@@ -269,6 +253,23 @@ server <- function(session, input, output) {
       renderPlot({plot_ukhp_index(nuts3_data, aggregate_data, event$id)})
     output$map_price_growth <- 
       renderPlot({plot_ukhp_growth(nuts3_data, aggregate_data, event$id)})
+  })
+  
+  # Default Value
+  output$map_price <- 
+    renderPlot({plot_ukhp_index(nuts1_data, aggregate_data, "Wales")})
+  output$map_price_growth <- 
+    renderPlot({plot_ukhp_growth(nuts1_data, aggregate_data, "Wales")})
+  output$widget <- renderText("Wales")
+  
+  observeEvent(input$map_shape_click, ignoreInit = TRUE, {
+    event <- input$map_shape_click 
+    output$widget <- renderText(event$id)
+    
+    output$map_price <- 
+      renderPlot({plot_ukhp_index(nuts1_data, aggregate_data, event$id)})
+    output$map_price_growth <- 
+      renderPlot({plot_ukhp_growth(nuts1_data, aggregate_data, event$id)})
   })
 
   # Forecasting -------------------------------------------------------------
@@ -325,40 +326,96 @@ server <- function(session, input, output) {
     )
 
   output$DT_price <- DT::renderDataTable(server = FALSE, {
-      make_DT(price, "prices", nationwide_caption)
+      make_DT(price, "data-prices", nationwide_caption)
       })
   output$DT_afford <- DT::renderDataTable(server = FALSE, {
-      make_DT(afford, "afford", nationwide_caption)
-    })
-  
-  output$DT_bsadf_price <- DT::renderDataTable(server = FALSE, {
-      make_DT(bsadf_table_price,"bsadf_prices")
-    })
-  output$DT_bsadf_afford <- DT::renderDataTable(server = FALSE, {
-      make_DT(
-        bsadf_table_afford,"bsadf_afford")
+      make_DT(afford, "data-afford", nationwide_caption)
     })
   
   output$DT_stat_table <- DT::renderDataTable(server = FALSE, {
-      make_DT_general(stat_table, "stat_table")
+    make_DT_general(stat_table, "fs-gsadf")
+  })
+  
+  output$DT_bsadf_price <- DT::renderDataTable(server = FALSE, {
+      make_DT(bsadf_table_price, "fs-bsadf-prices")
+    })
+  output$DT_bsadf_afford <- DT::renderDataTable(server = FALSE, {
+      make_DT(bsadf_table_afford,"fs-bsadf-afford")
     })
   
   output$DT_hpu <- DT::renderDataTable(server = FALSE, {
-    make_DT_general(hpu_index, "hpu_index")
+    make_DT_general(hpu_index, "unc-hpu")
   })
   
   output$DT_nuts1 <- DT::renderDataTable(server = FALSE, {
-    make_DT(nuts1_data, "hp_nuts1")
+    make_DT(nuts1_data, "hopi-nuts1")
   })
   
   output$DT_nuts2 <- DT::renderDataTable(server = FALSE, {
-    make_DT(nuts2_data, "hp_nuts2")
+    make_DT(nuts2_data, "hopi-nuts2")
   })
   
   output$DT_nuts3 <- DT::renderDataTable(server = FALSE, {
-    make_DT(nuts3_data, "hp_nuts3")
+    make_DT(nuts3_data, "hopi-nuts3")
   })
   
+  
+  # Report ------------------------------------------------------------------
+  
+  pdf_path <- reactive({
+    if (input$report_choice == "regional") {
+      out <- input$region_choice
+    }else {
+      out <- input$report_choice
+    }
+    vers <- gsub(" ", "", release_date)
+    out_id <- gsub(" |&", "", out)
+    paste0("reports/UKHO-", out_id, "-", vers,".pdf")
+  })
+  pdf_name <- reactive({
+    if (input$report_choice == "regional") {
+      out <- filter(nms, names == input$region_choice)$names
+    }else {
+      out <- capitalize(input$report_choice)
+    }
+    vers <- gsub(" ", "", release_date)
+    out_id <- gsub(" |&", "", out)
+    paste0("UKHO-", out_id, "-", vers,".pdf")
+  })
+  
+  # output$pdf <- renderText({pdf_path()})
+  output$pdf2 <- renderText({pdf_name()})
+  
+  output$pdfview <- renderUI({
+    tags$object(
+      tags$p(tags$a(href = pdf_path())),
+      data = paste0(pdf_path(), "#zoom=FitV"),
+      type = "application/pdf", width = "100%", height = "700px") #height = "100%")
+    # pdf_path()
+    # tags$iframe(
+    #   sandbox = "allow-same-origin",
+    #   onload = "this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';",
+    #   style = "width:100%;", 
+    #   src = paste0(pdf_path()))# "#zoom=FitV"
+  })
+  # https://stackoverflow.com/questions/20562543/zoom-to-fit-pdf-embedded-in-html
+  
+  output$report <- downloadHandler(
+    filename = pdf_name, # take out brackets since filename needs function
+    content = function(file) {
+      file.copy(paste0("www/", pdf_path()), file)
+    }
+  )
+  # output$report2 <- downloadHandler(
+  #   filename = function() paste0("UKHO-", gsub(" ", "", release_date), ".zip"),
+  #   content = function(file) {
+  #     pdf_files <- list.files("www/reports/", pattern = ".pdf", full.names = TRUE)
+  #     vers <- gsub(" ", "", release_date)
+  #     temp <- zip::zipr(paste0("www/reports/UKHO-", vers, ".zip"), pdf_files)
+  #     file.copy(temp, file)
+  #   }
+  # )
 }
 
-shinyApp(ui = dashboardPagePlus(skin = "black", title = "UK Housing Observatory • Dashboard", header, sidebar, body), server)
+shinyApp(ui = dashboardPagePlus(
+  skin = "black", title = "UK Housing Observatory • Dashboard", header, sidebar, body), server)

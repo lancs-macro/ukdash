@@ -110,3 +110,9 @@ afford <- ntwd_data %>%
   select(Date, region, afford) %>% 
   spread(region, afford)
 
+release_date <- price %>%
+  tail(1) %>% 
+  mutate(
+    version = paste0(lubridate::year(Date), " Q",lubridate::quarter(Date))) %>% 
+  pull(version)
+
