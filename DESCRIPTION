@@ -1,0 +1,40 @@
+Package: ukdash
+Title: UK Housing Observaroty Dashboard
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Kostas",
+           family = "Vasilopoulos",
+           role = c("aut", "cre"),
+           email = "k.vasilopoulo@gmail.com",
+           comment = c(ORCID = "0000-0002-9769-6395"))
+Description: Dashboard for the UK Housing Observatory.
+License: MIT + file LICENSE
+Imports: 
+    shiny,
+    shinyjs,
+    shinydashboard,
+    shinydashboardPlus,
+    DT,
+    rlang,
+    tidyverse,
+    dplyr,
+    readxl,
+    tidyr,
+    ggplot2,
+    readr,
+    highcharter,
+    shinyWidgets,
+    htmltools,
+    rgdal,
+    leaflet,
+    leaflet.extras,
+    exuber,
+    nationwider,
+    imputeTS
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1.9000
+Depends: 
+    R (>= 2.10)

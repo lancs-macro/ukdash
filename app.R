@@ -16,8 +16,8 @@ suppressMessages({
 
 # Load everything ---------------------------------------------------------
 
-path_store_rds <- list.files("data/RDS", full.names = TRUE)
-store_rds <-  stringr::str_remove(list.files("data/RDS"), ".rds")
+path_store_rds <- list.files("data/", full.names = TRUE)
+store_rds <-  stringr::str_remove(list.files("data/"), ".rds")
 for (i in seq_along(path_store_rds)) {
   assign(store_rds[i], readRDS(file = path_store_rds[i]))
 }
@@ -27,11 +27,10 @@ for (i in seq_along(path_store_rds)) {
 idx <- tibble(Date = index(radf_price, trunc = FALSE))
 
 suppressMessages({
-  source("R/src/src-functions.R", local = TRUE)$value
-  source("R/src/src-read-ntwd.R", local = TRUE)$value
-  source("R/src/src-read-shapefiles.R", local = TRUE)$value
-  source("R/src/src-hpu-index.R", local = TRUE)$value
-  source("R/src/src-map.R", local = TRUE)$value
+  source("analysis/src-read-ntwd.R", local = TRUE)$value
+  source("analysis/src-read-shapefiles.R", local = TRUE)$value
+  source("analysis/src-hpu-index.R", local = TRUE)$value
+  source("analysis/src-map.R", local = TRUE)$value
 })
 
 # Header ------------------------------------------------------------------
@@ -100,12 +99,12 @@ body <- dashboardBody(
     includeScript("www/popover.js")
   ),
   tabItems(
-    source("R/ui/ui-overview.R", local = TRUE)$value,
-    source("R/ui/ui-exuberance.R", local = TRUE)$value,
-    source("R/ui/ui-uncertainty.R", local = TRUE)$value,
-    source("R/ui/ui-indices.R", local = TRUE)$value,
-    source("R/ui/ui-download.R", local = TRUE)$value,
-    source("R/ui/ui-report.R", local = TRUE)$value
+    ui_overview(),
+    ui_exuber(),
+    ui_uncertainty(),
+    ui_indices(),
+    ui_download()
+    # source("R/ui/ui-report.R", local = TRUE)$value
   )
 )
 
