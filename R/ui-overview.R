@@ -4,7 +4,7 @@ ui_overview <- function() {
   fluidPage(
 
     fluidRow(
-        box(
+        box2(
           width = 12,
           height = "45px",
           background = "red",

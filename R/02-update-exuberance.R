@@ -18,7 +18,7 @@ update_exuber <- function(save_rds = FALSE) {
     
     cv_price <- radf_mc_cv(NROW(price), minw = 37)
     cv_afford <- radf_mc_cv(NROW(afford), minw = 37)
-    cv_afford$gsadf_cv[2] <- 1.8011
+    cv_afford$gsadf_cv[2] <- 1.8011 # Fix the number to be consistent with older versions
   })
   
   # Summary -----------------------------------------------------------------
@@ -71,13 +71,13 @@ update_exuber <- function(save_rds = FALSE) {
   suppressMessages({
     autoplot_price <- 
       radf_price %>%
-      autoplot(include_negative = TRUE, cv = cv_price) +
+      autoplot(nonrejected = TRUE, cv = cv_price) +
       scale_custom(idx) +
       scale_exuber_manual(color_values = c("#B22222", "black"), size_values = c(0.7, 0.6))
     
     autoplot_afford <- 
       radf_afford %>%
-      autoplot(include_negative = TRUE, cv = cv_price) +
+      autoplot(nonrejected = TRUE, cv = cv_price) +
       scale_custom(idx) +
       scale_exuber_manual(color_values = c("#B22222", "black"), size_values = c(0.7, 0.6))
   })
@@ -91,13 +91,13 @@ update_exuber <- function(save_rds = FALSE) {
   suppressMessages({
     autoplot_datestamp_price <-
       datestamp_price %>%  
-      autoplot() #+
-      # scale_custom(idx)
+      autoplot() +
+      scale_custom(idx)
     
     autoplot_datestamp_afford <- 
       datestamp_afford %>% 
-      autoplot() #+
-      # scale_custom(idx)
+      autoplot() +
+      scale_custom(idx)
   })
   
   # Overwrite datestamp --------------------------------------------------------
@@ -133,57 +133,57 @@ update_exuber <- function(save_rds = FALSE) {
   ind2 <- exuber::index(radf_afford, trunc = TRUE)
   
   # Price
-  plot_price <- list()
-  for (i in seq_along(nms$names)) {
-    
-    shade <- datestamp_price %>% "[["(nms$names[i])
-    
-    plot_price[[i]] <- 
-      filter(price, Date >= ind[1]) %>% 
-      ggplot() +
-      geom_line(aes_string(x = "Date", y = as.name(nms$names[i])),
-                size = 0.7, colour = "black") +
-      scale_custom(idx) +
-      # geom_smooth(method = "lm", se = FALSE,
-      #             aes_string("Date", as.name(slide_names[i]))) +
-      theme_light() +
-      theme(
-        axis.title = element_blank(),
-        panel.grid = element_line(linetype = 2),
-        panel.grid.minor = element_blank(),
-        title = element_blank()) +
-      geom_rect(data = shade[, -3], fill = "grey", alpha = 0.35, #0.25
-                aes_string(xmin = "Start", xmax = "End",
-                           ymin = -Inf, ymax = +Inf))
-  }
-  names(plot_price) <- series_names(radf_price)
+  # plot_price <- list()
+  # for (i in seq_along(nms$names)) {
+  #   
+  #   shade <- datestamp_price %>% "[["(nms$names[i])
+  #   
+  #   plot_price[[i]] <- 
+  #     filter(price, Date >= ind[1]) %>% 
+  #     ggplot() +
+  #     geom_line(aes_string(x = "Date", y = as.name(nms$names[i])),
+  #               size = 0.7, colour = "black") +
+  #     scale_custom(idx) +
+  #     # geom_smooth(method = "lm", se = FALSE,
+  #     #             aes_string("Date", as.name(slide_names[i]))) +
+  #     theme_light() +
+  #     theme(
+  #       axis.title = element_blank(),
+  #       panel.grid = element_line(linetype = 2),
+  #       panel.grid.minor = element_blank(),
+  #       title = element_blank()) +
+  #     geom_rect(data = shade[, -3], fill = "grey", alpha = 0.35, #0.25
+  #               aes_string(xmin = "Start", xmax = "End",
+  #                          ymin = -Inf, ymax = +Inf))
+  # }
+  # names(plot_price) <- series_names(radf_price)
   
   #afford
-  plot_afford <- list()
-  for (i in seq_along(nms$names)) {
-    
-    shade <- datestamp_afford %>% "[["(nms$names[i])
-    
-    plot_afford[[i]] <- 
-      filter(afford, Date >= ind[2]) %>% 
-      ggplot() +
-      geom_line(aes_string(x = "Date", y = as.name(nms$names[i])),
-                size = 0.7, colour = "black") +
-      scale_custom(idx) +
-      theme_light() +
-      theme(
-        axis.title = element_blank(),
-        panel.grid = element_line(linetype = 2),
-        panel.grid.minor = element_blank(),
-        title = element_blank()) 
-    
-    if (!is.null(shade))
-      plot_afford[[i]] <- plot_afford[[i]] + 
-      geom_rect(data = shade[, -3], fill = "grey", alpha = 0.35, #0.25
-                aes_string(xmin = "Start", xmax = "End",
-                           ymin = -Inf, ymax = +Inf))
-  }
-  names(plot_afford) <- series_names(radf_afford)
+  # plot_afford <- list()
+  # for (i in seq_along(nms$names)) {
+  #   
+  #   shade <- datestamp_afford %>% "[["(nms$names[i])
+  #   
+  #   plot_afford[[i]] <- 
+  #     filter(afford, Date >= ind[2]) %>% 
+  #     ggplot() +
+  #     geom_line(aes_string(x = "Date", y = as.name(nms$names[i])),
+  #               size = 0.7, colour = "black") +
+  #     scale_custom(idx) +
+  #     theme_light() +
+  #     theme(
+  #       axis.title = element_blank(),
+  #       panel.grid = element_line(linetype = 2),
+  #       panel.grid.minor = element_blank(),
+  #       title = element_blank()) 
+  #   
+  #   if (!is.null(shade))
+  #     plot_afford[[i]] <- plot_afford[[i]] + 
+  #     geom_rect(data = shade[, -3], fill = "grey", alpha = 0.35, #0.25
+  #               aes_string(xmin = "Start", xmax = "End",
+  #                          ymin = -Inf, ymax = +Inf))
+  # }
+  # names(plot_afford) <- series_names(radf_afford)
   
   
   # Make bsadf dataframe ----------------------------------------------------
@@ -282,8 +282,8 @@ update_exuber <- function(save_rds = FALSE) {
     "stat_table",
     glue::glue("cv_{items}"),
     glue::glue("plot_growth_UK_{items}"),
-    glue::glue("plot_{items}"),
-    glue::glue("autoplot_{items}"),
+    # glue::glue("plot_{items}"),
+    # glue::glue("autoplot_{items}"),
     glue::glue("bsadf_table_{items}"),
     glue::glue("autoplot_datestamp_{items}"), 
     glue::glue("radf_{items}"))

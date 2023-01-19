@@ -32,6 +32,7 @@ create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code =
   regional_names <- x@data[[nuts_nm]][ss]
   regional_codes <- x@data[[nuts_cd]][ss]
   latest_date <- map_data[nrow(map_data), 1, drop = TRUE]
+  latest_dateq <- paste0(lubridate::year(latest_date), " Q", lubridate::quarter(latest_date))
   
   names(x@data)[3] <- "layerId"
   suppressWarnings({
@@ -57,7 +58,7 @@ create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code =
       "Index Level: <strong> %s </strong> <br>", 
       "Growth Rate (Annual %%): <strong> %s </strong>"
     ),
-  x@data[,3], x@data[,2], latest_date,
+  x@data[,3], x@data[,2], latest_dateq,
   x@data$price, x@data$growth) %>%  #),htmlEscape(price$price)) %>%  #, price$price, growth$growth
     lapply(htmltools::HTML)
   

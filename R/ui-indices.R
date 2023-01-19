@@ -3,12 +3,15 @@ ui_indices <- function() {
   tabName = "indices",
   fluidPage(
     fluidRow(
-      box(
+      box2(
         width = 12,
-        height = "60px",
+        height = "80px",
         background = "red",
-        p("Housing Observatory Price Index - HOPI",
-          style = "font-size:26px;text-align:center;")
+        HTML("
+      <p style = 'text-align:center;padding:0px;'>
+        <span style = 'font-size:26px;'> Housing Observatory Price Index - HOPI </span>  <br>
+        <span style='font-size:20px:'> (The index is posted with a three-month lag to ensure sufficient observations.)</span>
+      </p>")
       )
     ),
     fluidRow(
@@ -26,7 +29,7 @@ ui_indices <- function() {
       ),
       column(
         width = 5,
-        box(width = 12, verbatimTextOutput("widget", placeholder = TRUE)),
+        box2(width = 12, verbatimTextOutput("widget", placeholder = TRUE)),
         box(
           width = 12,
           title = "House Prices",

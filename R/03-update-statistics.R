@@ -68,8 +68,14 @@ update_statistics <- function(save_graph = FALSE, write_json = FALSE) {
     jspath <- here::here("output","stat-template.js")
     jscode <- readLines(jspath, warn = FALSE)
     json_df <- jsonlite::toJSON(
-      data.frame(release = release_date, price_uk = uk_price, price_london = london_price,
-                 afford_uk = uk_afford, afford_london = london_afford), dataframe = "columns")
+      data.frame(
+        release = release_date, 
+        price_uk = uk_price, 
+        price_london = london_price,
+        afford_uk = uk_afford, 
+        afford_london = london_afford
+        ), dataframe = "columns"
+      )
     jscode[1] <- glue::glue("var txt = '{json_df}';")
     cat(jscode, sep = "\n", file = "output/stat.js")
   }

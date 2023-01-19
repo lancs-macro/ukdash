@@ -12,6 +12,7 @@ suppressMessages({
   library(shinyWidgets)
   library(leaflet.extras)
   library(exuber)
+  # library(plotly)
 })
 
 # Load everything ---------------------------------------------------------
@@ -35,7 +36,7 @@ suppressMessages({
 
 # Header ------------------------------------------------------------------
 
-header <- dashboardHeaderPlus(
+header <- dashboardHeader(
   titleWidth = 450,
   title = shiny::tagList(
     span(
@@ -70,7 +71,7 @@ sidebar <- dashboardSidebar(
     id = "tabs", 
     menuItem('Overview', tabName = "overview", icon = icon("globe", lib = "glyphicon")),
     menuItem("Financial Stability", tabName = "exuberance", icon = icon("chart-area")),
-    conditionalPanel("input.tabs === 'exuberance' && input.sidebarCollapsed == true",
+    conditionalPanel("input.tabs === 'exuberance' && input.sidebarCollapsed == false",
                      selectInput(
                          inputId = "region", choices = nms$names,
                        selected = nms$names[11], label = "Select Geographical Area:")),
@@ -114,7 +115,9 @@ server <- function(session, input, output) {
 
   output$plot_growth_UK_price <-
     renderPlot({
-      plot_growth_UK_price})
+      # ggplotly()
+      plot_growth_UK_price
+    })
   
   output$plot_growth_UK_afford <-
     renderPlot({
@@ -122,6 +125,7 @@ server <- function(session, input, output) {
   
   output$autoplot_datestamp_price <-
     renderPlot({
+      # ggplotly()
       autoplot_datestamp_price
       })
   output$autoplot_datestamp_afford <-
@@ -134,10 +138,12 @@ server <- function(session, input, output) {
   # Index Plots
   output$plot_price <- 
     renderPlot({
-      plot_price[[input$region]]})
+      autoplot2(radf_price, cv_price, select_series = input$region) + ggtitle("")
+      })
   output$plot_afford <- 
     renderPlot({
-      plot_afford[[input$region]]})
+      autoplot2(radf_afford, cv_afford, select_series = input$region) + ggtitle("")
+      })
   
   # Exuberance Plots
   autoplot_price_reactive <- 
@@ -207,6 +213,7 @@ server <- function(session, input, output) {
     DT::renderDataTable({
       exuber::datestamp(radf_price, cv_price) %>%
         purrr::pluck(input$region) %>%
+        select(Start, Peak, End, Duration) %>% 
         to_yq(radf_price, cv_price)
     }, options = list(searching = FALSE, ordering = FALSE, dom = "t"))
   
@@ -214,9 +221,17 @@ server <- function(session, input, output) {
     DT::renderDataTable({
       exuber::datestamp(radf_afford, cv_afford) %>%
         purrr::pluck(input$region) %>%
+        select(Start, Peak, End, Duration) %>% 
         to_yq(radf_afford, cv_afford)
     }, options = list(searching = FALSE, ordering = FALSE, dom = "t"))
   
+
+# Exuberance Fundamentals -------------------------------------------------
+
+output$plot_exuber_fundamentals <- renderPlot({
+  plot_exuber_fundamentals
+})  
+   
  # Uncertainty -------------------------------------------------------------
   
   output$uncertainty_index <-
@@ -416,5 +431,5 @@ server <- function(session, input, output) {
   # )
 }
 
-shinyApp(ui = dashboardPagePlus(
+shinyApp(ui = dashboardPage(
   skin = "black", title = "UK Housing Observatory • Dashboard", header, sidebar, body), server)

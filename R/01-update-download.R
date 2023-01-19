@@ -6,17 +6,21 @@ update_download <- function(hopi = FALSE, cpi_epu = FALSE, boundaries = FALSE) {
   
   if (isTRUE(hopi)) {
     
-    ukhp_get(frequency = "quarterly", classification = "aggregate") %>% 
-      select(Date, `England and Wales`) %>% 
+    ukhp_get(release = "2021-Q1", frequency = "quarterly", classification = "aggregate") %>% 
+      select(Date, `England Wales`) %>% 
+      mutate(Date = zoo::as.Date(zoo::as.yearqtr(Date))) %>% 
       saveRDS("data/aggregate_data.rds")
     
-    ukhp_get(frequency = "quarterly", classification = "nuts1") %>% 
+    ukhp_get(release = "2021-Q1", frequency = "quarterly", classification = "nuts1") %>% 
+      mutate(Date = zoo::as.Date(zoo::as.yearqtr(Date))) %>% 
       saveRDS("data/nuts1_data.rds")
     
-    ukhp_get(frequency = "quarterly", classification = "nuts2") %>% 
+    ukhp_get(release = "20210-Q1", frequency = "quarterly", classification = "nuts2") %>% 
+      mutate(Date = zoo::as.Date(zoo::as.yearqtr(Date))) %>% 
       saveRDS("data/nuts2_data.rds")
     
-    ukhp_get(frequency = "quarterly", classification = "nuts3") %>% 
+    ukhp_get(release = "2021-Q1", frequency = "quarterly", classification = "nuts3") %>% 
+      mutate(Date = zoo::as.Date(zoo::as.yearqtr(Date))) %>% 
       saveRDS("data/nuts3_data.rds")
   }
   
