@@ -5,9 +5,9 @@ account: lancs-macro
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1589658
-bundleId: 6455181
+bundleId: 6752092
 url: https://lancs-macro.shinyapps.io/uk-housing-observatory-dashboard/
-when: 1667096383.00398
-lastSyncTime: 1667096383.00398
+when: 1674147618.46382
+lastSyncTime: 1674147618.46382
 asMultiple: FALSE
 asStatic: FALSE
