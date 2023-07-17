@@ -1,4 +1,4 @@
-var txt = '{"release":["2021 Q1"],"price_uk":[5.15],"price_london":[3.79],"afford_uk":[5.58],"afford_london":[3.89]}';
+var txt = '{"release":["2022 Q4"],"price_uk":[-4.27],"price_london":[-4.93],"afford_uk":[-4.42],"afford_london":[-4.06]}';
 var obj = JSON.parse(txt);
 document.getElementById("js-release").innerHTML = "Release: <br>" + obj.release;
 document.getElementById("js-price-uk").innerHTML = obj.price_uk + " %";

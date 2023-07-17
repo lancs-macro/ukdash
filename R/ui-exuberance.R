@@ -41,7 +41,7 @@ ui_exuber <- function() {
         popover_title = "Note:",
         popover_content = note_shade,
         width = 12,
-        plotOutput("plot_afford")
+        plotOutput("plot_pti")
       )
     ),
     column_4(
@@ -52,7 +52,7 @@ ui_exuber <- function() {
         popover_title = "Note:",
         popover_content = note_exuber,
         width = 12,
-        plotOutput("autoplot_afford")
+        plotOutput("autoplot_pti")
       )
     ),
     column_4(
@@ -60,7 +60,7 @@ ui_exuber <- function() {
       infoBoxOutput("afford_exuberance_box", width = 12),
       box(width = 12,
           title = "Periods of Exuberance",
-          dataTableOutput("ds_afford"))
+          dataTableOutput("ds_pti"))
     )
   ),
   includeHTML("www/footer.html")

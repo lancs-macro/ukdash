@@ -3,6 +3,7 @@
 update_exuber <- function(save_rds = FALSE) {
   
   source("analysis/src-read-ntwd.R")
+  
   library(exuber)
   options(exuber.show_progress = FALSE)
   env <- rlang::current_env()
@@ -71,13 +72,13 @@ update_exuber <- function(save_rds = FALSE) {
   suppressMessages({
     autoplot_price <- 
       radf_price %>%
-      autoplot(include_negative = TRUE, cv = cv_price) +
+      autoplot(nonrejected = TRUE, cv = cv_price) +
       scale_custom(idx) +
       scale_exuber_manual(color_values = c("#B22222", "black"), size_values = c(0.7, 0.6))
     
     autoplot_afford <- 
       radf_afford %>%
-      autoplot(include_negative = TRUE, cv = cv_price) +
+      autoplot(nonrejected = TRUE, cv = cv_price) +
       scale_custom(idx) +
       scale_exuber_manual(color_values = c("#B22222", "black"), size_values = c(0.7, 0.6))
   })
@@ -135,53 +136,14 @@ update_exuber <- function(save_rds = FALSE) {
   # Price
   plot_price <- list()
   for (i in seq_along(nms$names)) {
-    
-    shade <- datestamp_price %>% "[["(nms$names[i])
-    
-    plot_price[[i]] <- 
-      filter(price, Date >= ind[1]) %>% 
-      ggplot() +
-      geom_line(aes_string(x = "Date", y = as.name(nms$names[i])),
-                size = 0.7, colour = "black") +
-      scale_custom(idx) +
-      # geom_smooth(method = "lm", se = FALSE,
-      #             aes_string("Date", as.name(slide_names[i]))) +
-      theme_light() +
-      theme(
-        axis.title = element_blank(),
-        panel.grid = element_line(linetype = 2),
-        panel.grid.minor = element_blank(),
-        title = element_blank()) +
-      geom_rect(data = shade[, -3], fill = "grey", alpha = 0.35, #0.25
-                aes_string(xmin = "Start", xmax = "End",
-                           ymin = -Inf, ymax = +Inf))
+    plot_price[[i]] <- exuber:::autoplot2(radf_price, cv_price, select_series = nms$names[i])
   }
   names(plot_price) <- series_names(radf_price)
   
   #afford
   plot_afford <- list()
   for (i in seq_along(nms$names)) {
-    
-    shade <- datestamp_afford %>% "[["(nms$names[i])
-    
-    plot_afford[[i]] <- 
-      filter(afford, Date >= ind[2]) %>% 
-      ggplot() +
-      geom_line(aes_string(x = "Date", y = as.name(nms$names[i])),
-                size = 0.7, colour = "black") +
-      scale_custom(idx) +
-      theme_light() +
-      theme(
-        axis.title = element_blank(),
-        panel.grid = element_line(linetype = 2),
-        panel.grid.minor = element_blank(),
-        title = element_blank()) 
-    
-    if (!is.null(shade))
-      plot_afford[[i]] <- plot_afford[[i]] + 
-      geom_rect(data = shade[, -3], fill = "grey", alpha = 0.35, #0.25
-                aes_string(xmin = "Start", xmax = "End",
-                           ymin = -Inf, ymax = +Inf))
+    plot_afford[[i]] <- exuber:::autoplot2(radf_afford, cv_afford, select_series = nms$names[i])
   }
   names(plot_afford) <- series_names(radf_afford)
   

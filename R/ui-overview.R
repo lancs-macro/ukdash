@@ -4,12 +4,13 @@ ui_overview <- function() {
   fluidPage(
 
     fluidRow(
-        box(
+        box2(
           width = 12,
-          height = "45px",
-          background = "red",
-          p("UK Real House Prices",
-            style = "font-size:22px;text-align:center;")
+          height = "75px",
+          HTML("
+        <p style = 'text-align:center;padding:0px;'>
+          <span style = 'font-size:22px;'> UK Real House Prices </span>  <br>
+        </p>")
         )
       ),
       fluidRow(
@@ -32,7 +33,6 @@ ui_overview <- function() {
       box2(
         width = 12,
         height = "75px",
-        background = "red",
       HTML("
       <p style = 'text-align:center;padding:0px;'>
         <span style = 'font-size:22px;'> UK Affordability Index </span>  <br>
@@ -42,14 +42,14 @@ ui_overview <- function() {
     ),
     fluidRow(
       box2(
-        plotOutput("plot_growth_UK_afford"),
+        plotOutput("plot_growth_UK_pti"),
         popover = TRUE,
         popover_title = "Note:",
         popover_content = note_bands,
         title = "Growth Rates (annual)",
         width = 6),
       box2(
-        plotOutput("autoplot_datestamp_afford"),
+        plotOutput("autoplot_datestamp_pti"),
         title = "Periods of Exuberance",
         popover = TRUE,
         popover_title = "Note:",

@@ -59,60 +59,60 @@ ntwd_to_names <- c(
 
 # Reading ntwd ------------------------------------------------------------
 
-hpi <- 
-  nationwider::ntwd_get("seasonal_regional", verbose = FALSE) %>% 
-  dplyr::filter(type == "Index", Date >= "1975-01-01") %>% 
-  select(-type, hpi = value) %>% 
-  mutate(region = recode(region, "Uk" = "United Kingdom")) %>% 
-  mutate(region = recode(region, !!!ntwd_to_names))
-
-last_obs <- select(hpi, Date, region)
-
-cpi <- 
-  readr::read_csv(
-    "data-raw/cpi.csv", 
-    col_types = 
-      cols_only(LOCATION = col_guess(), 
-                TIME = col_guess(), 
-                Value = col_guess())) %>% 
-  dplyr::filter(LOCATION == "GBR") %>% 
-  dplyr::select(TIME, Value) %>% 
-  dplyr::rename(Date = TIME, cpi = Value) %>% 
-  mutate(Date = Date %>% 
-           zoo::as.yearqtr(format = "%Y-Q%q") %>%
-           zoo::as.Date()
-  ) 
-
-rpdi <- read_excel("data-raw/rpdi.xlsx") %>%
-  mutate(Date = Date %>% 
-           zoo::as.yearqtr(format = "Q%q %Y") %>%
-           zoo::as.Date()
-  ) %>% 
-  gather(region, rpdi, -Date) %>% 
-  mutate(region = recode(region, !!!abbr_to_names)) %>% 
-  right_join(last_obs, by = c("Date", "region")) %>% 
-  group_by(region) %>% 
-  mutate(rpdi = imputeTS::na_interpolation(rpdi, option = "spline")) %>% 
-  ungroup() 
-
-
-ntwd_data <- right_join(hpi, rpdi, by = c("region" ,"Date")) %>%
-  right_join(cpi, by = "Date") %>% 
-  drop_na() %>% 
-  mutate(rhpi = hpi/cpi, afford = rhpi/rpdi) 
-
-
-price <- ntwd_data %>% 
-  select(Date, region, rhpi) %>% 
-  spread(region, rhpi)
-
-afford <- ntwd_data %>% 
-  select(Date, region, afford) %>% 
-  spread(region, afford)
-
-release_date <- price %>%
-  tail(1) %>% 
-  mutate(
-    version = paste0(lubridate::year(Date), " Q",lubridate::quarter(Date))) %>% 
-  pull(version)
+# hpi <- 
+#   nationwider::ntwd_get("seasonal_regional", verbose = FALSE) %>% 
+#   dplyr::filter(type == "Index", Date >= "1975-01-01") %>% 
+#   select(-type, hpi = value) %>% 
+#   mutate(region = recode(region, "Uk" = "United Kingdom")) %>% 
+#   mutate(region = recode(region, !!!ntwd_to_names))
+# 
+# last_obs <- select(hpi, Date, region)
+# 
+# cpi <- 
+#   readr::read_csv(
+#     "data-raw/cpi.csv", 
+#     col_types = 
+#       cols_only(LOCATION = col_guess(), 
+#                 TIME = col_guess(), 
+#                 Value = col_guess())) %>% 
+#   dplyr::filter(LOCATION == "GBR") %>% 
+#   dplyr::select(TIME, Value) %>% 
+#   dplyr::rename(Date = TIME, cpi = Value) %>% 
+#   mutate(Date = Date %>% 
+#            zoo::as.yearqtr(format = "%Y-Q%q") %>%
+#            zoo::as.Date()
+#   ) 
+# 
+# rpdi <- read_excel("data-raw/rpdi.xlsx") %>%
+#   mutate(Date = Date %>% 
+#            zoo::as.yearqtr(format = "Q%q %Y") %>%
+#            zoo::as.Date()
+#   ) %>% 
+#   gather(region, rpdi, -Date) %>% 
+#   mutate(region = recode(region, !!!abbr_to_names)) %>% 
+#   right_join(last_obs, by = c("Date", "region")) %>% 
+#   group_by(region) %>% 
+#   mutate(rpdi = imputeTS::na_interpolation(rpdi, option = "spline")) %>% 
+#   ungroup() 
+# 
+# 
+# ntwd_data <- right_join(hpi, rpdi, by = c("region" ,"Date")) %>%
+#   right_join(cpi, by = "Date") %>% 
+#   drop_na() %>% 
+#   mutate(rhpi = hpi/cpi, afford = rhpi/rpdi) 
+# 
+# 
+# price <- ntwd_data %>% 
+#   select(Date, region, rhpi) %>% 
+#   spread(region, rhpi)
+# 
+# afford <- ntwd_data %>% 
+#   select(Date, region, afford) %>% 
+#   spread(region, afford)
+# 
+# release_date <- price %>%
+#   tail(1) %>% 
+#   mutate(
+#     version = paste0(lubridate::year(Date), " Q",lubridate::quarter(Date))) %>% 
+#   pull(version)
 
