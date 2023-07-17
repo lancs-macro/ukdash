@@ -14,6 +14,7 @@ suppressMessages({
   library(exuber)
   library(sf)
   library(here)
+
 })
 options(shiny.autoreload = TRUE)
 
@@ -263,7 +264,9 @@ server <- function(session, input, output) {
   
   output$plot_growth_UK_price <-
     renderPlot({
-      plot_growth_UK_price})
+      # ggplotly()
+      plot_growth_UK_price
+    })
   
   
   growth_rates_pti <- 
@@ -302,10 +305,15 @@ server <- function(session, input, output) {
   
   output$autoplot_datestamp_price <-
     renderPlot({
+<<<<<<< HEAD
       radf_price %>% 
         datestamp(cv = mc_con) %>% 
         autoplot() + 
         scale_custom(idx)
+=======
+      # ggplotly()
+      autoplot_datestamp_price
+>>>>>>> aa54f90fb530330940eaa6996d68b8fc1d8098ec
       })
   
   output$autoplot_datestamp_pti <-
@@ -322,10 +330,27 @@ server <- function(session, input, output) {
   # Index Plots
   output$plot_price <-
     renderPlot({
+<<<<<<< HEAD
       radf_price %>% 
       autoplot2(nonrejected = TRUE, cv = mc_con, select_series = input$region) +
         scale_custom(idx) 
       })
+=======
+      autoplot2(radf_price, cv_price, select_series = input$region) + ggtitle("")
+      })
+  output$plot_afford <- 
+    renderPlot({
+      autoplot2(radf_afford, cv_afford, select_series = input$region) + ggtitle("")
+      })
+  
+  # Exuberance Plots
+  autoplot_price_reactive <- 
+    reactive({
+        autoplot(radf_price, cv_price, select_series = input$region) + 
+          ggtitle("") + scale_custom(idx) + 
+    scale_exuber_manual(color_values = c("#B22222", "black"), size_values = c(0.8, 0.6))
+    })
+>>>>>>> aa54f90fb530330940eaa6996d68b8fc1d8098ec
   output$autoplot_price <- 
     renderPlot({
       radf_price %>% 
@@ -410,9 +435,31 @@ server <- function(session, input, output) {
     DT::renderDataTable({
       exuber::datestamp(radf_income, mc_con) %>%
         purrr::pluck(input$region) %>%
+<<<<<<< HEAD
         to_yq(radf_income, mc_con)
     }, options = list(searching = FALSE, ordering = FALSE, dom = "t"))
 
+=======
+        select(Start, Peak, End, Duration) %>% 
+        to_yq(radf_price, cv_price)
+    }, options = list(searching = FALSE, ordering = FALSE, dom = "t"))
+  
+   output$ds_afford <- 
+    DT::renderDataTable({
+      exuber::datestamp(radf_afford, cv_afford) %>%
+        purrr::pluck(input$region) %>%
+        select(Start, Peak, End, Duration) %>% 
+        to_yq(radf_afford, cv_afford)
+    }, options = list(searching = FALSE, ordering = FALSE, dom = "t"))
+  
+
+# Exuberance Fundamentals -------------------------------------------------
+
+output$plot_exuber_fundamentals <- renderPlot({
+  plot_exuber_fundamentals
+})  
+   
+>>>>>>> aa54f90fb530330940eaa6996d68b8fc1d8098ec
  # Uncertainty -------------------------------------------------------------
   
   output$uncertainty_index <-

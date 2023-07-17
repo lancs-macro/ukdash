@@ -12,10 +12,12 @@ update <- function() {
   
   update_exuber(save_rds = TRUE)
   
-  update_statistics(save_graph = TRUE, write_json = TRUE)
+  update_statistics(save_graph = FALSE, write_json = TRUE)
   
-  update_reports()
+  # TODO Not yet implemented
+  # update_reports() 
   
   update_app(TRUE)
+  
 }
 

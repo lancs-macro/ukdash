@@ -151,7 +151,7 @@ custom_date <- function(object, variable, div) {
   seq_slice <- seq(1, NROW(yq), length.out = div)
   yq %>% 
     slice(as.integer(seq_slice)) %>% 
-    pull(!!parse_expr(variable))
+    pull(!!rlang::parse_expr(variable))
 }
 
 scale_custom <- function(object, div = 7) {
@@ -277,8 +277,7 @@ make_DT_general <- function(x, filename) {
 ukhp_get <- function(release = "2020-Q3", frequency = "monthly", classification = "nuts1") {
     endpoint <- "https://raw.githubusercontent.com/lancs-macro/hopi/master/data"
     query <- paste(endpoint, release, frequency, paste0(classification, ".csv"), sep = "/")
-    readr::read_csv(query) %>% 
-      mutate(Date = lubridate::myd(Date, truncated = 1))
+    readr::read_csv(query)
 }
 
 
