@@ -134,7 +134,6 @@ update_exuber <- function(save_rds = FALSE) {
   ind2 <- exuber::index(radf_afford, trunc = TRUE)
   
   # Price
-<<<<<<< HEAD:R/02-update-exuberance-analysis.R
   plot_price <- list()
   for (i in seq_along(nms$names)) {
     plot_price[[i]] <- exuber:::autoplot2(radf_price, cv_price, select_series = nms$names[i])
@@ -147,7 +146,6 @@ update_exuber <- function(save_rds = FALSE) {
     plot_afford[[i]] <- exuber:::autoplot2(radf_afford, cv_afford, select_series = nms$names[i])
   }
   names(plot_afford) <- series_names(radf_afford)
-=======
   # plot_price <- list()
   # for (i in seq_along(nms$names)) {
   #   

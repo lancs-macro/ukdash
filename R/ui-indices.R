@@ -5,13 +5,6 @@ ui_indices <- function() {
     fluidRow(
       box2(
         width = 12,
-<<<<<<< HEAD
-        height = "60px",
-        HTML("
-        <p style = 'text-align:center;padding:0px;'>
-          <span style = 'font-size:22px;'> Housing Observatory Price Index - HOPI </span>  <br>
-        </p>")
-=======
         height = "80px",
         background = "red",
         HTML("
@@ -19,7 +12,6 @@ ui_indices <- function() {
         <span style = 'font-size:26px;'> Housing Observatory Price Index - HOPI </span>  <br>
         <span style='font-size:20px:'> (The index is posted with a three-month lag to ensure sufficient observations.)</span>
       </p>")
->>>>>>> aa54f90fb530330940eaa6996d68b8fc1d8098ec
       )
     ),
     #   box(
