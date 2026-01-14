@@ -305,16 +305,11 @@ server <- function(session, input, output) {
   
   output$autoplot_datestamp_price <-
     renderPlot({
-<<<<<<< HEAD
       radf_price %>% 
         datestamp(cv = mc_con) %>% 
         autoplot() + 
         scale_custom(idx)
-=======
-      # ggplotly()
-      autoplot_datestamp_price
->>>>>>> aa54f90fb530330940eaa6996d68b8fc1d8098ec
-      })
+    })
   
   output$autoplot_datestamp_pti <-
     renderPlot({

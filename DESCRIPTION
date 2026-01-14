@@ -25,12 +25,9 @@ Imports:
     highcharter,
     shinyWidgets,
     htmltools,
-    rgdal,
     leaflet,
     leaflet.extras,
     exuber,
-    nationwider,
-    imputeTS,
     sf,
     here
 Encoding: UTF-8

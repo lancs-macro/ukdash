@@ -1,0 +1,17 @@
+# Exclude archived and non-essential files from deployment
+analysis/archived/
+R/01-update-download.R
+R/02-update-exuberance.R
+R/03-update-statistics.R
+R/04-update-reports.R
+R/05-update.R
+R/06-update-app.R
+analysis/src-read-ntwd.R
+analysis/src-hpu-index.R
+www/create-home-map.R
+data-raw/
+.git/
+.Rproj.user/
+*.Rproj
+.RData
+.Rhistory

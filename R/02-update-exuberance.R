@@ -197,7 +197,6 @@ update_exuber <- function(save_rds = FALSE) {
   #                          ymin = -Inf, ymax = +Inf))
   # }
   # names(plot_afford) <- series_names(radf_afford)
->>>>>>> aa54f90fb530330940eaa6996d68b8fc1d8098ec:R/02-update-exuberance.R
   
   
   # Make bsadf dataframe ----------------------------------------------------
