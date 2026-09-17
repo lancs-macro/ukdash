@@ -81,9 +81,10 @@ create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code =
         doubleClickZoom = TRUE,
         dragging = TRUE)
   ) %>% 
-    addProviderTiles(
-      providers$CartoDB.Positron,
-      options = providerTileOptions(opacity = 0.5)) %>% 
+    addTiles(
+      urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+      attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      options = tileOptions(opacity = 0.5)) %>%
     addPolygons(
       data = x[ss, ],
       fillColor =  "Reds",#~ pal(growth),   #"Reds",
