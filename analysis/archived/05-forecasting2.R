@@ -70,7 +70,7 @@ library(Hmisc)
 # ar ----------------------------------------------------------------------
 
 ar1 <- list()
-for (i in 1:length(nms)) {
+for (i in seq_along(nms)) {
   print(i)
   ar1[[i]] <- total %>%
     filter(region == nms[i]) %>%
@@ -83,7 +83,7 @@ names(fcst_ar1) <- nms
 
 
 ar4 <- list()
-for (i in 1:length(nms)) {
+for (i in seq_along(nms)) {
   print(i)
   ar4[[i]] <- total %>%
     filter(region == nms[i]) %>%
@@ -104,7 +104,7 @@ names(fcst_ar4) <- nms
 # AR4 ---------------------------------------------------------------------
 
 tvp_ar4 <- list()
-for (i in 1:length(nms)) {
+for (i in seq_along(nms)) {
   print(i)
   tvp_ar4[[i]] <- total %>%
     filter(region == nms[i]) %>%
@@ -151,7 +151,7 @@ x <- total %>%
 # DMA ---------------------------------------------------------------------
 
 dma95 <- list()
-for (i in 1:length(nms)) {
+for (i in seq_along(nms)) {
   print(i)
   dma95[[i]] <- total %>%
     filter(region == nms[i]) %>%
@@ -182,7 +182,7 @@ names(fcst_dma95) <- nms
 
 
 dma99 <- list()
-for (i in 1:length(nms)) {
+for (i in seq_along(nms)) {
   print(i)
   dma99[[i]] <- total %>%
     filter(region == nms[i]) %>%
@@ -212,7 +212,7 @@ fcst_dma99 <- sapply(dma99, function(x) getLastForecast(x)$PointForecast)
 names(fcst_dma95) <- nms
 
 dma <- list()
-for (i in 1:length(nms)) {
+for (i in seq_along(nms)) {
   print(i)
   dma[[i]] <- total %>%
     filter(region == nms[i]) %>%
@@ -277,7 +277,7 @@ plot_predictors <- total %>%
       hjust = 0.5,
       size = rel(1.2),
       face = "bold",
-      margin = margin(0, 0, .5, 0, "cm")
+      margin = margin(0, 0, 0.5, 0, "cm")
     ),
     strip.background = element_blank(),
     panel.background = element_rect(fill = "white", colour = NA),
