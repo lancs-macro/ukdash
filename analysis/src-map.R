@@ -1,127 +1,135 @@
-
-
 create_leaflet_nuts <- function(x = nuts3_regions, map_data = nuts3_data, code = "318") {
-  
-  growth <- map_data %>% 
-    select(-Date) %>% 
-    map_df(~ldiff(.x, n = 1)*100) %>% 
-    slice(n()) %>% 
+  growth <- map_data %>%
+    select(-Date) %>%
+    map_df(~ ldiff(.x, n = 1) * 100) %>%
+    slice(n()) %>%
     map_df(round, 2) %>%
     pivot_longer(
-      cols = everything(), 
-      names_to = "layerId", 
-      values_to = "growth")
-  
-  price <- map_data %>% 
-    select(-Date) %>% 
-    slice(n()) %>% 
-    map_df(round, 2) %>% 
+      cols = everything(),
+      names_to = "layerId",
+      values_to = "growth"
+    )
+
+  price <- map_data %>%
+    select(-Date) %>%
+    slice(n()) %>%
+    map_df(round, 2) %>%
     pivot_longer(
-      cols = everything(), 
-      names_to = "layerId", 
-      values_to = "price")
-  
-  
+      cols = everything(),
+      names_to = "layerId",
+      values_to = "price"
+    )
+
   nuts_cd <- paste0("nuts", code, "cd")
   nuts_nm <- paste0("nuts", code, "nm")
   ss <- !grepl("UKM|UKN", as.character(x[[nuts_cd]]))
-  
+
   regional_names <- x[[nuts_nm]][ss]
   regional_codes <- x[[nuts_cd]][ss]
   latest_date <- map_data[nrow(map_data), 1, drop = TRUE]
-  
+
   names(x)[3] <- "layerId"
   suppressWarnings({
     x <- left_join(x, price, by = "layerId")
     x <- left_join(x, growth, by = "layerId")
   })
-  
-  
+
   # bins <- seq(-2, 2, 0.5)
   # bin_colors <- viridis::magma(length(bins))
   # bin_colors <- rev(RColorBrewer::brewer.pal(length(bins), "YlGnBu"))
-  
+
   # pal <- colorBin("YlOrRd", domain = x@data$growth[ss], bins = 2)
   pal <- colorBin("YlOrRd", domain = NULL, bins = 3)
-  # previewColors(colorBin("YlOrRd", domain = x@data$growth, 
+  # previewColors(colorBin("YlOrRd", domain = x@data$growth,
   #                        bins = 2), x@data$growth)
-  
+
   lbls <- sprintf(
     paste(
-      "<span style='font-size: 18px; font-weight:700;'> %s </span> <br>", 
+      "<span style='font-size: 18px; font-weight:700;'> %s </span> <br>",
       "<span style ='font-style: italic; color:grey;'> NUTS Code: %s </span><br>",
       "<span> Date: <strong> %s </strong> </span><br>",
-      "Index Level: <strong> %s </strong> <br>", 
+      "Index Level: <strong> %s </strong> <br>",
       "Growth Rate (Annual %%): <strong> %s </strong>"
     ),
-    x$layerId, x[[nuts_cd]], latest_date,
-    x$price, x$growth) %>%  #),htmlEscape(price$price)) %>%  #, price$price, growth$growth
+    x$layerId,
+    x[[nuts_cd]],
+    latest_date,
+    x$price,
+    x$growth
+  ) %>% #),htmlEscape(price$price)) %>%  #, price$price, growth$growth
     lapply(htmltools::HTML)
-  
+
   lbls <- lbls[ss]
-  
-  highlights <-  highlightOptions(
+
+  highlights <- highlightOptions(
     weight = 5,
-    color = "#B22222",#666", #"#B9504A",#"#444", #666
+    color = "#B22222", #666", #"#B9504A",#"#444", #666
     dashArray = "",
     fillOpacity = 0.5,
-    bringToFront = TRUE)
-  
+    bringToFront = TRUE
+  )
+
   leaflet(
     x,
-    options = 
-      leafletOptions(
-        zoomControl = TRUE,
-        # background = "white",
-        minZoom = 7,
-        doubleClickZoom = TRUE,
-        dragging = TRUE)
-  ) %>% 
+    options = leafletOptions(
+      zoomControl = TRUE,
+      # background = "white",
+      minZoom = 7,
+      doubleClickZoom = TRUE,
+      dragging = TRUE
+    )
+  ) %>%
     addTiles(
       urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
       attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      options = tileOptions(opacity = 0.5)) %>%
+      options = tileOptions(opacity = 0.5)
+    ) %>%
     addPolygons(
       data = x[ss, ],
-      fillColor =  "Reds",#~ pal(growth),   #"Reds",
+      fillColor = "Reds", #~ pal(growth),   #"Reds",
       fillOpacity = 0.4,
       # color = "#BDBDC3",
       color = "white",
-      group = ~ "layerId",
+      group = ~"layerId",
       weight = 2,
       opacity = 1,
       # color = "white",
       dashArray = "3",
-      layerId = ~ layerId,
+      layerId = ~layerId,
       highlightOptions = highlights,
       label = lbls,
       labelOptions = labelOptions(
         style = list(
           "font-weight" = "normal",
-          padding = "3px 8px"),
+          padding = "3px 8px"
+        ),
         textsize = "15px",
-        direction = "auto")
-    ) %>% 
-    addResetMapButton() %>% 
-    addControl("<p style='color:black;font-size:16px; font-weight:600px;'>Search for a location by name </p>",
-               position = 'topleft') %>% 
+        direction = "auto"
+      )
+    ) %>%
+    addResetMapButton() %>%
+    addControl(
+      "<p style='color:black;font-size:16px; font-weight:600px;'>Search for a location by name </p>",
+      position = 'topleft'
+    ) %>%
     addSearchFeatures(
       targetGroups = "layerId",
       options = searchFeaturesOptions(
-        zoom = 9, 
+        zoom = 9,
         autoType = TRUE,
         autoCollapse = TRUE
-      ) 
-    ) %>% 
-    addControl("<p style='color:black;font-size:16px; font-weight:600px;'> Click on the map </p>",
-               position = 'topright') #%>%
+      )
+    ) %>%
+    addControl(
+      "<p style='color:black;font-size:16px; font-weight:600px;'> Click on the map </p>",
+      position = 'topright'
+    ) #%>%
   # addLegend(pal = pal(growth),
   #           values = ~ growth,
   #           opacity = 0.7,
   #           title = "Annual Growth (%)",
   #           position = "topright")
 }
-
 
 
 nuts1_regions <- read_sf(

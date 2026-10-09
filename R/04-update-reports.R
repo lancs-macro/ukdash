@@ -1,7 +1,6 @@
-
 load_rds <- function() {
   path_store_rds <- list.files("data/RDS", full.names = TRUE)
-  store_rds <-  stringr::str_remove(list.files("data/RDS"), ".rds")
+  store_rds <- stringr::str_remove(list.files("data/RDS"), ".rds")
   for (i in seq_along(path_store_rds)) {
     assign(store_rds[i], readRDS(file = path_store_rds[i]), envir = .GlobalEnv)
   }
@@ -19,10 +18,9 @@ clear_meta <- function(filename) {
 }
 
 update_reports <- function(summary = TRUE, fstability = TRUE) {
-  
   load_rds()
-  vers <-  release_date
-  
+  vers <- release_date
+
   # Load files --------------------------------------------------------------
   if (isTRUE(summary)) {
     source("R/src/src-hpu-index.R")
@@ -42,27 +40,27 @@ update_reports <- function(summary = TRUE, fstability = TRUE) {
       hpu_index = hpu_index
     )
     rmarkdown::render(
-      report_rmd, 
-      output_file = filename, 
+      report_rmd,
+      output_file = filename,
       params = params,
       envir = new.env(parent = globalenv())
     )
     clear_meta(filename)
   }
-  
+
   # Financial Stability Reports ---------------------------------------------
-  
+
   if (isTRUE(fstability)) {
-    crit <-  tail(bsadf_table_price$`Critical Values`, 1)
+    crit <- tail(bsadf_table_price$`Critical Values`, 1)
     for (region in nms$names) {
       region_name <- gsub(" |&", "", region)
       filename <- paste0("UKHO-", region_name, "-", gsub(" ", "", vers), ".pdf")
       report_rmd <- file.path("www/reports", "report.Rmd")
-      
+
       # Set up parameters to pass to Rmd document
       params <- list(
-        region = region, 
-        vers =  gsub(" ", ":", vers),
+        region = region,
+        vers = gsub(" ", ":", vers),
         price = price,
         afford = afford,
         plot_price = plot_price,
@@ -73,10 +71,10 @@ update_reports <- function(summary = TRUE, fstability = TRUE) {
         autoplot_afford = autoplot_afford,
         crit = crit
       )
-      # render the document  
+      # render the document
       rmarkdown::render(
-        report_rmd, 
-        output_file = filename, 
+        report_rmd,
+        output_file = filename,
         params = params,
         envir = new.env(parent = globalenv())
       )
