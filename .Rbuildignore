@@ -5,3 +5,6 @@
 ^\.Rproj\.user$
 ^analysis$
 ^R\archived$
+^wiki$
+^kb$
+^CLAUDE\.md$
