@@ -19,7 +19,10 @@ options(shiny.autoreload = TRUE)
 
 # API Approach ------------------------------------------------------------
 
-BASE_URL <- "https://api.housing-observatory.com/datasets/uk"
+# Temporary: the workers.dev address, because some resolvers (Posit) still hold the old nameservers of
+# housing-observatory.com. Switch back to https://api.housing-observatory.com once api resolves there.
+API_URL <- "https://housing-observatory-api.k-vasilopoulo.workers.dev"
+BASE_URL <- glue::glue("{API_URL}/datasets/uk")
 
 
 rel <- glue::glue("{BASE_URL}/index.json") %>%
