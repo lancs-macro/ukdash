@@ -230,6 +230,7 @@ body <- dashboardBody(
       type = "text/css",
       href = "https://use.fontawesome.com/releases/v5.5.0/css/all.css"
     ),
+    includeHTML("www/google-analytics.html"),
     includeHTML("www/intro-modal.html"),
     includeCSS("www/style-ui.css"),
     includeScript("www/popover.js")

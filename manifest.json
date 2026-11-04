@@ -6264,7 +6264,7 @@
       "checksum": "336dd3372d2ca9015caf4426d5ed0b3b"
     },
     "app.R": {
-      "checksum": "d99cf594db6bbbfb2b78c28d26a59495"
+      "checksum": "82cf24b0910d70fd77dcd1bb96cca4a5"
     },
     "data-raw/shapefiles/nuts1/NUTS_Level_1_January_2018_Ultra_Generalised_Clipped_Boundaries_in_the_United_Kingdom.cpg": {
       "checksum": "ae3b3df9970b49b6523e608759bc957d"
@@ -6391,6 +6391,9 @@
     },
     "www/create-home-map.R": {
       "checksum": "3821f42d6c536878ff9443dbbdc836e3"
+    },
+    "www/google-analytics.html": {
+      "checksum": "62679183bcffa464e3026c4f5e142e4f"
     },
     "www/footer.html": {
       "checksum": "75d080ec9a4363c8fcc283ef203e00a9"

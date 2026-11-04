@@ -3,7 +3,7 @@ title: ukdash
 type: project
 status: active
 created: 2026-10-27
-updated: 2026-10-29
+updated: 2026-11-04
 sources: []
 scope: housing-observatory
 tags: [project, frontend]
@@ -32,3 +32,9 @@ R Shiny packaged with `DESCRIPTION`/`NAMESPACE` (Imports in `DESCRIPTION` are th
 - Host: `CLAUDE.md` says shinyapps.io; the UK site links Posit Connect Cloud (`kvasilopoulos-ukdash.share.connect.posit.cloud`). Same open point as [[projects/idash/idash]].
 
 Related: [[concepts/housing-observatory]], [[conventions]], [[inbox/ukdash]].
+
+## Analytics
+GA4 tag `G-ZHNETED6TG` (property "Housing Observatory - GA4"), loaded from `ukdash/wiki/ukdash.md/google-analytics.html` in the app head. The ID lives once, in `scripts/set_ga.py` (`GA_ID`); `python scripts/set_ga.py` rewrites it, `--check` verifies. Replaced the dead Universal Analytics tag (idash) and added the missing tag (ukdash) on 2026-11-04. After a republish, hits show under the `kvasilopoulos-www.share.connect.posit.cloud` hostname.
+
+## Analytics
+GA4 tag `G-ZHNETED6TG` (property "Housing Observatory - GA4"), loaded from `ukdash/google-analytics.html` in the app head. The ID lives once, in `scripts/set_ga.py` (`GA_ID`); `python scripts/set_ga.py` rewrites it, `--check` verifies. Replaced the dead Universal Analytics tag (idash) and added the missing tag (ukdash) on 2026-11-04. After a republish, hits show under the `kvasilopoulos-.share.connect.posit.cloud` hostname.
