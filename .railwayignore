@@ -1,0 +1,10 @@
+.git
+.Rproj.user
+rv
+rsconnect
+knowledge
+wiki
+.Rhistory
+*.Rproj
+output
+.Rprofile
